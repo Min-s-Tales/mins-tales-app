@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.example.minstales.ListStoryActivity"/>
+        <activity android:name="com.example.minstales.MarketplaceActivity"/>
     </application>
 
 </manifest>
