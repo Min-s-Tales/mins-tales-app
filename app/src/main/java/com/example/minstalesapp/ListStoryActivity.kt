@@ -1,8 +1,8 @@
-package com.example.minstales
+package com.example.minstalesapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.minstalesapp.R
 import kotlinx.android.synthetic.main.list_story_view.*
 
 class ListStoryActivity : AppCompatActivity() {
@@ -28,11 +28,24 @@ class ListStoryActivity : AppCompatActivity() {
         "Mes yeux quand je suis en face de Théo",
     )
 
+    val listAudio = arrayOf<Int>(
+        R.raw.guignol,
+        R.raw.cartman,
+        R.raw.tourdion,
+        R.raw.soldier,
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.list_story_view)
 
         val listStoryAdapter = ListStoryAdapter(this, listIcon, listTitle, listDesc)
         listStoryView.adapter = listStoryAdapter
+
+        listStoryView.setOnItemClickListener { adapterView, view, position, id ->
+            val intent = Intent(this, StoryPlayerActivity::class.java)
+            intent.putExtra("audio", listAudio[position])
+            startActivity(intent)
+        }
     }
 }

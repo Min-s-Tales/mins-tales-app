@@ -1,4 +1,4 @@
-package com.example.minstales
+package com.example.minstalesapp
 
 import android.app.Activity
 import android.view.View
@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import com.example.minstalesapp.R
 
 class ListStoryAdapter(
     private val context: Activity,
