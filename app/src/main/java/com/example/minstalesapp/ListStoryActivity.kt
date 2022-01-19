@@ -8,24 +8,24 @@ import kotlinx.android.synthetic.main.list_story_view.*
 class ListStoryActivity : AppCompatActivity() {
 
     val listIcon = arrayOf<Int>(
-        R.mipmap.box1,
-        R.mipmap.box2,
-        R.mipmap.eye1,
-        R.mipmap.eye2,
+        R.mipmap.tale,
+        R.mipmap.moine,
+        R.mipmap.key,
+        R.mipmap.bern,
     )
 
     val listTitle = arrayOf<String>(
-        "Checked box",
-        "Unchecked box",
-        "Opened eye",
-        "Closed eye",
+        "Les chroniqueurs de la Nalle",
+        "L'habitacle du moine nymphomane",
+        "La key quête",
+        "L'incroyable roadtrip dans Montquc",
     )
 
     val listDesc = arrayOf<String>(
-        "This is a nice checked box",
-        "An unchecked box that whould appreciate to be clicked",
-        "Les yeux d'un chat changent de couleur en grandissant",
-        "Mes yeux quand je suis en face de Théo",
+        "Suivez le périple des trois célèbres chroniqueurs originaire de la Nalle, à travers des histoires prenantes remplies de surprises",
+        "Une étrange rencontre avec un moine aux manières suspicieuses va vous emporter dans une aventure relevée d'une série de rencontres, toutes plus cocaçe les une que les autres",
+        "Jim, nouveau propriétaire du manoir Roinam est Obsédé par le mystère qui entoure l'ouverture de l'imposante porte bloquant l'entrée de la cave. Parviendrez-vous à résoudre ce mystère ?",
+        "Vivez une expérience unique au côtés de Stephan Bern à travers l'incroyable roadtrip dans Montquc",
     )
 
     val listAudio = arrayOf<Int>(

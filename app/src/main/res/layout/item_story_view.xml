@@ -2,43 +2,69 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/light_grey">
 
-    <ImageView
-        android:id="@+id/storyIcon"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        app:srcCompat="@mipmap/ic_launcher"/>
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginVertical="5dp"
+        android:paddingHorizontal="5dp">
 
-        <TextView
-            android:id="@+id/storyTitle"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/storyIcon"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            app:srcCompat="@mipmap/ic_launcher"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView
+            android:id="@+id/startButton"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_gravity="bottom"
+            android:background="@mipmap/play"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginHorizontal="10dp"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Title"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:layout_marginStart="15dp"/>
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/startButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/storyIcon"
+            android:paddingStart="15dp">
 
-        <TextView
-            android:id="@+id/storyDesciption"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="description"
-            android:textSize="16sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="15dp"/>
+            <TextView
+                android:id="@+id/storyTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/storyDesciption"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="first line\nsecond line\nthird line"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"/>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="2dp"
         android:background="@color/black"/>
 
 </LinearLayout>
