@@ -3,9 +3,6 @@ package com.example.minstalesapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import com.example.minstales.ListStoryActivity
-import com.example.minstales.MarketplaceActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -19,6 +16,10 @@ class MainActivity : AppCompatActivity() {
 
         marketButton.setOnClickListener {
             startActivity(Intent(this, MarketplaceActivity::class.java))
+        }
+
+        micButton.setOnClickListener {
+            startActivity(Intent(this, RecordActivity::class.java))
         }
     }
 }

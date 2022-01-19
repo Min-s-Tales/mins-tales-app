@@ -1,4 +1,4 @@
-package com.example.minstales
+package com.example.minstalesapp
 
 import android.app.Activity
 import android.view.View

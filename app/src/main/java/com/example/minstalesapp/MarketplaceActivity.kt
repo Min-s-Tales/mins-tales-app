@@ -1,8 +1,7 @@
-package com.example.minstales
+package com.example.minstalesapp
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.minstalesapp.R
 import kotlinx.android.synthetic.main.activity_marketplace.*
 
 class MarketplaceActivity : AppCompatActivity() {
