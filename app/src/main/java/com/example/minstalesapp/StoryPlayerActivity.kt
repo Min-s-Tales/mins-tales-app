@@ -12,14 +12,15 @@ class StoryPlayerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.story_player_activity)
 
-        val idAudio = intent.getIntExtra("audio", 0)
+        val idAudio = intent.getIntExtra("audioId", 0)
+        val title = intent.getStringExtra("title")
 
         audioPlayer = MediaPlayer.create(this, idAudio)
         audioPlayer.isLooping = false
         audioPlayer.setVolume(0.5f, 0.5f)
         audioPlayer.start()
 
-        testPlayer.text = idAudio.toString()
+        audioTitle.text = title.toString()
     }
 
     override fun onDestroy() {

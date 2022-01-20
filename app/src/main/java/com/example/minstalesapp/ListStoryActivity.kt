@@ -44,7 +44,8 @@ class ListStoryActivity : AppCompatActivity() {
 
         listStoryView.setOnItemClickListener { adapterView, view, position, id ->
             val intent = Intent(this, StoryPlayerActivity::class.java)
-            intent.putExtra("audio", listAudio[position])
+            intent.putExtra("audioId", listAudio[position])
+            intent.putExtra("title", listTitle[position])
             startActivity(intent)
         }
     }
