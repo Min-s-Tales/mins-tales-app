@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="play">Jouer</string>
+    <string name="marketplace">Marketplace</string>
+    <string name="settings">Paramètres</string>
+    <string name="profile">Profil</string>
+    <string name="show_not_owned">Afficher non possédés</string>
+    <string name="storyname">Entrer nom d\'histoire</string>
+    <string name="research">Rechercher</string>
+</resources>

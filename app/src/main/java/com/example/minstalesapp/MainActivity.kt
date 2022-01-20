@@ -18,5 +18,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, ProfileActivity::class.java))
         }
 
+        marketButton.setOnClickListener {
+            startActivity(Intent(this, MarketplaceActivity::class.java))
+        }
+
+        micButton.setOnClickListener {
+            startActivity(Intent(this, RecordActivity::class.java))
+        }
     }
 }
