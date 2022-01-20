@@ -13,5 +13,10 @@ class MainActivity : AppCompatActivity() {
         playButton.setOnClickListener {
             startActivity(Intent(this, ListStoryActivity::class.java))
         }
+
+        profileButton.setOnClickListener {
+            startActivity(Intent(this, ProfileActivity::class.java))
+        }
+
     }
 }
