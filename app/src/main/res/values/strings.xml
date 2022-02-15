@@ -9,4 +9,6 @@
     <string name="storyname">Enter story name</string>
     <string name="marketplacetagname" translatable="false">tag1, tag2, tag3...</string>
     <string name="research">Research</string>
+    <string name="login_button">Login</string>
+    <string name="signup_button">Sign up</string>
 </resources>

@@ -28,8 +28,8 @@ public class ART extends AppCompatActivity {
     private RecordButton recordButton = null;
     private MediaRecorder recorder = null;
 
-    private PlayButton   playButton = null;
-    private MediaPlayer   player = null;
+    private PlayButton playButton = null;
+    private MediaPlayer player = null;
 
     // Requesting permission to RECORD_AUDIO
     private boolean permissionToRecordAccepted = false;
