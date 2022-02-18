@@ -37,7 +37,7 @@
             android:hint="Email"/>
 
         <EditText
-            android:id="@+id/passwordTextInput"
+            android:id="@+id/usernameTextInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintVertical_chainStyle="packed"
@@ -45,7 +45,19 @@
             app:layout_constraintTop_toBottomOf="@id/mailTextInput"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="15dp"
-            android:hint="Password"/>
+            android:hint="User name"/>
+
+        <EditText
+            android:id="@+id/passwordTextInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/usernameTextInput"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="15dp"
+            android:hint="Password"
+            android:inputType="textPassword"/>
 
         <EditText
             android:id="@+id/confirmPasswordTextInput"
@@ -56,11 +68,13 @@
             app:layout_constraintTop_toBottomOf="@id/passwordTextInput"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="15dp"
-            android:hint="Confirm password"/>
+            android:hint="Confirm password"
+            android:inputType="textPassword"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
+        android:id="@+id/registerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintVertical_chainStyle="packed"
