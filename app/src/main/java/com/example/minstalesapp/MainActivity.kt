@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.example.minstalesapp.game.GameActivity
+import com.example.minstalesapp.game.TestActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -27,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         micButton.setOnClickListener {
-            startActivity(Intent(this, RecordActivity::class.java))
+            startActivity(Intent(this, GameActivity::class.java))
         }
 
         loginButton.setOnClickListener {
