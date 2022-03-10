@@ -1,25 +1,20 @@
 package com.example.minstalesapp.game
 
-import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
-import android.util.Log
-import android.widget.Toast
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
 import com.example.minstalesapp.databinding.ActivityGameBinding
-import kotlinx.android.synthetic.main.activity_game.*
+import java.util.*
 
 
 open class GameActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGameBinding
 
-    protected val RESULT_SPEECH = 1
     private var TAG = "GameActivity"
     private val model: GameActivityViewModel by viewModels()
 
@@ -29,61 +24,49 @@ open class GameActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        /*binding.recordButton.setOnClickListener {
-            Log.i(TAG, "RECORDING")
+        //setContentView(R.layout.activity_test1);
+        //setContentView(R.layout.activity_test1);
+        val launcher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == RESULT_OK && result.data != null) {
+                val data = result.data
+                binding.tvText.setText(data!!.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)!![0])
+            }
+        }
 
-            model.record( /*"$externalCacheDir/record.wav", "$externalCacheDir/songs.json"*/)
-        }*/
-
-        binding.recordButton.setOnClickListener {
+        binding.recordButton.setOnClickListener { view -> run {
             val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
             intent.putExtra(
                 RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
             )
-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-US")
-            try {
-                getResult.launch(intent)
-                //startActivityForResult(intent, RESULT_SPEECH)
-                binding.tvText.setText("")
-            } catch (e: ActivityNotFoundException) {
-                Log.e(TAG, "onCreate: $e", )
-                Toast.makeText(
-                    applicationContext,
-                    "Your device doesn't support Speech to Text",
-                    Toast.LENGTH_SHORT
-                ).show()
-                e.printStackTrace()
-            }
+            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Start speaking")
+
+            launcher.launch(intent)
+        }
+            //recognitionCustom.launch(5)
         }
     }
 
-    private val getResult =
-        registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()) {
-            if(it.resultCode == Activity.RESULT_OK){
-                val value = it.data?.getStringExtra("input")
-            }
-        }
+    /*
+    private val recognitionCustom = registerForActivityResult(RecognitionContract()) { result ->
+        binding.tvText.setText(result)
+    }
+     */
+}
+/*
+class RecognitionContract : ActivityResultContract<Int, String>() {
+    override fun createIntent(context: Context, input: Int): Intent {
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, Locale.getDefault())
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to Text")
+        return intent
+    }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, @Nullable data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            RESULT_CANCELED -> if (resultCode == RESULT_OK && data != null) {
-                Log.i(TAG, "onActivityResult: cancelled")
-                val text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-                binding.tvText.text = text!![0]
-            }
-            RESULT_FIRST_USER -> if (resultCode == RESULT_OK && data != null) {
-                Log.i(TAG, "onActivityResult: first user")
-                val text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-                binding.tvText.text = text!![0]
-            }
-            RESULT_OK -> if (resultCode == RESULT_OK && data != null) {
-                Log.i(TAG, "onActivityResult: ok")
-                val text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-                binding.tvText.text = text!![0]
-            }
-        }
+
+    override fun parseResult(resultCode: Int, intent: Intent?): String {
+        return intent?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.get(0) ?: ""
     }
 }
+*/

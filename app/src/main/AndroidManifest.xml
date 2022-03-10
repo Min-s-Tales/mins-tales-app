@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MinsTalesApp">
         <activity
+            android:name=".game.TestActivity1"
+            android:exported="false" />
+        <activity
             android:name=".game.GameActivity"
             android:exported="false" />
         <activity
