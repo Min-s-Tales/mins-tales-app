@@ -16,14 +16,11 @@ import org.apache.http.conn.ConnectTimeoutException
 import org.json.JSONException
 import org.json.JSONObject
 import org.xmlpull.v1.XmlPullParserException
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
 import java.net.ConnectException
 import java.net.MalformedURLException
 import java.net.SocketException
 import java.net.SocketTimeoutException
-import java.security.KeyStore
+
 
 class LoginActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +29,7 @@ class LoginActivity: AppCompatActivity() {
 
         val queue = Volley.newRequestQueue(this)
         val url = "http://10.0.2.2:8000/api/users/login"
-        //val fileOutputStream = FileOutputStream("./user_access_token")
+        val sharedPreferences = getPreferences(MODE_PRIVATE)
 
         loginButton.setOnClickListener {
             val params = HashMap<String,String>()
@@ -45,7 +42,9 @@ class LoginActivity: AppCompatActivity() {
                 Request.Method.POST, url, jsonObject,
                 { response ->
                     Log.i("(SUCCESS)Post response", response.toString())
-                    //fileOutputStream.write("")
+                    val editor = sharedPreferences.edit()
+                    editor.putString("user-token", response["token"].toString())
+                    editor.commit()
                     finish()
                 },
                 { response ->
