@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/rounded_border_shape">
+
+    <TextView
+        android:id="@+id/cardStoryTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="15dp"
+        android:layout_marginHorizontal="30dp"
+        android:text="title of the story"
+        android:textColor="@color/white"
+        android:textSize="36sp"
+        android:fontFamily="@font/nova_round_regular"
+        android:textAlignment="center"
+        android:textStyle="bold"/>
+    
+    <ImageView
+        android:id="@+id/cardStoryPicture"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardStoryTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/cardStorySynopsis"
+        android:layout_marginHorizontal="70dp"
+        android:layout_marginVertical="20dp"
+        android:src="@mipmap/jcvd"/>
+
+    <TextView
+        android:id="@+id/cardStorySynopsis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/cardStoryPlayButton"
+        android:layout_marginBottom="30dp"
+        android:layout_marginHorizontal="30dp"
+        android:text="Story synopsis :\npremière ligne
+        \ndeuxième ligne
+        \ntroisieme ligne
+        \nquatrieme ligne
+        \ncinquieme ligne
+        \nsixieme ligne
+        \nseptieme ligne
+        \nhuitieme ligne"
+        android:textColor="@color/content_font"
+        android:textSize="18sp"
+        android:fontFamily="@font/roboto"/>
+    
+    <ImageView
+        android:id="@+id/cardStoryPlayButton"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="10dp"
+        android:src="@mipmap/play_button"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/cardStoryPlayButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="25dp"
+        android:text="Duration"
+        android:textSize="20sp"
+        android:textColor="@color/content_font"
+        android:textStyle="bold"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

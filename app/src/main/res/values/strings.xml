@@ -11,4 +11,7 @@
     <string name="research">Research</string>
     <string name="login_button">Login</string>
     <string name="signup_button">Sign up</string>
+    <string name="search_your_story">Search your story</string>
+    <string name="stories">STORIES</string>
+    <string name="marketplace_maj">MARKET PLACE</string>
 </resources>
