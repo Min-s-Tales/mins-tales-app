@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".MainPage.MainActivity"
     android:background="@color/dark_grey">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -62,7 +62,6 @@
         app:layout_constraintTop_toBottomOf="@id/headerContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/toggle_switch_button"
-        android:layout_marginHorizontal="40dp"
         android:layout_marginVertical="40dp"
         app:layout_constraintCircleRadius="30dp">
 
