@@ -1,10 +1,12 @@
 package com.example.minstalesapp.MainPage
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.minstalesapp.Model.Story
 import com.example.minstalesapp.R
 import com.example.minstalesapp.databinding.ActivityMainBinding
+import com.example.minstalesapp.game.GameActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,5 +36,9 @@ class MainActivity : AppCompatActivity() {
         binding.viewPager.setPadding(80, 0, 80, 0);
         binding.viewPager.clipToPadding = false
 
+        binding.headerProfileIcon.setOnClickListener {
+            val intent = Intent(this, GameActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
