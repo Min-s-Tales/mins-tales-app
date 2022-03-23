@@ -1,14 +1,16 @@
 package com.example.minstalesapp.MainPage
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
-import android.view.TextureView
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
 import com.example.minstalesapp.Model.Story
 import com.example.minstalesapp.R
+import com.example.minstalesapp.StoryPlayerActivity
 
 class PagerAdapterMainActivity(private val mContext: Context, private val storyList: ArrayList<Story>) : PagerAdapter() {
 
@@ -26,6 +28,14 @@ class PagerAdapterMainActivity(private val mContext: Context, private val storyL
 
         var cardDuration : TextView = view.findViewById(R.id.cardStoryDuration)
         cardDuration.text = "~ 20 min"
+
+        val playButton : ImageView = view.findViewById(R.id.cardStoryPlayButton)
+        playButton.setOnClickListener {
+            val intent = Intent(mContext, StoryPlayerActivity::class.java)
+            intent.putExtra("audioId", storyList[position].urlContentStory)
+            intent.putExtra("title", storyList[position].title)
+            view.context.startActivity(intent)
+        }
 
         container.addView(view, position)
         return view

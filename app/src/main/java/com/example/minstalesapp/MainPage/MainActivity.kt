@@ -3,6 +3,7 @@ package com.example.minstalesapp.MainPage
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.minstalesapp.Model.Story
+import com.example.minstalesapp.R
 import com.example.minstalesapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -18,13 +19,13 @@ class MainActivity : AppCompatActivity() {
         binding.storiesToggleButton.isChecked = true
 
         ownedStoryList.add(
-            Story(0, "story 1", "description story 1 \nblabla \nblalba", "", "", 12.5F, 2)
+            Story(0, "story 1", "description story 1 \nblabla \nblalba", R.raw.guignol, "", 12.5F, 2)
         )
         ownedStoryList.add(
-            Story(0, "story 2", "description story 2 \nblablabla \nblalbabla", "", "", 8.35F, 12)
+            Story(0, "story 2", "description story 2 \nblablabla \nblalbabla", R.raw.cartman, "", 8.35F, 12)
         )
         ownedStoryList.add(
-            Story(0, "story 3", "description story 3 \nblablablablou \nblalbablablou", "", "", 57F, 39)
+            Story(0, "story 3", "description story 3 \nblablablablou \nblalbablablou", R.raw.soldier, "", 57F, 39)
         )
 
         binding.viewPager.adapter = PagerAdapterMainActivity(this, ownedStoryList)
@@ -32,5 +33,6 @@ class MainActivity : AppCompatActivity() {
         binding.viewPager.pageMargin = 50
         binding.viewPager.setPadding(80, 0, 80, 0);
         binding.viewPager.clipToPadding = false
+
     }
 }

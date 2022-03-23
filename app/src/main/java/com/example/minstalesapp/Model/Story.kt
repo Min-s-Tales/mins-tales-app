@@ -4,7 +4,7 @@ data class Story(
     var id : Int,
     var title : String,
     var description : String,
-    var urlContentStory : String,
+    var urlContentStory : Int,
     var icon : String,
     var price : Float,
     var nbDownload : Int
