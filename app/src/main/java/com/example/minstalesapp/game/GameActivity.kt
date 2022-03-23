@@ -32,9 +32,9 @@ open class GameActivity : AppCompatActivity() {
             if (result.resultCode == RESULT_OK && result.data != null) {
                 val data = result.data
                 text = data!!.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)!![0]
-                binding.tvText.setText(text)
+                binding.tvText.text = text
 
-                if (text.lowercase().contains("bonjour")) {
+                if (text.toLowerCase().contains("bonjour")) {
                     Log.i(TAG, "onCreate: BONJOUR PASSÉ AVEC SUCCES")
                 }
             }
