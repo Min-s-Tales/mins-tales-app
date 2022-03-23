@@ -3,6 +3,7 @@
     package="com.example.minstalesapp">
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -27,7 +28,6 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".StoryPlayerActivity" />
         <activity android:name=".MarketplaceActivity" />
-        <activity android:name=".game.TestActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".SignupActivity" />
     </application>
