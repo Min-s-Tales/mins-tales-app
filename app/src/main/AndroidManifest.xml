@@ -15,7 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MinsTalesApp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MainPage.MainActivity"
+        <activity
+            android:name=".game.GameActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,12 +27,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ListStoryActivity"/>
-        <activity android:name=".ProfileActivity"/>
-        <activity android:name=".StoryPlayerActivity"/>
-        <activity android:name=".MarketplaceActivity"/>
-        <activity android:name=".RecordActivity"/>
-        <activity android:name=".LoginActivity"/>
-        <activity android:name=".SignupActivity"/>
+        <activity 
+            android:name=".MainPage.MainActivity"
+            android:theme="@style/Theme.MinsTalesApp" />
+        <activity android:name=".ListStoryActivity" />
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".StoryPlayerActivity" />
+        <activity android:name=".MarketplaceActivity" />
+        <activity android:name=".game.TestActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".SignupActivity" />
     </application>
+
 </manifest>
