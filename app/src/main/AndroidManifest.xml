@@ -29,7 +29,6 @@
         <activity android:name=".game.GameActivity" />
         <activity android:name=".ListStoryActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".StoryPlayerActivity" />
         <activity android:name=".MarketplaceActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".SignupActivity" />

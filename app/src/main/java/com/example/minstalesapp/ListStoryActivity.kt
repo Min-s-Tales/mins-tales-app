@@ -3,6 +3,7 @@ package com.example.minstalesapp
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.minstalesapp.game.GameActivity
 import kotlinx.android.synthetic.main.list_story_view.*
 
 class ListStoryActivity : AppCompatActivity() {
@@ -43,7 +44,7 @@ class ListStoryActivity : AppCompatActivity() {
         listStoryView.adapter = listStoryAdapter
 
         listStoryView.setOnItemClickListener { adapterView, view, position, id ->
-            val intent = Intent(this, StoryPlayerActivity::class.java)
+            val intent = Intent(this, GameActivity::class.java)
             intent.putExtra("audioId", listAudio[position])
             intent.putExtra("title", listTitle[position])
             startActivity(intent)

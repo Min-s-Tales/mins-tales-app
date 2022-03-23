@@ -6,23 +6,64 @@
     android:layout_height="match_parent"
     tools:context=".game.GameActivity">
 
-    <Button
-        android:id="@+id/recordButton"
+    <TextView
+        android:id="@+id/audioTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Record"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="30dp"
+        android:paddingHorizontal="30dp"
+        android:text="title"
+        android:textAlignment="center"
+        android:textSize="26sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:fontFamily="@font/font_nova_round_regular"/>
+
+    <TextView
+        android:id="@+id/speech"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/headphonesAdvice" />
+
+    <ImageView
+        android:id="@+id/headsetIcon"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:src="@mipmap/headphones"/>
 
     <TextView
-        android:id="@+id/tvText"
+        android:id="@+id/headphonesAdvice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:text="test"
+        app:layout_constraintTop_toBottomOf="@id/headsetIcon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:paddingHorizontal="30dp"
+        android:text="@string/put_headphones"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textColor="@color/light_grey"
+        android:fontFamily="@font/roboto"/>
+
+    <Button
+        android:id="@+id/record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Record"
+        app:layout_constraintBottom_toTopOf="@+id/speech"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recordButton" />
+        app:layout_constraintTop_toBottomOf="@+id/headphonesAdvice" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
 import com.example.minstalesapp.Model.Story
 import com.example.minstalesapp.R
-import com.example.minstalesapp.StoryPlayerActivity
+import com.example.minstalesapp.game.GameActivity
 
 class PagerAdapterMainActivity(private val mContext: Context, private val storyList: ArrayList<Story>) : PagerAdapter() {
 
@@ -31,7 +31,7 @@ class PagerAdapterMainActivity(private val mContext: Context, private val storyL
 
         val playButton : ImageView = view.findViewById(R.id.cardStoryPlayButton)
         playButton.setOnClickListener {
-            val intent = Intent(mContext, StoryPlayerActivity::class.java)
+            val intent = Intent(mContext, GameActivity::class.java)
             intent.putExtra("audioId", storyList[position].urlContentStory)
             intent.putExtra("title", storyList[position].title)
             view.context.startActivity(intent)

@@ -5,9 +5,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.media.AudioAttributes
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.speech.RecognizerIntent
 import android.util.Log
 import android.webkit.CookieManager
@@ -19,13 +20,12 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.minstalesapp.DecompressFast
 import com.example.minstalesapp.databinding.ActivityGameBinding
 import java.io.*
-import java.util.zip.ZipEntry
-import java.util.zip.ZipInputStream
 
 
 class GameActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGameBinding
+    private lateinit var audioPlayer: MediaPlayer
 
     private val url = "https://cdn.discordapp.com/attachments/900297093867008052/955809234958843914/demo.zip"
 
@@ -39,9 +39,15 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityGameBinding.inflate(layoutInflater)
         val view = binding.root
+        title = intent.getStringExtra("title")!!
+
         setContentView(view)
 
-        download()
+        //download()
+        prepareAudio(title)
+
+        binding.record.isEnabled = false
+        binding.audioTitle.text = title
 
         val launcher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
@@ -49,7 +55,7 @@ class GameActivity : AppCompatActivity() {
             if (result.resultCode == RESULT_OK && result.data != null) {
                 val data = result.data
                 text = data!!.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)!![0]
-                binding.tvText.text = text
+                binding.speech.text = text
 
                 if (text.toLowerCase().contains("bonjour")) {
                     Log.i(TAG, "onCreate: BONJOUR PASSÉ AVEC SUCCES")
@@ -57,7 +63,7 @@ class GameActivity : AppCompatActivity() {
             }
         }
 
-        binding.recordButton.setOnClickListener { view ->
+        binding.record.setOnClickListener { view ->
             run {
                 val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
                 intent.putExtra(
@@ -76,6 +82,31 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
+    private fun prepareAudio(title: String) {
+        audioPlayer = MediaPlayer().apply {
+            setAudioAttributes(
+                AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .build()
+            )
+
+            val soundURI = Uri.parse(getExternalFilesDir("Tales")!!.path + "/" + title + "/assets/sounds/music.mp3")
+
+            Log.i(TAG, "prepareAudio: $soundURI")
+            binding.audioTitle.text = File(soundURI.toString()).name
+            setDataSource(applicationContext, soundURI)
+            prepare()
+            start()
+        }
+        audioPlayer.isLooping = false
+        audioPlayer.setVolume(0.5f, 0.5f)
+        audioPlayer.setOnCompletionListener {
+            binding.record.isEnabled = true
+        }
+        audioPlayer.start()
+    }
+
     /**
      * This function must be moved to the marketplace/adventures screen once finalized.
      */
@@ -88,7 +119,6 @@ class GameActivity : AppCompatActivity() {
             val request = DownloadManager.Request(Uri.parse(url))
             title = URLUtil.guessFileName(url, null, null)
 
-            Log.i(TAG, "download: $title")
             request.setTitle(title)
             request.setDescription("Download File from URL, please wait...")
             try {
@@ -136,6 +166,7 @@ class GameActivity : AppCompatActivity() {
 
                 DecompressFast().UnzipFile(zipFile, File(context.getExternalFilesDir("Tales")!!.path + "/" + title.replace(".zip", "/")), null)
 
+
                 //DecompressFast(zipFile.path, context.getExternalFilesDir("Tales")!!.path + "/" + title.replace(".zip", "/")).unzip()
                 //unpackZip(context.getExternalFilesDir("Tales")!!.path + "/" + title, title)
                 //zipFile.delete()
@@ -145,39 +176,10 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
-    private fun unpackZip(path: String, zipname: String): Boolean {
-        Log.i(TAG, "unpackZip: $path$zipname")
-        val inputStream: InputStream
-        val zis: ZipInputStream
-        try {
-            var filename: String
-            inputStream = FileInputStream("$path/$zipname")
-            zis = ZipInputStream(BufferedInputStream(inputStream))
-            var ze: ZipEntry
-            val buffer = ByteArray(1024)
-            var count: Int
-            while (zis.getNextEntry().also { ze = it } != null) {
-                filename = ze.getName()
 
-                // Need to create directories if not exists, or
-                // it will generate an Exception...
-                if (ze.isDirectory()) {
-                    val fmd = File(path + filename)
-                    fmd.mkdirs()
-                    continue
-                }
-                val fout = FileOutputStream(path + filename)
-                while (zis.read(buffer).also { count = it } != -1) {
-                    fout.write(buffer, 0, count)
-                }
-                fout.close()
-                zis.closeEntry()
-            }
-            zis.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
-            return false
-        }
-        return true
+
+    override fun onDestroy() {
+        super.onDestroy()
+        audioPlayer.stop()
     }
 }
