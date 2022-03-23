@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -17,15 +16,16 @@
         android:theme="@style/Theme.MinsTalesApp"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".MainPage.MainActivity"
-            android:theme="@style/Theme.MinsTalesApp"
-            android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            android:name=".SplashScreen.SplashScreenActivity"
+            android:exported="true"
+            android:theme="@style/Theme.MinsTalesApp">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+        <activity android:name=".MainPage.MainActivity" />
         <activity android:name=".game.GameActivity" />
         <activity android:name=".ListStoryActivity" />
         <activity android:name=".ProfileActivity" />
