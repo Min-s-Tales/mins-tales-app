@@ -38,8 +38,8 @@ class MainActivity : AppCompatActivity() {
         binding.viewPager.clipToPadding = false
 
         binding.headerProfileIcon.setOnClickListener {
-            val intent = Intent(this, ProfileActivity::class.java)
-            startActivity(intent)
+            //val intent = Intent(this, ProfileActivity::class.java)
+            //startActivity(intent)
         }
     }
 }
