@@ -13,7 +13,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/formularContainer"
-        android:background="@mipmap/logo_mins_tales_round"
+        android:background="@mipmap/mins_tales_logo_round"
         android:outlineProvider="bounds"
         android:elevation="60dp"/>
 

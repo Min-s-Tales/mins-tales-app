@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="60dp"
-            android:backgroundTint="@color/main_blue"
+            android:backgroundTint="@color/main_yellow"
             android:hint="@string/search_your_story"
             android:minHeight="48dp"
             android:textColorHint="@color/content_font"

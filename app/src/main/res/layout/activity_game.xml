@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".game.GameActivity"
     android:background="@color/dark_grey">
 
     <TextView
@@ -13,13 +14,23 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:paddingHorizontal="30dp"
         android:text="title"
         android:textAlignment="center"
         android:textSize="26sp"
         android:textColor="@color/white"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:fontFamily="@font/font_nova_round_regular"/>
+
+    <TextView
+        android:id="@+id/speech"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headphonesAdvice" />
 
     <ImageView
         android:id="@+id/headsetIcon"
@@ -29,7 +40,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:src="@mipmap/headset"/>
+        android:src="@mipmap/headphones"/>
 
     <TextView
         android:id="@+id/headphonesAdvice"
@@ -43,6 +54,17 @@
         android:text="@string/put_headphones"
         android:textAlignment="center"
         android:textSize="20sp"
-        android:textColor="@color/light_grey"/>
+        android:textColor="@color/light_grey"
+        android:fontFamily="@font/roboto"/>
+
+    <Button
+        android:id="@+id/record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Record"
+        app:layout_constraintBottom_toTopOf="@+id/speech"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headphonesAdvice" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
