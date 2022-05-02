@@ -44,7 +44,7 @@ class SignupActivity: AppCompatActivity() {
                 params["username"] = mailTextInput.text.toString()
                 params["email"] = mailTextInput.text.toString()
                 params["password"] = passwordTextInput.text.toString()
-                val jsonObject = JSONObject(params as Map<*, *>?)
+                val jsonObject = (params as Map<*, *>?)?.let { it1 -> JSONObject(it1) }
 
                 // Request a string response from the provided URL.
                 val request = JsonObjectRequest(
