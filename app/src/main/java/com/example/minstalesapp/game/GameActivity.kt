@@ -18,14 +18,18 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.minstalesapp.DecompressFast
+import com.example.minstalesapp.Stringifier
 import com.example.minstalesapp.databinding.ActivityGameBinding
+import org.json.JSONException
+import org.json.JSONObject
 import java.io.*
 
 
 class GameActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGameBinding
-    private lateinit var audioPlayer: MediaPlayer
+    //private lateinit var audioPlayer: MediaPlayer
+    private val soundManager = SoundManager()
 
     private val url = "https://cdn.discordapp.com/attachments/900297093867008052/955809234958843914/demo.zip"
 
@@ -33,21 +37,22 @@ class GameActivity : AppCompatActivity() {
     private val model: GameActivityViewModel by viewModels()
     private var text = ""
     private var storyID = 0L
-    private var title = ""
+    private var gameTitle = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityGameBinding.inflate(layoutInflater)
         val view = binding.root
-        title = intent.getStringExtra("title")!!
-
+        gameTitle = intent.getStringExtra("title")!!
         setContentView(view)
 
         //download()
-        prepareAudio(title)
+        soundManager.init()
+        prepareSound(gameTitle, "music.mp3")
+        gsonChecker(gameTitle)
 
         binding.record.isEnabled = false
-        binding.audioTitle.text = title
+        binding.audioTitle.text = gameTitle
 
         val launcher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
@@ -57,7 +62,7 @@ class GameActivity : AppCompatActivity() {
                 text = data!!.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)!![0]
                 binding.speech.text = text
 
-                if (text.toLowerCase().contains("bonjour")) {
+                if (text.lowercase().contains("bonjour")) {
                     Log.i(TAG, "onCreate: BONJOUR PASSÉ AVEC SUCCES")
                 }
             }
@@ -82,8 +87,8 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
-    private fun prepareAudio(title: String) {
-        audioPlayer = MediaPlayer().apply {
+    private fun prepareSound(gameTitle: String, titlePath: String) {
+        val sound = MediaPlayer().apply {
             setAudioAttributes(
                 AudioAttributes.Builder()
                     .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
@@ -91,7 +96,7 @@ class GameActivity : AppCompatActivity() {
                     .build()
             )
 
-            val soundURI = Uri.parse(getExternalFilesDir("Tales")!!.path + "/" + title + "/assets/sounds/music.mp3")
+            val soundURI = Uri.parse(getExternalFilesDir("Tales")!!.path + "/$gameTitle/assets/sounds/$titlePath")
 
             Log.i(TAG, "prepareAudio: $soundURI")
             binding.audioTitle.text = File(soundURI.toString()).name
@@ -99,12 +104,14 @@ class GameActivity : AppCompatActivity() {
             prepare()
             start()
         }
-        audioPlayer.isLooping = false
-        audioPlayer.setVolume(0.5f, 0.5f)
-        audioPlayer.setOnCompletionListener {
+        sound.isLooping = false
+        sound.setVolume(0.5f, 0.5f)
+        sound.setOnCompletionListener {
             binding.record.isEnabled = true
         }
-        audioPlayer.start()
+        //val out : String = getExternalFilesDir("Tales")!!.path + "/$gameTitle/assets/sounds/$titlePath"
+        soundManager.outputSounds["music"]?.addSong(titlePath, sound)
+        soundManager.outputSounds["music"]?.playSound(titlePath)
     }
 
     /**
@@ -117,12 +124,12 @@ class GameActivity : AppCompatActivity() {
 
         try{
             val request = DownloadManager.Request(Uri.parse(url))
-            title = URLUtil.guessFileName(url, null, null)
+            gameTitle = URLUtil.guessFileName(url, null, null)
 
-            request.setTitle(title)
+            request.setTitle(gameTitle)
             request.setDescription("Download File from URL, please wait...")
             try {
-                val zipFile = File(this.getExternalFilesDir("Tales")!!.path + "/" + title)
+                val zipFile = File(this.getExternalFilesDir("Tales")!!.path + "/" + gameTitle)
                 Log.v(TAG, "download existing: $zipFile.path")
                 zipFile.delete()
             } catch (exeption: Exception) {
@@ -132,7 +139,7 @@ class GameActivity : AppCompatActivity() {
             val cookie = CookieManager.getInstance().getCookie(url)
             request.addRequestHeader("cookie", cookie)
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            request.setDestinationInExternalFilesDir(this, "Tales", title)
+            request.setDestinationInExternalFilesDir(this, "Tales", gameTitle)
 
             val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
             storyID = downloadManager.enqueue(request)
@@ -160,11 +167,11 @@ class GameActivity : AppCompatActivity() {
                     DownloadManager.EXTRA_DOWNLOAD_ID, 0
                 )
 
-                val zipFile = File(context.getExternalFilesDir("Tales"), title)
+                val zipFile = File(context.getExternalFilesDir("Tales"), gameTitle)
                 Log.i(TAG, "onReceive: ${zipFile.path}")
                 Toast.makeText(context, "Download done $downloadId", Toast.LENGTH_SHORT).show()
 
-                DecompressFast().UnzipFile(zipFile, File(context.getExternalFilesDir("Tales")!!.path + "/" + title.replace(".zip", "/")), null)
+                DecompressFast().UnzipFile(zipFile, File(context.getExternalFilesDir("Tales")!!.path + "/" + gameTitle.replace(".zip", "/")), null)
 
 
                 //DecompressFast(zipFile.path, context.getExternalFilesDir("Tales")!!.path + "/" + title.replace(".zip", "/")).unzip()
@@ -176,10 +183,23 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
+    private fun gsonChecker(gameTitle: String) {
+        val jsonURI = Uri.parse(getExternalFilesDir("Tales")!!.path + "/" + gameTitle + "/assets/config.json")
+        val file = File(jsonURI.path!!)
+        val stringJson = Stringifier().getStringFromFile(file.path)
+        Log.i(TAG, "gsonChecker: $stringJson")
 
+        try {
+            val obj = JSONObject(stringJson)
+            val m_jArry: JSONObject = obj.getJSONObject("intro")
+            Log.i(TAG, "gsonChecker: m$m_jArry")
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+    }
 
     override fun onDestroy() {
         super.onDestroy()
-        audioPlayer.stop()
+        soundManager.stopAll()
     }
 }
