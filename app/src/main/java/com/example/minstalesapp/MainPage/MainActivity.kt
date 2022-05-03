@@ -2,33 +2,27 @@ package com.example.minstalesapp.MainPage
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import com.example.minstalesapp.Api.ApiHelper
+import com.example.minstalesapp.Api.ApiService
 import com.example.minstalesapp.Model.Story
 import com.example.minstalesapp.R
 import com.example.minstalesapp.databinding.ActivityMainBinding
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
+import javax.security.auth.callback.Callback
 
 class MainActivity : AppCompatActivity() {
 
-/*    object ApiClient {
-        private const val BASE_URL: String = "https://jsonplaceholder.typicode.com/"
-        private val gson: Gson by lazy {
-            GsonBuilder().setLenient().create()
-        }
-        private val httpClient: OkHttpClient by lazy {
-            OkHttpClient.Builder().build()
-        }
-        private val retrofit: Retrofit by lazy {
-            Retrofit.Builder().baseUrl(BASE_URL).client(httpClient)
-                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .build()
-        }
-        val apiService: ApiService by lazy { retrofit.create(ApiService::class.java) }
-    }*/
-
     private lateinit var binding: ActivityMainBinding
     var ownedStoryList = ArrayList<Story>()
+
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +31,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.storiesToggleButton.isChecked = true
+
+
+        val apiStoryTest = ApiHelper.getInstance().create(ApiService::class.java)
+        GlobalScope.launch {
+            val result = apiStoryTest.getStory()
+            Log.d("ayush: ", result.body().toString())
+        }
+
 
 /*        ownedStoryList.add(
             Story(0, "story1", "description story 1 \nblabla \nblalba", R.raw.guignol, "", 12.5F, 2)
