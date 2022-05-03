@@ -10,6 +10,10 @@
     <string name="login_button">Se connecter</string>
     <string name="signup_button">S\'inscrire</string>
     <string name="search_your_story">Recherche ton histoire</string>
-    <string name="stories">HISTOIRES</string>
-    <string name="marketplace_maj">LIBRAIRIE</string>
+    <string name="stories">LIBRAIRIE</string>
+    <string name="marketplace_maj">BOUTIQUE</string>
+    <string name="sound_settings">Paramètres sonore</string>
+    <string name="app_language">Language de l\'application</string>
+    <string name="disconnect">Déconnection</string>
+    <string name="modify_profile">Modifier son profile</string>
 </resources>

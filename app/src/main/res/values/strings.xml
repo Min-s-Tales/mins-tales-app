@@ -14,4 +14,8 @@
     <string name="search_your_story">Search your story</string>
     <string name="stories">STORIES</string>
     <string name="marketplace_maj">MARKET PLACE</string>
+    <string name="sound_settings">Sound settings</string>
+    <string name="app_language">Application language</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="modify_profile">Modify your profile</string>
 </resources>

@@ -13,6 +13,7 @@
     <color name="main_yellow">#FFFDAF01</color>
     <color name="main_blue">#FF6D82E1</color>
     <color name="light_main_blue">#FF8b9be1</color>
+    <color name="red_disconnect">#9D3131</color>
 
     <color name="content_font">#FFC1C1C1</color>
 </resources>
