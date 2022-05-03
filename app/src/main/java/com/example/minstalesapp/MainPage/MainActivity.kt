@@ -1,19 +1,12 @@
 package com.example.minstalesapp.MainPage
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.minstalesapp.Model.Story
-import com.example.minstalesapp.ProfileActivity
 import com.example.minstalesapp.R
 import com.example.minstalesapp.databinding.ActivityMainBinding
-import com.example.minstalesapp.game.GameActivity
 
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
@@ -45,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.storiesToggleButton.isChecked = true
 
-        ownedStoryList.add(
+/*        ownedStoryList.add(
             Story(0, "story1", "description story 1 \nblabla \nblalba", R.raw.guignol, "", 12.5F, 2)
         )
         ownedStoryList.add(
@@ -69,7 +62,7 @@ class MainActivity : AppCompatActivity() {
                 57F,
                 39
             )
-        )
+        )*/
 
         binding.viewPager.adapter = PagerAdapterMainActivity(this, ownedStoryList)
 

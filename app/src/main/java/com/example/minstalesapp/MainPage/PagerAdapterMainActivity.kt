@@ -32,7 +32,7 @@ class PagerAdapterMainActivity(private val mContext: Context, private val storyL
         val playButton : ImageView = view.findViewById(R.id.cardStoryPlayButton)
         playButton.setOnClickListener {
             val intent = Intent(mContext, GameActivity::class.java)
-            intent.putExtra("audioId", storyList[position].urlContentStory)
+            intent.putExtra("audioId", storyList[position].url_folder)
             intent.putExtra("title", storyList[position].title)
             view.context.startActivity(intent)
         }

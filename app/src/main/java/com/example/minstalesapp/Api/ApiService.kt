@@ -6,7 +6,7 @@ import retrofit2.http.*
 
 interface ApiService {
 
-    @GET("Story")
+    @GET("/api/story")
     suspend fun getStory(): Response<MutableList<Story>>
 
 /*    @GET("posts/{num}")
