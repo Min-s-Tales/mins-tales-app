@@ -5,8 +5,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.media.AudioAttributes
-import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.speech.RecognizerIntent
@@ -18,41 +16,46 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.minstalesapp.DecompressFast
-import com.example.minstalesapp.Stringifier
 import com.example.minstalesapp.databinding.ActivityGameBinding
-import org.json.JSONException
-import org.json.JSONObject
 import java.io.*
+import java.util.*
+import java.util.regex.Pattern
 
 
 class GameActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityGameBinding
+    lateinit var binding: ActivityGameBinding
     //private lateinit var audioPlayer: MediaPlayer
-    private val soundManager = SoundManager()
+    val soundManager = SoundManager(this)
+    val gsonManager = GsonManager(this)
 
-    private val url = "https://cdn.discordapp.com/attachments/900297093867008052/955809234958843914/demo.zip"
+    private val url = "https://steelroad.fr/minstales/story1.zip"
 
     private val TAG = "[GameActivity]"
     private val model: GameActivityViewModel by viewModels()
     private var text = ""
     private var storyID = 0L
-    private var gameTitle = ""
+    var gameTitle = ""
+    private lateinit var jsonURI : Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityGameBinding.inflate(layoutInflater)
         val view = binding.root
         gameTitle = intent.getStringExtra("title")!!
+        jsonURI = Uri.parse(getExternalFilesDir("Tales")!!.path + "/" + gameTitle + "/assets/config.json")
         setContentView(view)
 
         //download()
         soundManager.init()
-        prepareSound(gameTitle, "music.mp3")
-        gsonChecker(gameTitle)
+        gsonManager.init(jsonURI)
 
         binding.record.isEnabled = false
         binding.audioTitle.text = gameTitle
+
+
+        gsonManager.gsonStartSound("start")
+        val answersMap = gsonManager.gsonCheckActionPath("start")
 
         val launcher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
@@ -61,9 +64,9 @@ class GameActivity : AppCompatActivity() {
                 val data = result.data
                 text = data!!.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)!![0]
                 binding.speech.text = text
-
-                if (text.lowercase().contains("bonjour")) {
-                    Log.i(TAG, "onCreate: BONJOUR PASSÉ AVEC SUCCES")
+                for ((key, value) in answersMap) {
+                    val array = value.split(" ")
+                    Log.i(TAG, "${containsWordsPatternMatch(text, array.toTypedArray())}")
                 }
             }
         }
@@ -80,38 +83,12 @@ class GameActivity : AppCompatActivity() {
                 try {
                     launcher.launch(intent)
                 } catch (e: java.lang.Exception) {
-                    e.printStackTrace()
+                    //e.printStackTrace()
                     Toast.makeText(this, "Android version too old.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
-    }
 
-    private fun prepareSound(gameTitle: String, titlePath: String) {
-        val sound = MediaPlayer().apply {
-            setAudioAttributes(
-                AudioAttributes.Builder()
-                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                    .setUsage(AudioAttributes.USAGE_MEDIA)
-                    .build()
-            )
-
-            val soundURI = Uri.parse(getExternalFilesDir("Tales")!!.path + "/$gameTitle/assets/sounds/$titlePath")
-
-            Log.i(TAG, "prepareAudio: $soundURI")
-            binding.audioTitle.text = File(soundURI.toString()).name
-            setDataSource(applicationContext, soundURI)
-            prepare()
-            start()
-        }
-        sound.isLooping = false
-        sound.setVolume(0.5f, 0.5f)
-        sound.setOnCompletionListener {
-            binding.record.isEnabled = true
-        }
-        //val out : String = getExternalFilesDir("Tales")!!.path + "/$gameTitle/assets/sounds/$titlePath"
-        soundManager.outputSounds["music"]?.addSong(titlePath, sound)
-        soundManager.outputSounds["music"]?.playSound(titlePath)
     }
 
     /**
@@ -183,21 +160,14 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
-    private fun gsonChecker(gameTitle: String) {
-        val jsonURI = Uri.parse(getExternalFilesDir("Tales")!!.path + "/" + gameTitle + "/assets/config.json")
-        val file = File(jsonURI.path!!)
-        val stringJson = Stringifier().getStringFromFile(file.path)
-        Log.i(TAG, "gsonChecker: $stringJson")
-
-        try {
-            val obj = JSONObject(stringJson)
-            val m_jArry: JSONObject = obj.getJSONObject("intro")
-            Log.i(TAG, "gsonChecker: m$m_jArry")
-        } catch (e: JSONException) {
-            e.printStackTrace()
+    fun containsWordsPatternMatch(inputString: String, words: Array<String?>): Boolean {
+        val regexp = StringBuilder()
+        for (word in words) {
+            regexp.append("(?=.*").append(word).append(")")
         }
+        val pattern: Pattern = Pattern.compile(regexp.toString())
+        return pattern.matcher(inputString).find()
     }
-
     override fun onDestroy() {
         super.onDestroy()
         soundManager.stopAll()
