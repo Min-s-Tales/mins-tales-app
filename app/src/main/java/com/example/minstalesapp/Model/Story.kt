@@ -1,6 +1,6 @@
 package com.example.minstalesapp.Model
 
-data class Story(
+data class Story (
     var id : Int,
     var title : String,
     var description : String,

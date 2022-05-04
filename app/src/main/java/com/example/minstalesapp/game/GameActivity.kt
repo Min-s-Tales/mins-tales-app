@@ -25,7 +25,6 @@ import java.util.regex.Pattern
 class GameActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityGameBinding
-    //private lateinit var audioPlayer: MediaPlayer
     val soundManager = SoundManager(this)
     val gsonManager = GsonManager(this)
 
@@ -168,6 +167,7 @@ class GameActivity : AppCompatActivity() {
         val pattern: Pattern = Pattern.compile(regexp.toString())
         return pattern.matcher(inputString).find()
     }
+
     override fun onDestroy() {
         super.onDestroy()
         soundManager.stopAll()

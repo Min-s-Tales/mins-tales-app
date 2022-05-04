@@ -1,13 +1,16 @@
 package com.example.minstalesapp.MainPage
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.net.toFile
 import com.example.minstalesapp.Model.Story
 import com.example.minstalesapp.ProfileActivity
 import com.example.minstalesapp.R
 import com.example.minstalesapp.databinding.ActivityMainBinding
 import com.example.minstalesapp.game.GameActivity
+import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,15 +24,19 @@ class MainActivity : AppCompatActivity() {
 
         binding.storiesToggleButton.isChecked = true
 
-        ownedStoryList.add(
-            Story(0, "story1", "description story 1 \nblabla \nblalba", R.raw.guignol, "", 12.5F, 2)
-        )
-        ownedStoryList.add(
-            Story(0, "story2", "description story 2 \nblablabla \nblalbabla", R.raw.cartman, "", 8.35F, 12)
-        )
-        ownedStoryList.add(
-            Story(0, "story3", "description story 3 \nblablablablou \nblalbablablou", R.raw.soldier, "", 57F, 39)
-        )
+        val folder = getExternalFilesDir("Tales")
+        val files = folder!!.listFiles()
+        for (taleDirectory in files!!) {
+            if (taleDirectory.isDirectory) {
+                val dataFile = File("${taleDirectory.path}/data.json")
+                println(" > ${dataFile.path}")
+                if (dataFile.exists()) {
+                    ownedStoryList.add(Story(0, taleDirectory.name, "DESC", R.raw.guignol, "", 0F, 1))
+                } else {
+                    println("Nope")
+                }
+            }
+        }
 
         binding.viewPager.adapter = PagerAdapterMainActivity(this, ownedStoryList)
 
