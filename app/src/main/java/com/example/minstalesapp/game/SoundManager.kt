@@ -1,5 +1,6 @@
 package com.example.minstalesapp.game
 
+import android.app.Activity
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
@@ -10,10 +11,10 @@ import java.io.IOException
 import java.util.*
 import kotlin.collections.HashMap
 
-class SoundManager(gameActivity: GameActivity) {
+class SoundManager() {
     private val TAG = "[SoundManager]"
-    private val gameActivity : GameActivity = gameActivity
-    var outputSounds = HashMap<String, OutputSoundManager>()
+    //private val gameActivity : GameActivity = gameActivity
+    var outputSounds = HashMap<Outputs, OutputSoundManager>()
 
     class OutputSoundManager() {
         var sounds = HashMap<String, MediaPlayer>()
@@ -22,7 +23,7 @@ class SoundManager(gameActivity: GameActivity) {
         /**
          * Add the sonf to the manager with specified ID
          */
-        fun addSong(title: String, sound: MediaPlayer) {
+        fun addSound(title: String, sound: MediaPlayer) {
             if (sounds.containsKey(title)) {
                 stopSound(sound)
                 removeSound(title)
@@ -66,8 +67,8 @@ class SoundManager(gameActivity: GameActivity) {
      * Init the different possible outputs
      */
     fun init() {
-        outputSounds["music"] = OutputSoundManager()
-        outputSounds["narrator"] = OutputSoundManager()
+        outputSounds[Outputs.MUSIC] = OutputSoundManager()
+        outputSounds[Outputs.NARRATOR] = OutputSoundManager()
     }
 
     /**
@@ -82,15 +83,15 @@ class SoundManager(gameActivity: GameActivity) {
         }
     }
 
-    fun stopAll(out: String) {
-        val outputSound = outputSounds[out]
+    fun stopAll(output: Outputs) {
+        val outputSound = outputSounds[output]
         for ((key, sound) in outputSound!!.sounds) {
             outputSound.stopSound(sound)
             outputSound.removeSound(key)
         }
     }
 
-    fun prepareSound(gameTitle: String, titlePath: String, out: String, loop: Boolean) {
+    fun prepareSound(activity: GameActivity, gameTitle: String, titlePath: String, out: String, loop: Boolean) : MediaPlayer? {
         try {
             val sound = MediaPlayer().apply {
                 setAudioAttributes(
@@ -101,11 +102,11 @@ class SoundManager(gameActivity: GameActivity) {
                 )
 
                 val soundURI =
-                    Uri.parse(gameActivity.getExternalFilesDir("Tales")!!.path + "/$gameTitle/assets/sounds/$titlePath")
+                    Uri.parse(activity.getExternalFilesDir("Tales")!!.path + "/$gameTitle/assets/sounds/$titlePath")
 
                 Log.i(TAG, "prepareAudio: $soundURI")
-                gameActivity.binding.audioTitle.text = File(soundURI.toString()).name
-                setDataSource(gameActivity.applicationContext, soundURI)
+                activity.binding.audioTitle.text = File(soundURI.toString()).name
+                setDataSource(activity.applicationContext, soundURI)
                 prepare()
                 start()
             }
@@ -113,14 +114,13 @@ class SoundManager(gameActivity: GameActivity) {
             sound.setVolume(0.5f, 0.5f)
             if (out == Outputs.NARRATOR.toString().lowercase()) {
                 sound.setOnCompletionListener {
-                    gameActivity.binding.record.isEnabled = true
+                    activity.binding.record.isEnabled = true
                 }
             }
-            val outputSounds = outputSounds[out]
-            outputSounds?.addSong(titlePath, sound)
-            outputSounds?.playSound(sound)
+            return sound
         } catch (e: IOException) {
             Log.e(TAG,  "Unavailable file.")
         }
+        return null
     }
 }

@@ -1,14 +1,16 @@
 package com.example.minstalesapp.game
 
+import android.media.MediaPlayer
 import android.net.Uri
 import android.util.Log
+import com.example.minstalesapp.Model.Story
+import com.example.minstalesapp.R
 import com.example.minstalesapp.Stringifier
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.File
 
-class GsonManager(gameActivity: GameActivity) {
-    private val gameActivity : GameActivity = gameActivity
+class GsonManager() {
     private val TAG = "[GsonManager]"
     private lateinit var file: File
     private lateinit var stringJson : String
@@ -31,7 +33,8 @@ class GsonManager(gameActivity: GameActivity) {
         return null
     }
 
-    fun gsonStartSound(step: String) {
+    fun gsonStartSound(activity: GameActivity, gameTitle: String, step: String) : HashMap<Outputs, HashMap<String, MediaPlayer>> {
+        val map = HashMap<Outputs, HashMap<String, MediaPlayer>>()
         //Log.i(TAG, "gsonChecker: $stringJson")
         try {
             val obj = JSONObject(stringJson)
@@ -46,13 +49,22 @@ class GsonManager(gameActivity: GameActivity) {
                 } else {
                     false
                 }
-                gameActivity.soundManager.prepareSound(gameActivity.gameTitle, src, out, loop)
-                Log.i(TAG, "$src $out $loop")
+                val output = Outputs.valueOf(out.uppercase())
+                val mediaPlayerHashMap : HashMap<String, MediaPlayer>
+                if (!map.containsKey(output)) {
+                    mediaPlayerHashMap = HashMap()
+                    map[output] = mediaPlayerHashMap
+                } else {
+                    mediaPlayerHashMap = map[output]!!
+                }
+                SoundManager().prepareSound(activity, gameTitle, src, out, loop)
+                    ?.let { mediaPlayerHashMap.put(gameTitle, it) }
             }
 
         } catch (e: JSONException) {
             e.printStackTrace()
         }
+        return map
     }
 
     fun gsonCheckActionPath(step: String) : HashMap<String, String> {
@@ -72,5 +84,26 @@ class GsonManager(gameActivity: GameActivity) {
             e.printStackTrace()
         }
         return map
+    }
+
+    fun dataReader(titleID: String, jsonString: String) : Story? {
+        println("title ID -> " + titleID)
+        try {
+            val obj = JSONObject(jsonString)
+            val title = obj.getString("title")
+            val author = obj.getString("author")
+            val version = obj.getString("version")
+            val desc = obj.getString("sypnosis")
+            val themes = ArrayList<String>()
+            val themesJson: JSONObject = obj.getJSONObject("themes")
+            for (item in themesJson.keys()) {
+                themes.add(themesJson.getString(item))
+            }
+            println("title display -> " + title)
+            return Story(0, titleID, title, desc, R.raw.guignol, "", 0F, 0)
+        } catch (e: Exception) {
+         Log.e(TAG, "The folder does not contains a valid data.json file.")
+        }
+        return null
     }
 }

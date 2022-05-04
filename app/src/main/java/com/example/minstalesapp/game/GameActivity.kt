@@ -18,15 +18,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.minstalesapp.DecompressFast
 import com.example.minstalesapp.databinding.ActivityGameBinding
 import java.io.*
-import java.util.*
 import java.util.regex.Pattern
 
 
 class GameActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityGameBinding
-    val soundManager = SoundManager(this)
-    val gsonManager = GsonManager(this)
+    val soundManager = SoundManager()
+    val gsonManager = GsonManager()
 
     private val url = "https://steelroad.fr/minstales/story1.zip"
 
@@ -41,10 +40,10 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityGameBinding.inflate(layoutInflater)
         val view = binding.root
-        gameTitle = intent.getStringExtra("title")!!
+        gameTitle = intent.getStringExtra("titleID")!!
         jsonURI = Uri.parse(getExternalFilesDir("Tales")!!.path + "/" + gameTitle + "/assets/config.json")
         setContentView(view)
-
+        println(jsonURI.path)
         //download()
         soundManager.init()
         gsonManager.init(jsonURI)
@@ -53,7 +52,12 @@ class GameActivity : AppCompatActivity() {
         binding.audioTitle.text = gameTitle
 
 
-        gsonManager.gsonStartSound("start")
+        for ((output, map) in gsonManager.gsonStartSound(this, gameTitle, "start")) {
+            for ((title, sound) in map) {
+                soundManager.outputSounds[output]?.addSound(title, sound)
+                soundManager.outputSounds[output]?.playSound(sound)
+            }
+        }
         val answersMap = gsonManager.gsonCheckActionPath("start")
 
         val launcher = registerForActivityResult(
@@ -159,7 +163,7 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
-    fun containsWordsPatternMatch(inputString: String, words: Array<String?>): Boolean {
+    private fun containsWordsPatternMatch(inputString: String, words: Array<String?>): Boolean {
         val regexp = StringBuilder()
         for (word in words) {
             regexp.append("(?=.*").append(word).append(")")

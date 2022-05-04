@@ -1,15 +1,13 @@
 package com.example.minstalesapp.MainPage
 
 import android.content.Intent
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.core.net.toFile
 import com.example.minstalesapp.Model.Story
 import com.example.minstalesapp.ProfileActivity
 import com.example.minstalesapp.R
 import com.example.minstalesapp.databinding.ActivityMainBinding
-import com.example.minstalesapp.game.GameActivity
+import com.example.minstalesapp.game.GsonManager
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
@@ -30,7 +28,10 @@ class MainActivity : AppCompatActivity() {
             if (taleDirectory.isDirectory) {
                 val dataFile = File("${taleDirectory.path}/data.json")
                 if (dataFile.exists()) {
-                    ownedStoryList.add(Story(0, taleDirectory.name, "DESC", R.raw.guignol, "", 0F, 1))
+                    val story = GsonManager().dataReader(taleDirectory.name, dataFile.readText(Charsets.UTF_8))
+                    if (story != null) {
+                        ownedStoryList.add(story)
+                    }
                 }
             }
         }
