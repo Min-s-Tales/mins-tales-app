@@ -16,6 +16,8 @@ import kotlinx.coroutines.launch
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import javax.security.auth.callback.Callback
+import com.example.minstalesapp.game.GsonManager
+import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
@@ -47,15 +49,19 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        ownedStoryList.add(
-            Story(0, "story1", "description story 1 \nblabla \nblalba", "vezv", "", 12.5F, 21, 2, arrayOf("Fantasy", "Science-Fiction"))
-        )
-        ownedStoryList.add(
-            Story(1, "story2", "description story 2 \nblablabla \nblalbabla", "R.raw.cartman", "", 8.35F, 11,12, arrayOf("History", "Medieval"))
-        )
-        ownedStoryList.add(
-            Story(2, "story3", "description story 3 \nblablablablou \nblalbablablou", "R.raw.soldier", "", 57F, 61,39, arrayOf("History", "Pirate", "Post-Apocalyptic"))
-        )
+        val folder = getExternalFilesDir("Tales")
+        val files = folder!!.listFiles()
+        for (taleDirectory in files!!) {
+            if (taleDirectory.isDirectory) {
+                val dataFile = File("${taleDirectory.path}/data.json")
+                if (dataFile.exists()) {
+                    val story = GsonManager().dataReader(taleDirectory.name, dataFile.readText(Charsets.UTF_8))
+                    if (story != null) {
+                        ownedStoryList.add(story)
+                    }
+                }
+            }
+        }
 
         /*
         val apiStoryTest = ApiHelper.getInstance().create(ApiService::class.java)
