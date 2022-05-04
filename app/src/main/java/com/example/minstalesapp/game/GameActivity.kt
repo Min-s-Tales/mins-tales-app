@@ -40,7 +40,7 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityGameBinding.inflate(layoutInflater)
         val view = binding.root
-        gameTitle = intent.getStringExtra("titleID")!!
+        gameTitle = intent.getStringExtra("title")!!.lowercase().replace(" ", "_").replace("é", "e").replace("è", "e").replace("à", "a")
         jsonURI = Uri.parse(getExternalFilesDir("Tales")!!.path + "/" + gameTitle + "/assets/config.json")
         setContentView(view)
         println(jsonURI.path)
@@ -69,7 +69,7 @@ class GameActivity : AppCompatActivity() {
                 binding.speech.text = text
                 for ((key, value) in answersMap) {
                     val array = value.split(" ")
-                    Log.i(TAG, "${containsWordsPatternMatch(text, array.toTypedArray())}")
+                    Log.i(TAG, "${key} -> ${value} : ${containsWordsPatternMatch(text, array.toTypedArray())}")
                 }
             }
         }

@@ -100,7 +100,8 @@ class GsonManager() {
                 themes.add(themesJson.getString(item))
             }
             println("title display -> " + title)
-            return Story(0, titleID, title, desc, R.raw.guignol, "", 0F, 0)
+
+            return Story(0, title, desc, "", "", 0F, 13, 8, arrayOf("Fantasy", "Science-Fiction"))
         } catch (e: Exception) {
          Log.e(TAG, "The folder does not contains a valid data.json file.")
         }
