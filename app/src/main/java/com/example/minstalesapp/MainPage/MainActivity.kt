@@ -29,11 +29,8 @@ class MainActivity : AppCompatActivity() {
         for (taleDirectory in files!!) {
             if (taleDirectory.isDirectory) {
                 val dataFile = File("${taleDirectory.path}/data.json")
-                println(" > ${dataFile.path}")
                 if (dataFile.exists()) {
                     ownedStoryList.add(Story(0, taleDirectory.name, "DESC", R.raw.guignol, "", 0F, 1))
-                } else {
-                    println("Nope")
                 }
             }
         }
