@@ -1,5 +1,6 @@
 package com.example.minstalesapp.MainPage
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -7,12 +8,11 @@ import android.util.Log
 import com.example.minstalesapp.Api.ApiHelper
 import com.example.minstalesapp.Api.ApiService
 import com.example.minstalesapp.Model.Story
+import com.example.minstalesapp.ProfileActivity
 import com.example.minstalesapp.R
 import com.example.minstalesapp.databinding.ActivityMainBinding
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-
-
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import javax.security.auth.callback.Callback
@@ -48,13 +48,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         ownedStoryList.add(
-            Story(0, "story1", "description story 1 \nblabla \nblalba", R.raw.guignol, "", 12.5F, 2, arrayOf("Fantasy", "Science-Fiction"))
+            Story(0, "story1", "description story 1 \nblabla \nblalba", "vezv", "", 12.5F, 21, 2, arrayOf("Fantasy", "Science-Fiction"))
         )
         ownedStoryList.add(
-            Story(1, "story2", "description story 2 \nblablabla \nblalbabla", R.raw.cartman, "", 8.35F, 12, arrayOf("History", "Medieval"))
+            Story(1, "story2", "description story 2 \nblablabla \nblalbabla", "R.raw.cartman", "", 8.35F, 11,12, arrayOf("History", "Medieval"))
         )
         ownedStoryList.add(
-            Story(2, "story3", "description story 3 \nblablablablou \nblalbablablou", R.raw.soldier, "", 57F, 39, arrayOf("History", "Pirate", "Post-Apocalyptic"))
+            Story(2, "story3", "description story 3 \nblablablablou \nblalbablablou", "R.raw.soldier", "", 57F, 61,39, arrayOf("History", "Pirate", "Post-Apocalyptic"))
         )
 
         val apiStoryTest = ApiHelper.getInstance().create(ApiService::class.java)

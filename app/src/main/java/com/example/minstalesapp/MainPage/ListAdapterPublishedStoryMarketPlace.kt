@@ -24,7 +24,7 @@ class ListAdapterPublishedStoryMarketPlace(
         binding = ItemStoryMarketplaceBinding.inflate(inflater)
         val marketStoriesView = binding.root
 
-        val bitmapImage = BitmapFactory.decodeStream(URL(listOfStory[position].icon).openConnection().getInputStream())
+        val bitmapImage = BitmapFactory.decodeStream(URL(listOfStory[position].url_icon).openConnection().getInputStream())
         binding.marketStoryIcon.background = BitmapDrawable(bitmapImage)
         binding.marketStoryTitle.text = listOfStory[position].title
 
