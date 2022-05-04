@@ -1,20 +1,31 @@
 package com.example.minstalesapp.MainPage
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.util.Log
+import com.example.minstalesapp.Api.ApiHelper
+import com.example.minstalesapp.Api.ApiService
 import com.example.minstalesapp.Model.Story
-import com.example.minstalesapp.ProfileActivity
 import com.example.minstalesapp.R
 import com.example.minstalesapp.databinding.ActivityMainBinding
-import com.example.minstalesapp.game.GameActivity
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+
+
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
+import javax.security.auth.callback.Callback
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     var ownedStoryList = ArrayList<Story>()
     val listOfStoryTypes = arrayOf("Fantasy", "History", "Medieval", "Pirate", "Horror", "Science-Fiction", "Post-Apocalyptic")
+
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +56,12 @@ class MainActivity : AppCompatActivity() {
         ownedStoryList.add(
             Story(2, "story3", "description story 3 \nblablablablou \nblalbablablou", R.raw.soldier, "", 57F, 39, arrayOf("History", "Pirate", "Post-Apocalyptic"))
         )
+
+        val apiStoryTest = ApiHelper.getInstance().create(ApiService::class.java)
+        GlobalScope.launch {
+            val result = apiStoryTest.getStory()
+            Log.d("ayush: ", result.body().toString())
+        }
 
         binding.viewPager.adapter = PagerAdapterMainActivity(this, ownedStoryList)
 
