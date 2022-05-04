@@ -57,11 +57,13 @@ class MainActivity : AppCompatActivity() {
             Story(2, "story3", "description story 3 \nblablablablou \nblalbablablou", "R.raw.soldier", "", 57F, 61,39, arrayOf("History", "Pirate", "Post-Apocalyptic"))
         )
 
+        /*
         val apiStoryTest = ApiHelper.getInstance().create(ApiService::class.java)
         GlobalScope.launch {
             val result = apiStoryTest.getStory()
             Log.d("ayush: ", result.body().toString())
         }
+         */
 
         binding.viewPager.adapter = PagerAdapterMainActivity(this, ownedStoryList)
 

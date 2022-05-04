@@ -30,8 +30,8 @@
         app:layout_constraintTop_toBottomOf="@id/usernameProfile"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="7dp"
-        android:background="@drawable/rounded_border_shape">
+        android:layout_marginHorizontal="10dp"
+        android:background="@drawable/yellow_rounded_border_shape">
 
         <TextView
             android:id="@+id/soundSettingsTitle"
@@ -40,9 +40,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="40dp"
             android:text="@string/sound_settings"
-            android:textColor="@color/light_grey"
+            android:textColor="@color/darker_grey"
             android:textSize="20sp"
             android:fontFamily="@font/roboto"/>
 
@@ -66,8 +66,8 @@
         app:layout_constraintTop_toBottomOf="@id/soundSettingsContainer"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="7dp"
-        android:layout_marginHorizontal="7dp"
-        android:background="@drawable/rounded_border_shape">
+        android:layout_marginHorizontal="10dp"
+        android:background="@drawable/yellow_rounded_border_shape">
 
         <TextView
             android:id="@+id/appLanguageTitle"
@@ -76,9 +76,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="40dp"
             android:text="@string/app_language"
-            android:textColor="@color/light_grey"
+            android:textColor="@color/darker_grey"
             android:textSize="20sp"
             android:fontFamily="@font/roboto"/>
 
@@ -101,7 +101,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginHorizontal="7dp"
+        android:layout_marginHorizontal="10dp"
         android:background="@drawable/red_rounded_border_shape">
 
         <TextView
@@ -127,8 +127,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/disconnectContainer"
         android:layout_marginBottom="7dp"
-        android:layout_marginHorizontal="7dp"
-        android:background="@drawable/rounded_border_shape">
+        android:layout_marginHorizontal="10dp"
+        android:background="@drawable/yellow_rounded_border_shape">
 
         <TextView
             android:id="@+id/modifyProfileTitle"
@@ -137,9 +137,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="40dp"
             android:text="@string/modify_profile"
-            android:textColor="@color/light_grey"
+            android:textColor="@color/darker_grey"
             android:textSize="20sp"
             android:fontFamily="@font/roboto"/>
 
