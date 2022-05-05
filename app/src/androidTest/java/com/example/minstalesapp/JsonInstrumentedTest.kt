@@ -167,7 +167,7 @@ class JsonInstrumentedTest {
     @Test
     fun isJsonReadable() {
         val jsonObject = JSONObject(jsonString)
-        assert(!jsonObject.isNull("stort"))
+        assert(!jsonObject.isNull("start"))
         jsonObject.getJSONObject("start")
     }
 }

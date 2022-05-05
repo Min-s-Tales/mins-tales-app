@@ -1,8 +1,7 @@
 package com.example.minstalesapp
 
 import org.json.JSONObject
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Test
 
 class JsonUnitTest {
 
@@ -158,7 +157,8 @@ class JsonUnitTest {
             "\t}\n" +
             "}"
 
-    @Test @Throws(Exception::class)
+    @Test
+    @Throws(Exception::class)
     fun isJsonReadable() {
         val jsonObject = JSONObject(jsonString)
         print(jsonObject)
