@@ -32,7 +32,7 @@
         app:layout_constraintBottom_toTopOf="@id/cardStorySynopsis"
         android:layout_marginHorizontal="70dp"
         android:layout_marginVertical="20dp"
-        android:src="@mipmap/jcvd"/>
+        android:src="@mipmap/story"/>
 
     <TextView
         android:id="@+id/cardStorySynopsis"

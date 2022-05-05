@@ -13,9 +13,9 @@
         android:id="@+id/marketStoryIcon"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@mipmap/story"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@mipmap/jcvd"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/marketStoryTitle"
