@@ -6,6 +6,10 @@ import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 
+/**
+ * Class made to test the readability of a json file (here a json String), but also getting
+ * general or specific information inside
+ */
 @RunWith(AndroidJUnit4::class)
 class JsonInstrumentedTest {
 

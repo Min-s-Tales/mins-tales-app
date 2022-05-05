@@ -7,6 +7,10 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 
+/**
+ * Test class that test the handling of the advancement of player depending of the possible choices
+ * and the player orders
+ */
 class KeyWordsUnitTest {
     private val TAG = "KeyWordsUnitTest"
     private val neededWords : ArrayList<String> = arrayListOf("bonjour", "tous")
