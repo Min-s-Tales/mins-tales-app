@@ -11,8 +11,8 @@
         android:layout_height="3dp"
         android:indeterminate="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:indicatorColor="@color/main_yellow"/>
 
     <TextView
@@ -24,7 +24,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="7dp"
         android:text="type title"
-        android:textSize="26dp"
+        android:textSize="20dp"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:fontFamily="@font/font_nova_round_regular"

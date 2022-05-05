@@ -1,10 +1,9 @@
-package com.example.minstalesapp
+package com.example.minstalesapp.Profile
 
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.minstalesapp.databinding.ProfileActivityViewBinding
-import kotlinx.android.synthetic.main.profile_activity_view.*
 
 
 class ProfileActivity : AppCompatActivity() {

@@ -25,11 +25,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/soundSettingsContainer"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/usernameProfile"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_marginHorizontal="10dp"
         android:background="@drawable/yellow_rounded_border_shape">
 
@@ -61,7 +61,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/appLanguageContainer"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/soundSettingsContainer"
         app:layout_constraintEnd_toEndOf="parent"
@@ -97,7 +97,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/disconnectContainer"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -122,7 +122,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/modifyProfileContainer"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/disconnectContainer"

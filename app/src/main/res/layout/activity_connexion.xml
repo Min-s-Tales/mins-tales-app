@@ -39,13 +39,13 @@
         android:layout_marginBottom="40dp"
         android:text="@string/register_later"
         android:textColor="@color/light_grey"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:fontFamily="@font/roboto"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/registerContainer"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="55dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/registerLater"
@@ -63,7 +63,7 @@
             android:layout_marginStart="40dp"
             android:text="@string/register_button"
             android:textColor="@color/darker_grey"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:fontFamily="@font/roboto"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -71,7 +71,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/loginContainer"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="55dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/registerContainer"
@@ -89,7 +89,7 @@
             android:layout_marginStart="40dp"
             android:text="@string/login_button"
             android:textColor="@color/darker_grey"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:fontFamily="@font/roboto"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

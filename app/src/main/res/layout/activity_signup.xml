@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/dark_grey"
     android:padding="30dp">
 
     <ImageView
@@ -13,9 +14,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/formularContainer"
-        android:background="@mipmap/mins_tales_logo_round"
-        android:outlineProvider="bounds"
-        android:elevation="60dp"/>
+        android:background="@mipmap/mins_tales_logo_round"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/formularContainer"
@@ -34,7 +33,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:hint="Email"/>
+            android:backgroundTint="@color/main_yellow"
+            android:minHeight="48dp"
+            android:textColorHint="@color/content_font"
+            android:textColor="@color/content_font"
+            android:hint="@string/email"/>
 
         <EditText
             android:id="@+id/usernameTextInput"
@@ -45,7 +48,11 @@
             app:layout_constraintTop_toBottomOf="@id/mailTextInput"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="15dp"
-            android:hint="User name"/>
+            android:backgroundTint="@color/main_yellow"
+            android:minHeight="48dp"
+            android:textColorHint="@color/content_font"
+            android:textColor="@color/content_font"
+            android:hint="@string/user_name"/>
 
         <EditText
             android:id="@+id/passwordTextInput"
@@ -56,7 +63,11 @@
             app:layout_constraintTop_toBottomOf="@id/usernameTextInput"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="15dp"
-            android:hint="Password"
+            android:backgroundTint="@color/main_yellow"
+            android:minHeight="48dp"
+            android:textColorHint="@color/content_font"
+            android:textColor="@color/content_font"
+            android:hint="@string/password"
             android:inputType="textPassword"/>
 
         <EditText
@@ -68,7 +79,11 @@
             app:layout_constraintTop_toBottomOf="@id/passwordTextInput"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="15dp"
-            android:hint="Confirm password"
+            android:backgroundTint="@color/main_yellow"
+            android:minHeight="48dp"
+            android:textColorHint="@color/content_font"
+            android:textColor="@color/content_font"
+            android:hint="@string/confirm_password"
             android:inputType="textPassword"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

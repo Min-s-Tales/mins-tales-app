@@ -1,7 +1,8 @@
-package com.example.minstalesapp
+package com.example.minstalesapp.Profile
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
@@ -11,7 +12,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.*
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import kotlinx.android.synthetic.main.activity_login.*
+import com.example.minstalesapp.R
+import kotlinx.android.synthetic.main.activity_login.mailTextInput
+import kotlinx.android.synthetic.main.activity_login.passwordTextInput
+import kotlinx.android.synthetic.main.activity_signup.*
 import org.apache.http.conn.ConnectTimeoutException
 import org.json.JSONException
 import org.json.JSONObject
@@ -21,41 +25,47 @@ import java.net.MalformedURLException
 import java.net.SocketException
 import java.net.SocketTimeoutException
 
-
-class LoginActivity: AppCompatActivity() {
+class SignupActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_signup)
 
         val queue = Volley.newRequestQueue(this)
-        val url = "http://10.0.2.2:8000/api/users/login"
-        val sharedPreferences = getPreferences(MODE_PRIVATE)
+        val url = "http://10.0.2.2:8000/users/register"
 
-        loginButton.setOnClickListener {
-            val params = HashMap<String,String>()
-            params["username"] = mailTextInput.text.toString()
-            params["password"] = passwordTextInput.text.toString()
-            val jsonObject = JSONObject(params as Map<*, *>?)
+        registerButton.setOnClickListener {
 
-            // Request a string response from the provided URL.
-            val request = JsonObjectRequest(
-                Request.Method.POST, url, jsonObject,
-                { response ->
-                    Log.i("(SUCCESS)Post response", response.toString())
-                    val editor = sharedPreferences.edit()
-                    editor.putString("user-token", response["token"].toString())
-                    editor.commit()
-                    finish()
-                },
-                { response ->
-                    Log.i("(ERROR)Post response", getVolleyError(response))
-                    passwordTextInput.setText("")
-                    Toast.makeText(this, getVolleyError(response), Toast.LENGTH_SHORT).show()
-                }
-            )
+            if(passwordTextInput.text.toString() != confirmPasswordTextInput.text.toString()){
+                passwordTextInput.setText("")
+                confirmPasswordTextInput.setText("")
+                Toast.makeText(this, "Les mots de passe ne correspondent pas", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                val params = HashMap<String,String>()
+                params["username"] = mailTextInput.text.toString()
+                params["email"] = mailTextInput.text.toString()
+                params["password"] = passwordTextInput.text.toString()
+                val jsonObject = (params as Map<*, *>?)?.let { it1 -> JSONObject(it1) }
 
-            // Add the request to the RequestQueue.
-            queue.add(request)
+                // Request a string response from the provided URL.
+                val request = JsonObjectRequest(
+                    Request.Method.POST, url, jsonObject,
+                    { response ->
+                        Log.i("(SUCCESS)Post response", response.toString())
+                        startActivity(Intent(this, LoginActivity::class.java))
+                        finish()
+                    },
+                    { response ->
+                        Log.i("(ERROR)Post response", getVolleyError(response))
+                        passwordTextInput.setText("")
+                        confirmPasswordTextInput.setText("")
+                        Toast.makeText(this, getVolleyError(response), Toast.LENGTH_SHORT).show()
+                    }
+                )
+
+                // Add the request to the RequestQueue.
+                queue.add(request)
+            }
         }
     }
 

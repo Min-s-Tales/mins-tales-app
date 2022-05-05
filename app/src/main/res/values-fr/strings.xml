@@ -17,4 +17,9 @@
     <string name="disconnect">Déconnection</string>
     <string name="modify_profile">Modifier son profile</string>
     <string name="register_later"><u>Se connecter plus tard</u></string>
+    <string name="email">Email</string>
+    <string name="password">Mot de passe</string>
+    <string name="confirm_password">Confirmez votre mot de passe</string>
+    <string name="forgot_password"><u>Mot de passe oublié ?</u></string>
+    <string name="user_name">Nom d\'utilisateur</string>
 </resources>
