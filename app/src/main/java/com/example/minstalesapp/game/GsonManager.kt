@@ -4,7 +4,6 @@ import android.media.MediaPlayer
 import android.net.Uri
 import android.util.Log
 import com.example.minstalesapp.Model.Story
-import com.example.minstalesapp.R
 import com.example.minstalesapp.Stringifier
 import org.json.JSONException
 import org.json.JSONObject
