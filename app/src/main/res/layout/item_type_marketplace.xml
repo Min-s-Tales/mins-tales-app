@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/dark_grey">
+    android:background="@color/dark_grey"
+    android:paddingBottom="10dp">
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/loadingBarMarket"
@@ -30,13 +32,20 @@
         android:fontFamily="@font/font_nova_round_regular"
         android:letterSpacing="0.15"/>
 
-    <ListView
-        android:id="@+id/listStoriesMarket"
+    <LinearLayout
+        android:id="@+id/listStoriesMarketContainer"
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_height="194dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/typeTitle"
         app:layout_constraintEnd_toEndOf="parent"
-        android:orientation="horizontal"/>
+        android:layout_marginTop="10dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listStoriesMarket"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

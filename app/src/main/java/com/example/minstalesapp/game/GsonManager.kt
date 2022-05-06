@@ -101,7 +101,7 @@ class GsonManager() {
             }
             println("title display -> " + title)
 
-            return Story(0, title, desc, "", "", 0F, 13, 8, arrayOf("Fantasy", "Science-Fiction"))
+            return Story(0, title, desc, "", "", 0F, "test", 8)
         } catch (e: Exception) {
          Log.e(TAG, "The folder does not contains a valid data.json file.")
         }

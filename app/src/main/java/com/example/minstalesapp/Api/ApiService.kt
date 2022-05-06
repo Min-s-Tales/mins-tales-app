@@ -12,8 +12,8 @@ interface ApiService {
     @GET("api/story")
     suspend fun getStory(): Response<MutableList<Story>>
 
-    @GET("api/story/{tag}")
-    suspend fun getStoryByTags(@Query("tag") tag: String): Response<MutableList<Story>>
+    @GET("api/story/tag?tag={tag}")
+    suspend fun getStoryByTags(@Query("tag") tag: String): Response<Array<Story>>
 
     @POST("user/login")
     suspend fun login(@Body user: User): Response<User>

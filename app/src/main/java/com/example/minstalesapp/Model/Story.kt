@@ -1,7 +1,5 @@
 package com.example.minstalesapp.Model
 
-import com.google.gson.Gson
-
 data class Story(
     var id: Int,
     var title: String,
@@ -9,9 +7,8 @@ data class Story(
     var url_folder: String,
     var url_icon: String,
     var price: Float,
-    var id_author: Int,
-    var nb_download: Int,
-    var tags: Array<String>
+    var author: String,
+    var nb_download: Int
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -25,9 +22,8 @@ data class Story(
         if (url_folder != other.url_folder) return false
         if (url_icon != other.url_icon) return false
         if (price != other.price) return false
-        if (id_author != other.id_author) return false
+        if (author != other.author) return false
         if (nb_download != other.nb_download) return false
-        if (!tags.contentEquals(other.tags)) return false
 
         return true
     }
@@ -39,9 +35,8 @@ data class Story(
         result = 31 * result + url_folder.hashCode()
         result = 31 * result + url_icon.hashCode()
         result = 31 * result + price.hashCode()
-        result = 31 * result + id_author
+        result = 31 * result + author.hashCode()
         result = 31 * result + nb_download
-        result = 31 * result + tags.contentHashCode()
         return result
     }
 }
