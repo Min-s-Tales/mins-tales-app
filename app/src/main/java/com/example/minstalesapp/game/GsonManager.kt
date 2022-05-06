@@ -4,7 +4,6 @@ import android.media.MediaPlayer
 import android.net.Uri
 import android.util.Log
 import com.example.minstalesapp.Model.Story
-import com.example.minstalesapp.R
 import com.example.minstalesapp.Stringifier
 import org.json.JSONException
 import org.json.JSONObject
@@ -33,6 +32,9 @@ class GsonManager() {
         return null
     }
 
+    /**
+     * Get the infos of config.json, at "start" object then prepare and returns the sounds stocked in it
+     */
     fun gsonStartSound(activity: GameActivity, gameTitle: String, step: String) : HashMap<Outputs, HashMap<String, MediaPlayer>> {
         val map = HashMap<Outputs, HashMap<String, MediaPlayer>>()
         //Log.i(TAG, "gsonChecker: $stringJson")
@@ -67,6 +69,9 @@ class GsonManager() {
         return map
     }
 
+    /**
+     * Get the possible actions and their needed keywords of a path
+     */
     fun gsonCheckActionPath(step: String) : HashMap<String, String> {
         val map = HashMap<String, String>()
         //Log.i(TAG, "gsonChecker: $stringJson")
@@ -86,6 +91,9 @@ class GsonManager() {
         return map
     }
 
+    /**
+     * Read the data.json of the tale, creates the story and returns it
+     */
     fun dataReader(titleID: String, jsonString: String) : Story? {
         println("title ID -> " + titleID)
         try {
