@@ -31,7 +31,7 @@ class SignupActivity: AppCompatActivity() {
         setContentView(R.layout.activity_signup)
 
         val queue = Volley.newRequestQueue(this)
-        val url = "http://10.0.2.2:8000/users/register"
+        val url = "http://10.0.2.2:8000/user/register"
 
         registerButton.setOnClickListener {
 
