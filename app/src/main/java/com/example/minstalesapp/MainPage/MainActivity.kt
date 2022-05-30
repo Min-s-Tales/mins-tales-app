@@ -101,7 +101,7 @@ class MainActivity : AppCompatActivity() {
             if (taleDirectory.isDirectory) {
                 val dataFile = File("${taleDirectory.path}/data.json")
                 if (dataFile.exists()) {
-                    val story = GsonManager().dataReader(taleDirectory.name, dataFile.readText(Charsets.UTF_8))
+                    val story = GsonManager().dataReader(taleDirectory.name, taleDirectory.path+"/icon.png", dataFile.readText(Charsets.UTF_8))
                     if (story != null) {
                         ownedStoryList.add(story)
                     }

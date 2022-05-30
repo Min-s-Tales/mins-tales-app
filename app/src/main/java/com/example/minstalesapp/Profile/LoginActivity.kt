@@ -2,6 +2,7 @@ package com.example.minstalesapp.Profile
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.os.Bundle
@@ -51,6 +52,8 @@ class LoginActivity: AppCompatActivity() {
                     val editor = sharedPreferences.edit()
                     editor.putString("user-token", response["token"].toString())
                     editor.commit()
+                    val intent = Intent(this, ProfileActivity::class.java)
+                    startActivity(intent)
                     finish()
                 },
                 { response ->

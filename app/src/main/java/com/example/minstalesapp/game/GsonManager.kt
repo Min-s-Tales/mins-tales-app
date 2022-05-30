@@ -94,7 +94,7 @@ class GsonManager() {
     /**
      * Read the data.json of the tale, creates the story and returns it
      */
-    fun dataReader(titleID: String, jsonString: String) : Story? {
+    fun dataReader(titleID: String, urlIconPath: String, jsonString: String) : Story? {
         println("title ID -> " + titleID)
         try {
             val obj = JSONObject(jsonString)
@@ -109,7 +109,7 @@ class GsonManager() {
             }
             println("title display -> " + title)
 
-            return Story(0, title, desc, "", "", 0F, "test", 8)
+            return Story(0, title, desc, "", urlIconPath, 0F, "test", 8)
         } catch (e: Exception) {
          Log.e(TAG, "The folder does not contains a valid data.json file.")
         }

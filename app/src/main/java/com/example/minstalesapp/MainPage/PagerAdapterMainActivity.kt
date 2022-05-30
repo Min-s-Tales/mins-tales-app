@@ -2,6 +2,8 @@ package com.example.minstalesapp.MainPage
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,8 @@ import androidx.viewpager.widget.PagerAdapter
 import com.example.minstalesapp.Model.Story
 import com.example.minstalesapp.R
 import com.example.minstalesapp.game.GameActivity
+import java.net.URL
+import kotlin.concurrent.thread
 
 class PagerAdapterMainActivity(private val mContext: Context, private val storyList: ArrayList<Story>) : PagerAdapter() {
 
@@ -28,6 +32,10 @@ class PagerAdapterMainActivity(private val mContext: Context, private val storyL
 
         var cardDuration : TextView = view.findViewById(R.id.cardStoryDuration)
         cardDuration.text = "~ 20 min"
+
+        var cardIcon : ImageView = view.findViewById(R.id.cardStoryPicture)
+        var bitmapImage: Bitmap? = BitmapFactory.decodeFile(storyList[position].url_icon)
+        cardIcon.setImageBitmap(bitmapImage)
 
         val playButton : ImageView = view.findViewById(R.id.cardStoryPlayButton)
         playButton.setOnClickListener {
