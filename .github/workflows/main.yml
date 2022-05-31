@@ -34,6 +34,9 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
+  test:
+    runs-on: ubuntu-latest
+    steps:
       - name: JUnit Report Action
         uses: mikepenz/action-junit-report@v3.1.0-b01
 
