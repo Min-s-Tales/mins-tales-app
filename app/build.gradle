@@ -5,6 +5,7 @@ plugins {
     id "org.sonarqube" version "3.3"
 }
 
+
 android {
     compileSdkVersion 32
     buildToolsVersion "30.0.3"
@@ -80,3 +81,4 @@ dependencies {
     testImplementation 'org.json:json:20220320'
     testImplementation 'org.robolectric:robolectric:4.8'
 }
+
