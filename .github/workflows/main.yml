@@ -17,14 +17,23 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
+    name: Build and Run Tests
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-
+      #- uses: actions/checkout@v3
+      - name: Checkout Code
+      uses: actions/checkout@v1
+      - name: Build and Run Tests
+        run: # execute your tests generating test results
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v3
+        if: always() # always run even if the previous step fails
+        with:
+          report_paths: '**/build/test-results/test/TEST-*.xml'
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world!
@@ -37,8 +46,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - uses: mikepenz/action-junit-report@v3.1.0-b01
       - name: JUnit Report Action
-        uses: mikepenz/action-junit-report@v3.1.0-b01
+        run: |
+          echo Toast
       - name: Echo tests
         run: |
           echo This is my custom test
