@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-android-extensions'
+    id "org.sonarqube" version "3.3"
 }
 
 android {
@@ -45,6 +46,14 @@ android {
         unitTests {
             includeAndroidResources = true
         }
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "Min-s-Tales_mins-tales-app"
+        property "sonar.organization", "min-s-tales"
+        property "sonar.host.url", "https://sonarcloud.io"
     }
 }
 
