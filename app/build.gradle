@@ -1,8 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
 }
+
 
 android {
     compileSdkVersion 32
@@ -71,3 +71,4 @@ dependencies {
     testImplementation 'org.json:json:20220320'
     testImplementation 'org.robolectric:robolectric:4.8'
 }
+
