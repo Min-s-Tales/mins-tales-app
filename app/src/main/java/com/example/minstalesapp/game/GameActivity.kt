@@ -1,23 +1,15 @@
 package com.example.minstalesapp.game
 
-import android.app.DownloadManager
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.util.Log
-import android.webkit.CookieManager
-import android.webkit.URLUtil
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.example.minstalesapp.DecompressFast
 import com.example.minstalesapp.databinding.ActivityGameBinding
-import java.io.*
 import java.util.regex.Pattern
 
 
@@ -27,12 +19,9 @@ class GameActivity : AppCompatActivity() {
     val soundManager = SoundManager()
     val gsonManager = GsonManager()
 
-    private val url = "https://steelroad.fr/minstales/story1.zip"
-
     private val TAG = "[GameActivity]"
     private val model: GameActivityViewModel by viewModels()
     private var text = ""
-    private var storyID = 0L
     var gameTitle = ""
     private lateinit var jsonURI : Uri
 
@@ -69,7 +58,7 @@ class GameActivity : AppCompatActivity() {
                 binding.speech.text = text
                 for ((key, value) in answersMap) {
                     val array = value.split(" ")
-                    Log.i(TAG, "${key} -> ${value} : ${containsWordsPatternMatch(text, array.toTypedArray())}")
+                    Log.i(TAG, "$key -> $value : ${containsWordsPatternMatch(text, array.toTypedArray())}")
                 }
             }
         }
@@ -79,9 +68,12 @@ class GameActivity : AppCompatActivity() {
                 val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
                 intent.putExtra(
                     RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                    RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+                    RecognizerIntent.LANGUAGE_MODEL_FREE_FORM,
                 )
                 intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "$TAG Start speaking")
+                intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
+                    this.packageName
+                )
 
                 try {
                     launcher.launch(intent)
@@ -92,75 +84,6 @@ class GameActivity : AppCompatActivity() {
             }
         }
 
-    }
-
-    /**
-     * This function must be moved to the marketplace/adventures screen once finalized.
-     */
-    private fun download() {
-        this.registerReceiver(attachmentDownloadCompleteReceive, IntentFilter(
-                DownloadManager.ACTION_DOWNLOAD_COMPLETE)
-        )
-
-        try{
-            val request = DownloadManager.Request(Uri.parse(url))
-            gameTitle = URLUtil.guessFileName(url, null, null)
-
-            request.setTitle(gameTitle)
-            request.setDescription("Download File from URL, please wait...")
-            try {
-                val zipFile = File(this.getExternalFilesDir("Tales")!!.path + "/" + gameTitle)
-                Log.v(TAG, "download existing: $zipFile.path")
-                zipFile.delete()
-            } catch (exeption: Exception) {
-                exeption.printStackTrace()
-            }
-
-            val cookie = CookieManager.getInstance().getCookie(url)
-            request.addRequestHeader("cookie", cookie)
-            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            request.setDestinationInExternalFilesDir(this, "Tales", gameTitle)
-
-            val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
-            storyID = downloadManager.enqueue(request)
-
-            Toast.makeText(this, "Download start", Toast.LENGTH_SHORT).show()
-            Log.i(TAG, "downloading")
-        } catch (e: Exception) {
-            Log.e(TAG, "download: failed")
-            e.printStackTrace()
-        }
-    }
-
-    /**
-     * Attachment download complete receiver.
-     *
-     *
-     * 1. Receiver gets called once attachment download completed.
-     * 2. Open the downloaded file.
-     */
-    private var attachmentDownloadCompleteReceive: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            val action = intent.action
-            if (DownloadManager.ACTION_DOWNLOAD_COMPLETE == action) {
-                val downloadId = intent.getLongExtra(
-                    DownloadManager.EXTRA_DOWNLOAD_ID, 0
-                )
-
-                val zipFile = File(context.getExternalFilesDir("Tales"), gameTitle)
-                Log.i(TAG, "onReceive: ${zipFile.path}")
-                Toast.makeText(context, "Download done $downloadId", Toast.LENGTH_SHORT).show()
-
-                DecompressFast().UnzipFile(zipFile, File(context.getExternalFilesDir("Tales")!!.path + "/" + gameTitle.replace(".zip", "/")), null)
-
-
-                //DecompressFast(zipFile.path, context.getExternalFilesDir("Tales")!!.path + "/" + title.replace(".zip", "/")).unzip()
-                //unpackZip(context.getExternalFilesDir("Tales")!!.path + "/" + title, title)
-                //zipFile.delete()
-
-                //openDownloadedAttachment(context, downloadId)
-            }
-        }
     }
 
     private fun containsWordsPatternMatch(inputString: String, words: Array<String?>): Boolean {

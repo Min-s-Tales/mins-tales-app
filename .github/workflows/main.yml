@@ -39,4 +39,6 @@ jobs:
     steps:
       - name: JUnit Report Action
         uses: mikepenz/action-junit-report@v3.1.0-b01
+        run: |
+          echo This is my custom test
 
