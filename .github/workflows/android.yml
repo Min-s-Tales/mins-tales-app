@@ -12,6 +12,10 @@ jobs:
         with:
           java-version: 1.8
 
+        #Check for gradlew
+      - name: Look for gradlew
+        run: find / -type f -name "gradlew"
+
       # Execute unit tests
       - name: Unit Test
         run: ./gradlew
