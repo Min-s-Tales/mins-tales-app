@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_marketplace.*
 
 class MarketplaceActivity : AppCompatActivity() {
-
+/*
     val listIcon = arrayOf<Int>(
         R.mipmap.tale,
         R.mipmap.moine,
@@ -42,4 +42,6 @@ class MarketplaceActivity : AppCompatActivity() {
         val marketplaceAdapter = MarketplaceAdapter(this, listIcon, listTitle, listPrice, listDesc)
         marketResults.adapter = marketplaceAdapter
     }
+
+ */
 }

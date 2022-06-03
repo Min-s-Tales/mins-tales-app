@@ -8,6 +8,7 @@ import kotlinx.android.synthetic.main.list_story_view.*
 
 class ListStoryActivity : AppCompatActivity() {
 
+    /*
     val listIcon = arrayOf<Int>(
         R.mipmap.tale,
         R.mipmap.moine,
@@ -50,4 +51,5 @@ class ListStoryActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+     */
 }
