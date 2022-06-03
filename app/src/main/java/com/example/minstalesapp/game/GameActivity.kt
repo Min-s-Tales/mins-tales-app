@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.minstalesapp.databinding.ActivityGameBinding
 import java.util.regex.Pattern
 
-
 class GameActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityGameBinding
@@ -23,7 +22,7 @@ class GameActivity : AppCompatActivity() {
     private val model: GameActivityViewModel by viewModels()
     private var text = ""
     var gameTitle = ""
-    private lateinit var jsonURI : Uri
+    private lateinit var jsonURI: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,13 +32,12 @@ class GameActivity : AppCompatActivity() {
         jsonURI = Uri.parse(getExternalFilesDir("Tales")!!.path + "/" + gameTitle + "/assets/config.json")
         setContentView(view)
         println(jsonURI.path)
-        //download()
+        // download()
         soundManager.init()
         gsonManager.init(jsonURI)
 
         binding.record.isEnabled = false
         binding.audioTitle.text = gameTitle
-
 
         for ((output, map) in gsonManager.gsonStartSound(this, gameTitle, "start")) {
             for ((title, sound) in map) {
@@ -71,19 +69,19 @@ class GameActivity : AppCompatActivity() {
                     RecognizerIntent.LANGUAGE_MODEL_FREE_FORM,
                 )
                 intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "$TAG Start speaking")
-                intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
+                intent.putExtra(
+                    RecognizerIntent.EXTRA_CALLING_PACKAGE,
                     this.packageName
                 )
 
                 try {
                     launcher.launch(intent)
                 } catch (e: java.lang.Exception) {
-                    //e.printStackTrace()
+                    // e.printStackTrace()
                     Toast.makeText(this, "Android version too old.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
-
     }
 
     private fun containsWordsPatternMatch(inputString: String, words: Array<String?>): Boolean {
