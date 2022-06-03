@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import com.example.minstalesapp.R
 
 class MarketplaceAdapter(
     private val context: Activity,
@@ -14,7 +13,7 @@ class MarketplaceAdapter(
     private val title: Array<String>,
     private val price: Array<String>,
     private val desc: Array<String>,
-):ArrayAdapter<String>(context, R.layout.item_marketplace_view, title) {
+) : ArrayAdapter<String>(context, R.layout.item_marketplace_view, title) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val inflater = context.layoutInflater

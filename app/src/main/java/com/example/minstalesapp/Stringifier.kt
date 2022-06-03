@@ -21,7 +21,7 @@ class Stringifier {
         val fl = File(filePath)
         val fin = FileInputStream(fl)
         val ret = convertStreamToString(fin)
-        //Make sure you close all streams.
+        // Make sure you close all streams.
         fin.close()
         return ret
     }
