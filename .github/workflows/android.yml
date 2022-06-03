@@ -5,10 +5,12 @@ on:
     branches:
       - 'main'
       - 'master'
+      - 'Junit'
   push:
     branches:
       - 'main'
       - 'master'
+      - 'Junit'
 
 jobs:
   test:
