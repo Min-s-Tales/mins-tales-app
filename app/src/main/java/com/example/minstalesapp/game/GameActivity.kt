@@ -21,9 +21,11 @@ class GameActivity : AppCompatActivity() {
 
     private val TAG = "[GameActivity]"
     private val model: GameActivityViewModel by viewModels()
-    private var text = ""
+    var text = ""
     var gameTitle = ""
     private lateinit var jsonURI : Uri
+    private var jsonPath = "start"
+    private lateinit var answersMap : HashMap<String, String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +34,6 @@ class GameActivity : AppCompatActivity() {
         gameTitle = intent.getStringExtra("title")!!.lowercase().replace(" ", "_").replace("é", "e").replace("è", "e").replace("à", "a")
         jsonURI = Uri.parse(getExternalFilesDir("Tales")!!.path + "/" + gameTitle + "/assets/config.json")
         setContentView(view)
-        println(jsonURI.path)
         //download()
         soundManager.init()
         gsonManager.init(jsonURI)
@@ -40,14 +41,7 @@ class GameActivity : AppCompatActivity() {
         binding.record.isEnabled = false
         binding.audioTitle.text = gameTitle
 
-
-        for ((output, map) in gsonManager.gsonStartSound(this, gameTitle, "start")) {
-            for ((title, sound) in map) {
-                soundManager.outputSounds[output]?.addSound(title, sound)
-                soundManager.outputSounds[output]?.playSound(sound)
-            }
-        }
-        val answersMap = gsonManager.gsonCheckActionPath("start")
+        test(jsonPath)
 
         val launcher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
@@ -57,8 +51,11 @@ class GameActivity : AppCompatActivity() {
                 text = data!!.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)!![0]
                 binding.speech.text = text
                 for ((key, value) in answersMap) {
-                    val array = value.split(" ")
-                    Log.i(TAG, "$key -> $value : ${containsWordsPatternMatch(text, array.toTypedArray())}")
+                    val array = value.split(" ").toTypedArray().toCollection(ArrayList())
+                    if (model.checkAllNeededWordsSpoken(array, text)) {
+                        test(key)
+                        break
+                    }
                 }
             }
         }
@@ -86,13 +83,15 @@ class GameActivity : AppCompatActivity() {
 
     }
 
-    private fun containsWordsPatternMatch(inputString: String, words: Array<String?>): Boolean {
-        val regexp = StringBuilder()
-        for (word in words) {
-            regexp.append("(?=.*").append(word).append(")")
+    private fun test(path: String) {
+        answersMap = gsonManager.gsonCheckActionPath(path)
+        soundManager.stopAll()
+        for ((output, map) in gsonManager.gsonStartSound(this, gameTitle, path)) {
+            for ((title, sound) in map) {
+                soundManager.outputSounds[output]?.addSound(title, sound)
+                soundManager.outputSounds[output]?.playSound(sound)
+            }
         }
-        val pattern: Pattern = Pattern.compile(regexp.toString())
-        return pattern.matcher(inputString).find()
     }
 
     override fun onDestroy() {

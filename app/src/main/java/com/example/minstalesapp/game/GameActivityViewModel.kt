@@ -4,7 +4,10 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.speech.RecognizerIntent
 import android.util.Log
+import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.lifecycle.ViewModel
 
@@ -32,5 +35,16 @@ class GameActivityViewModel : ViewModel() {
 
     fun record() {
         Log.i(TAG, "record: ")
+    }
+
+    fun checkAllNeededWordsSpoken(neededWords: ArrayList<String>, spoken: String) : Boolean {
+        val spokenWords = spoken.split(" ")
+        val commonWords = ArrayList<String>()
+        for (spokenWord in spokenWords) {
+            if (!commonWords.contains(spokenWord) && neededWords.contains(spokenWord)) {
+                commonWords.add(spokenWord)
+            }
+        }
+        return commonWords.size == neededWords.size
     }
 }
