@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.minstalesapp.databinding.ActivityGameBinding
 import java.util.regex.Pattern
 
-
 class GameActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityGameBinding
@@ -34,7 +33,6 @@ class GameActivity : AppCompatActivity() {
         gameTitle = intent.getStringExtra("title")!!.lowercase().replace(" ", "_").replace("é", "e").replace("è", "e").replace("à", "a")
         jsonURI = Uri.parse(getExternalFilesDir("Tales")!!.path + "/" + gameTitle + "/assets/config.json")
         setContentView(view)
-        //download()
         soundManager.init()
         gsonManager.init(jsonURI)
 
@@ -68,19 +66,19 @@ class GameActivity : AppCompatActivity() {
                     RecognizerIntent.LANGUAGE_MODEL_FREE_FORM,
                 )
                 intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "$TAG Start speaking")
-                intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
+                intent.putExtra(
+                    RecognizerIntent.EXTRA_CALLING_PACKAGE,
                     this.packageName
                 )
 
                 try {
                     launcher.launch(intent)
                 } catch (e: java.lang.Exception) {
-                    //e.printStackTrace()
+                    // e.printStackTrace()
                     Toast.makeText(this, "Android version too old.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
-
     }
 
     private fun test(path: String) {

@@ -13,8 +13,6 @@ import androidx.viewpager.widget.PagerAdapter
 import com.example.minstalesapp.Model.Story
 import com.example.minstalesapp.R
 import com.example.minstalesapp.game.GameActivity
-import java.net.URL
-import kotlin.concurrent.thread
 
 class PagerAdapterMainActivity(private val mContext: Context, private val storyList: ArrayList<Story>) : PagerAdapter() {
 
@@ -24,20 +22,20 @@ class PagerAdapterMainActivity(private val mContext: Context, private val storyL
         inflater = LayoutInflater.from(mContext)
         val view = inflater.inflate(R.layout.fragment_activity_main, container, false)
 
-        var cardTitle : TextView = view.findViewById(R.id.cardStoryTitle)
+        var cardTitle: TextView = view.findViewById(R.id.cardStoryTitle)
         cardTitle.text = storyList[position].title
 
-        var cardSynopsis : TextView = view.findViewById(R.id.cardStorySynopsis)
+        var cardSynopsis: TextView = view.findViewById(R.id.cardStorySynopsis)
         cardSynopsis.text = storyList[position].description
 
-        var cardDuration : TextView = view.findViewById(R.id.cardStoryDuration)
+        var cardDuration: TextView = view.findViewById(R.id.cardStoryDuration)
         cardDuration.text = "~ 20 min"
 
-        var cardIcon : ImageView = view.findViewById(R.id.cardStoryPicture)
+        var cardIcon: ImageView = view.findViewById(R.id.cardStoryPicture)
         var bitmapImage: Bitmap? = BitmapFactory.decodeFile(storyList[position].url_icon)
         cardIcon.setImageBitmap(bitmapImage)
 
-        val playButton : ImageView = view.findViewById(R.id.cardStoryPlayButton)
+        val playButton: ImageView = view.findViewById(R.id.cardStoryPlayButton)
         playButton.setOnClickListener {
             val intent = Intent(mContext, GameActivity::class.java)
             intent.putExtra("audioId", storyList[position].url_folder)
