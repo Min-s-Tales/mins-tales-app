@@ -5,7 +5,9 @@ import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
 import android.nfc.Tag
+import android.opengl.Visibility
 import android.util.Log
+import android.view.View
 import java.io.File
 import java.io.IOException
 import java.util.*
@@ -114,7 +116,7 @@ class SoundManager() {
             sound.setVolume(0.5f, 0.5f)
             if (out == Outputs.NARRATOR.toString().lowercase()) {
                 sound.setOnCompletionListener {
-                    activity.binding.record.isEnabled = true
+                    activity.binding.record.visibility = View.VISIBLE
                 }
             }
             return sound

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="put_headphones">Nous vous conseillons de mettre un casque audio afin de profiter pleinement de l\'expérience</string>
     <string name="play">Jouer</string>
     <string name="marketplace">Marketplace</string>
     <string name="settings">Paramètres</string>
@@ -22,4 +23,5 @@
     <string name="confirm_password">Confirmez votre mot de passe</string>
     <string name="forgot_password"><u>Mot de passe oublié ?</u></string>
     <string name="user_name">Nom d\'utilisateur</string>
+    <string name="record">Enregistrer</string>
 </resources>

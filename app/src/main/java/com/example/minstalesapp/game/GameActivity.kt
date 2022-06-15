@@ -36,7 +36,6 @@ class GameActivity : AppCompatActivity() {
         soundManager.init()
         gsonManager.init(jsonURI)
 
-        binding.record.isEnabled = false
         binding.audioTitle.text = gameTitle
 
         test(jsonPath)
@@ -92,8 +91,20 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        soundManager.stopAll()
+        //noter dans le Json de l'histoire le chapitre en lecture et le temps exact
+    }
+
+    override fun onResume() {
+        super.onResume()
+        //reprendre l'histoire exactement là où le user s'est arrêté
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         soundManager.stopAll()
+        //noter dans le Json de l'histoire le chapitre en lecture
     }
 }
