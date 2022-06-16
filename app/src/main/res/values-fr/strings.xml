@@ -24,4 +24,6 @@
     <string name="forgot_password"><u>Mot de passe oublié ?</u></string>
     <string name="user_name">Nom d\'utilisateur</string>
     <string name="record">Enregistrer</string>
+    <string name="outdated_android_version">Votre version de Android est trop ancienne.</string>
+    <string name="pronounce_action">Prononcez vos actions</string>
 </resources>

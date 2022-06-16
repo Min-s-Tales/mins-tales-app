@@ -1,14 +1,6 @@
 package com.example.minstalesapp.game
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.speech.RecognizerIntent
 import android.util.Log
-import android.view.View
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.lifecycle.ViewModel
 
 sealed class GameActivityViewModelState(
@@ -46,5 +38,9 @@ class GameActivityViewModel : ViewModel() {
             }
         }
         return commonWords.size == neededWords.size
+    }
+
+    fun saveGame(step: String) {
+        //save = step
     }
 }

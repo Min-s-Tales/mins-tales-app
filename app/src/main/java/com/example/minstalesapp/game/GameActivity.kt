@@ -4,13 +4,12 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.speech.RecognizerIntent
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.example.minstalesapp.R
 import com.example.minstalesapp.databinding.ActivityGameBinding
-import java.util.regex.Pattern
 
 class GameActivity : AppCompatActivity() {
 
@@ -32,13 +31,17 @@ class GameActivity : AppCompatActivity() {
         val view = binding.root
         gameTitle = intent.getStringExtra("title")!!.lowercase().replace(" ", "_").replace("é", "e").replace("è", "e").replace("à", "a")
         jsonURI = Uri.parse(getExternalFilesDir("Tales")!!.path + "/" + gameTitle + "/assets/config.json")
+        val extraJsonPath = intent.getStringExtra("starter");
+        if (extraJsonPath != null) {
+            jsonPath = extraJsonPath
+        }
         setContentView(view)
         soundManager.init()
         gsonManager.init(jsonURI)
 
         binding.audioTitle.text = gameTitle
 
-        test(jsonPath)
+        nextStep(jsonPath)
 
         val launcher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
@@ -50,7 +53,8 @@ class GameActivity : AppCompatActivity() {
                 for ((key, value) in answersMap) {
                     val array = value.split(" ").toTypedArray().toCollection(ArrayList())
                     if (model.checkAllNeededWordsSpoken(array, text)) {
-                        test(key)
+                        nextStep(key)
+                        model.saveGame(key)
                         break
                     }
                 }
@@ -64,7 +68,7 @@ class GameActivity : AppCompatActivity() {
                     RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                     RecognizerIntent.LANGUAGE_MODEL_FREE_FORM,
                 )
-                intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "$TAG Start speaking")
+                intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.pronounce_action))
                 intent.putExtra(
                     RecognizerIntent.EXTRA_CALLING_PACKAGE,
                     this.packageName
@@ -74,13 +78,13 @@ class GameActivity : AppCompatActivity() {
                     launcher.launch(intent)
                 } catch (e: java.lang.Exception) {
                     // e.printStackTrace()
-                    Toast.makeText(this, "Android version too old.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.outdated_android_version), Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
 
-    private fun test(path: String) {
+    private fun nextStep(path: String) {
         answersMap = gsonManager.gsonCheckActionPath(path)
         soundManager.stopAll()
         for ((output, map) in gsonManager.gsonStartSound(this, gameTitle, path)) {

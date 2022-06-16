@@ -25,4 +25,6 @@
     <string name="forgot_password"><u>Forgot password ?</u></string>
     <string name="user_name">User name</string>
     <string name="record">Record</string>
+    <string name="outdated_android_version">Your android version is too old.</string>
+    <string name="pronounce_action">Pronounce your actions</string>
 </resources>
