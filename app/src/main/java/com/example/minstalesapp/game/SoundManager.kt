@@ -105,8 +105,6 @@ class SoundManager() {
 
                 val soundURI =
                     Uri.parse(activity.getExternalFilesDir("Tales")!!.path + "/$gameTitle/assets/sounds/$titlePath")
-
-                Log.i(TAG, "prepareAudio: $soundURI")
                 activity.binding.audioTitle.text = File(soundURI.toString()).name
                 setDataSource(activity.applicationContext, soundURI)
                 prepare()
@@ -121,7 +119,10 @@ class SoundManager() {
             }
             return sound
         } catch (e: IOException) {
-            Log.e(TAG,  "Unavailable file.")
+            Log.e(TAG,  "Unavailable file : $titlePath, unlocking the record button.")
+            if (out == Outputs.NARRATOR.toString().lowercase()) {
+                activity.binding.record.visibility = View.VISIBLE
+            }
         }
         return null
     }

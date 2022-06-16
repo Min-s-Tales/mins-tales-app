@@ -1,7 +1,9 @@
 package com.example.minstalesapp.game
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.example.minstalesapp.Stringifier
 
 sealed class GameActivityViewModelState(
     open val recordingMessage: String = "You are now recording",
@@ -40,7 +42,7 @@ class GameActivityViewModel : ViewModel() {
         return commonWords.size == neededWords.size
     }
 
-    fun saveGame(step: String) {
-        //save = step
+    fun saveGame(jsonURI : Uri, step: String) {
+        Stringifier().setStringToFile(jsonURI, step)
     }
 }

@@ -1,5 +1,6 @@
 package com.example.minstalesapp
 
+import android.net.Uri
 import java.io.*
 
 class Stringifier {
@@ -24,5 +25,9 @@ class Stringifier {
         // Make sure you close all streams.
         fin.close()
         return ret
+    }
+
+    @Throws(Exception::class)
+    fun setStringToFile(fileUri: Uri, value: String) {
     }
 }

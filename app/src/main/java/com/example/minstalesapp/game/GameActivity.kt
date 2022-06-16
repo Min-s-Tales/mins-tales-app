@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.speech.RecognizerIntent
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -15,13 +16,18 @@ class GameActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityGameBinding
     val soundManager = SoundManager()
-    val gsonManager = GsonManager()
+    val dataGsonManager = GsonManager()
+    val configGsonManager = GsonManager()
 
     private val TAG = "[GameActivity]"
     private val model: GameActivityViewModel by viewModels()
     var text = ""
     var gameTitle = ""
-    private lateinit var jsonURI : Uri
+
+    private lateinit var taleURI : Uri
+    private lateinit var dataURI : Uri
+    private lateinit var configURI : Uri
+
     private var jsonPath = "start"
     private lateinit var answersMap : HashMap<String, String>
 
@@ -30,14 +36,19 @@ class GameActivity : AppCompatActivity() {
         binding = ActivityGameBinding.inflate(layoutInflater)
         val view = binding.root
         gameTitle = intent.getStringExtra("title")!!.lowercase().replace(" ", "_").replace("é", "e").replace("è", "e").replace("à", "a")
-        jsonURI = Uri.parse(getExternalFilesDir("Tales")!!.path + "/" + gameTitle + "/assets/config.json")
-        val extraJsonPath = intent.getStringExtra("starter");
-        if (extraJsonPath != null) {
-            jsonPath = extraJsonPath
+
+        taleURI = Uri.parse(getExternalFilesDir("Tales")!!.path + "/" + gameTitle + "/")
+        dataURI =  Uri.parse(taleURI.toString() + "data.json")
+        configURI =  Uri.parse(taleURI.toString() + "assets/config.json")
+
+        dataGsonManager.init(dataURI)
+        val saveString = dataGsonManager.gsonGetSave()
+        if (saveString != null) {
+            jsonPath = saveString.toString()
         }
         setContentView(view)
         soundManager.init()
-        gsonManager.init(jsonURI)
+        configGsonManager.init(configURI)
 
         binding.audioTitle.text = gameTitle
 
@@ -54,7 +65,7 @@ class GameActivity : AppCompatActivity() {
                     val array = value.split(" ").toTypedArray().toCollection(ArrayList())
                     if (model.checkAllNeededWordsSpoken(array, text)) {
                         nextStep(key)
-                        model.saveGame(key)
+                        //model.saveGame(configURI, key)
                         break
                     }
                 }
@@ -85,9 +96,9 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun nextStep(path: String) {
-        answersMap = gsonManager.gsonCheckActionPath(path)
+        answersMap = configGsonManager.gsonCheckActionPath(path)
         soundManager.stopAll()
-        for ((output, map) in gsonManager.gsonStartSound(this, gameTitle, path)) {
+        for ((output, map) in configGsonManager.gsonStartSound(this, gameTitle, path)) {
             for ((title, sound) in map) {
                 soundManager.outputSounds[output]?.addSound(title, sound)
                 soundManager.outputSounds[output]?.playSound(sound)

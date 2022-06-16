@@ -20,7 +20,6 @@ class GsonManager() {
     }
 
     fun gsonChecker(path: String): JSONObject? {
-        //Log.i(TAG, "gsonChecker: $stringJson")
         try {
             val obj = JSONObject(stringJson)
             val m_jArry: JSONObject = obj.getJSONObject(path)
@@ -32,6 +31,18 @@ class GsonManager() {
         return null
     }
 
+    fun gsonGetSave(): String? {
+        var value: String? = null
+        try {
+            val obj = JSONObject(stringJson)
+            if (obj.has("save")) {
+                value = obj.getString("save")
+            }
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+        return value
+    }
     /**
      * Get the infos of config.json, at "start" object then prepare and returns the sounds stocked in it
      */
