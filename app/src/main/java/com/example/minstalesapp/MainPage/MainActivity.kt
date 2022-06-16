@@ -2,6 +2,9 @@ package com.example.minstalesapp.MainPage
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Environment
+import android.os.Environment.getExternalStorageDirectory
+import android.os.Environment.getExternalStoragePublicDirectory
 import android.os.Handler
 import android.util.Log
 import android.view.View
@@ -98,8 +101,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val folder = getExternalFilesDir("Tales")
-        val files = folder!!.listFiles()
+        val talesFolder = getExternalFilesDir("Tales")
+        val files = talesFolder?.listFiles()
         for (taleDirectory in files!!) {
             if (taleDirectory.isDirectory) {
                 val dataFile = File("${taleDirectory.path}/data.json")

@@ -1,5 +1,6 @@
 package com.example.minstalesapp.game
 
+import android.R.attr.path
 import android.media.MediaPlayer
 import android.net.Uri
 import android.util.Log
@@ -8,6 +9,9 @@ import com.example.minstalesapp.Stringifier
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.File
+import java.io.FileWriter
+import java.io.PrintWriter
+
 
 class GsonManager() {
     private val TAG = "[GsonManager]"
@@ -32,16 +36,34 @@ class GsonManager() {
     }
 
     fun gsonGetSave(): String? {
-        var value: String? = null
         try {
             val obj = JSONObject(stringJson)
             if (obj.has("save")) {
-                value = obj.getString("save")
+                return obj.getString("save")
             }
         } catch (e: JSONException) {
             e.printStackTrace()
         }
-        return value
+        return null
+    }
+
+    fun gsonSetSave(value: String?) : Boolean {
+        val out = PrintWriter(FileWriter(file.path))
+        try {
+            val obj = JSONObject(stringJson)
+            obj.put("save", value)
+
+            Log.i(TAG, obj.toString())
+
+            out.write(obj.toString()) //CORRUPTS DATA.JSON
+            //Log.i(TAG, out.toString())
+            return true
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        } finally {
+            out.close()
+        }
+        return false
     }
     /**
      * Get the infos of config.json, at "start" object then prepare and returns the sounds stocked in it

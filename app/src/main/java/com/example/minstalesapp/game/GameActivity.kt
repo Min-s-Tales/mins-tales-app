@@ -3,12 +3,14 @@ package com.example.minstalesapp.game
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment.getExternalStorageDirectory
 import android.speech.RecognizerIntent
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.motion.widget.Debug
 import com.example.minstalesapp.R
 import com.example.minstalesapp.databinding.ActivityGameBinding
 
@@ -36,8 +38,7 @@ class GameActivity : AppCompatActivity() {
         binding = ActivityGameBinding.inflate(layoutInflater)
         val view = binding.root
         gameTitle = intent.getStringExtra("title")!!.lowercase().replace(" ", "_").replace("é", "e").replace("è", "e").replace("à", "a")
-
-        taleURI = Uri.parse(getExternalFilesDir("Tales")!!.path + "/" + gameTitle + "/")
+        taleURI = Uri.parse("${getExternalStorageDirectory()!!.path}/Android/data/com.example.minstalesapp/files/Tales/$gameTitle/")
         dataURI =  Uri.parse(taleURI.toString() + "data.json")
         configURI =  Uri.parse(taleURI.toString() + "assets/config.json")
 
@@ -64,6 +65,8 @@ class GameActivity : AppCompatActivity() {
                 for ((key, value) in answersMap) {
                     val array = value.split(" ").toTypedArray().toCollection(ArrayList())
                     if (model.checkAllNeededWordsSpoken(array, text)) {
+                        val result = dataGsonManager.gsonSetSave(key)
+                        Log.i(TAG, "Save is $result")
                         nextStep(key)
                         //model.saveGame(configURI, key)
                         break
@@ -108,7 +111,7 @@ class GameActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        soundManager.stopAll()
+        //soundManager.stopAll()
         //noter dans le Json de l'histoire le chapitre en lecture et le temps exact
     }
 
