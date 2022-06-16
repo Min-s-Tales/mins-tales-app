@@ -1,8 +1,11 @@
 package com.example.minstalesapp
 
+import android.util.Log
 import java.io.*
 import java.util.zip.ZipEntry
+import java.util.zip.ZipFile
 import java.util.zip.ZipInputStream
+import javax.security.auth.login.LoginException
 
 class DecompressFast() {
 
@@ -10,42 +13,38 @@ class DecompressFast() {
         fun Progress(percent: Int, FileName: String?)
     }
 
-    // unzip(new File("/sdcard/pictures.zip"), new File("/sdcard"));
-    // @Throws(IOException::class, FileNotFoundException::class)
-    fun UnzipFile(zipFile: File, targetDirectory: File?, progress: UnzipFile_Progress?) {
-        val total_len = zipFile.length()
-        var total_installed_len: Long = 0
-        val zis = ZipInputStream(BufferedInputStream(FileInputStream(zipFile)))
-        try {
-            var ze: ZipEntry
-            var count: Int
-            val buffer = ByteArray(1024)
-            while (zis.nextEntry.also { ze = it } != null) {
-                if (progress != null) {
-                    total_installed_len += ze.compressedSize
-                    val file_name = ze.name
-                    val percent = (total_installed_len * 100 / total_len).toInt()
-                    progress.Progress(percent, file_name)
-                }
-                val file = File(targetDirectory, ze.name)
-                val dir = if (ze.isDirectory) file else file.parentFile
-                if (!dir.isDirectory && !dir.mkdirs()) throw FileNotFoundException("Failed to ensure directory: " + dir.absolutePath)
-                if (ze.isDirectory) continue
-                val fout = FileOutputStream(file)
-                try {
-                    while (zis.read(buffer).also { count = it } != -1) fout.write(buffer, 0, count)
-                } finally {
-                    fout.close()
-                }
+    data class ZipIO (val entry: ZipEntry, val output: File)
 
-                // if time should be restored as well
-                val time = ze.time
-                if (time > 0) file.setLastModified(time)
-            }
-        } catch (exception: Exception) {
-            exception.printStackTrace()
-        } finally {
-            zis.close()
+    fun File.unzip(unzipLocationRoot: File? = null) {
+
+        val rootFolder = unzipLocationRoot ?: File(parentFile.absolutePath + File.separator + nameWithoutExtension)
+        if (!rootFolder.exists()) {
+            rootFolder.mkdirs()
         }
+
+        ZipFile(this).use { zip ->
+            zip
+                .entries()
+                .asSequence()
+                .map {
+                    val outputFile = File(rootFolder.absolutePath + File.separator + it.name)
+                    ZipIO(it, outputFile)
+                }
+                .map {
+                    it.output.parentFile?.run{
+                        if (!exists()) mkdirs()
+                    }
+                    it
+                }
+                .filter { !it.entry.isDirectory }
+                .forEach { (entry, output) ->
+                    zip.getInputStream(entry).use { input ->
+                        output.outputStream().use { output ->
+                            input.copyTo(output)
+                        }
+                    }
+                }
+        }
+
     }
 }

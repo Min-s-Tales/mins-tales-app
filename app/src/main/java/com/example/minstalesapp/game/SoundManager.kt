@@ -74,6 +74,18 @@ class SoundManager() {
     }
 
     /**
+     * Pause every sounds from list
+     */
+    fun pauseAll() {
+        for ((key, outputSoundManager) in outputSounds) {
+            for ((key, sound) in outputSoundManager.sounds) {
+                outputSoundManager.stopSound(sound)
+                outputSoundManager.removeSound(key)
+            }
+        }
+    }
+
+    /**
      * Stops and remove every sounds from list
      */
     fun stopAll() {
