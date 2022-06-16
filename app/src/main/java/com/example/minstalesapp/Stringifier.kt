@@ -29,5 +29,6 @@ class Stringifier {
 
     @Throws(Exception::class)
     fun setStringToFile(fileUri: Uri, value: String) {
+        //Will add the String step to data.json
     }
 }
