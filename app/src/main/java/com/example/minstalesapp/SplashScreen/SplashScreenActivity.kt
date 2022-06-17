@@ -1,6 +1,7 @@
 package com.example.minstalesapp.SplashScreen
 
 import android.app.DownloadManager
+import android.app.DownloadManager.Request.VISIBILITY_HIDDEN
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -25,8 +26,9 @@ class SplashScreenActivity : AppCompatActivity() {
     private lateinit var binding : ActivitySplashScreenBinding
 
 
+    val TAG = "DOWNLOAD"
     private var storyID = 0L
-    var gameTitle = "Explorers_Of_Sky"
+    lateinit var gameTitle: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +44,6 @@ class SplashScreenActivity : AppCompatActivity() {
     }
 
     private fun download() {
-        val TAG = "DOWNLOAD"
         val url = "https://steelroad.fr/minstales/exploiteurs_du_ciel.zip"
 
         this.registerReceiver(attachmentDownloadCompleteReceive, IntentFilter(
@@ -54,9 +55,11 @@ class SplashScreenActivity : AppCompatActivity() {
             gameTitle = URLUtil.guessFileName(url, null, null)
 
             request.setTitle(gameTitle)
-            request.setDescription("Download File from URL, please wait...")
+            request.setDescription("Downloading story, please wait")
+            request.setNotificationVisibility(VISIBILITY_HIDDEN)
             try {
                 val zipFile = File(this.getExternalFilesDir("Tales")!!.path + "/" + gameTitle)
+
                 Log.v(TAG, "download existing: $zipFile.path")
                 zipFile.delete()
             } catch (exeption: Exception) {
@@ -65,7 +68,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
             val cookie = CookieManager.getInstance().getCookie(url)
             request.addRequestHeader("cookie", cookie)
-            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            //request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
             request.setDestinationInExternalFilesDir(this, "Tales", gameTitle)
 
             val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
@@ -95,15 +98,12 @@ class SplashScreenActivity : AppCompatActivity() {
                 val zipFile = File(context.getExternalFilesDir("Tales"), gameTitle)
                 Toast.makeText(context, "Download done $downloadId", Toast.LENGTH_SHORT).show()
 
-                //ZipManager.unzip(zipFile.parentFile?.path, zipFile.path)
-
-
-                //DecompressFast(zipFile.path, context.getExternalFilesDir("Tales")!!.path + "/" + title.replace(".zip", "/")).unzip()
-                //unpackZip(context.getExternalFilesDir("Tales")!!.path + "/" + title, title)
-                //zipFile.delete()
-
-                //openDownloadedAttachment(context, downloadId)
+                File(getExternalFilesDir("Tales"), gameTitle.replace(".zip", "")).mkdir()
+                val unzipUtil = UnzipUtil(zipFile.path, zipFile.absolutePath.replace(".zip", "/"))
+                unzipUtil.unzip()
             }
         }
     }
+
+
 }
