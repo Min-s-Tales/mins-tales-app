@@ -101,6 +101,7 @@ class SplashScreenActivity : AppCompatActivity() {
                 File(getExternalFilesDir("Tales"), gameTitle.replace(".zip", "")).mkdir()
                 val unzipUtil = UnzipUtil(zipFile.path, zipFile.absolutePath.replace(".zip", "/"))
                 unzipUtil.unzip()
+                zipFile.delete()
             }
         }
     }
