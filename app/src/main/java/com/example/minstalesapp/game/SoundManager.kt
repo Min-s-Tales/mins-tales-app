@@ -117,7 +117,7 @@ class SoundManager() {
 
                 val soundURI =
                     Uri.parse("${activity.getExternalFilesDir("Tales")!!.path}/$gameTitle/assets/sounds/$titlePath")
-                activity.binding.audioTitle.text = File(soundURI.toString()).name
+                //activity.binding.audioTitle.text = File(soundURI.toString()).name
                 setDataSource(activity.applicationContext, soundURI)
                 prepare()
                 start()

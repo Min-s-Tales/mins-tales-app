@@ -71,8 +71,8 @@ class SplashScreenActivity : AppCompatActivity() {
             //request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
             request.setDestinationInExternalFilesDir(this, "Tales", gameTitle)
 
-            val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
-            storyID = downloadManager.enqueue(request)
+            // val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
+            //  storyID = downloadManager.enqueue(request)
 
             Toast.makeText(this, "Download start", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
