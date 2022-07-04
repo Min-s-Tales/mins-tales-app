@@ -11,7 +11,6 @@ object ApiHelper {
         "http://10.0.2.2:8000/"
 
     fun getInstance(): Retrofit {
-        Log.i("ERROR COUCOU", "ntm")
         return Retrofit.Builder().baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

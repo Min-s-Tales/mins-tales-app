@@ -11,6 +11,7 @@
     <color name="dark_grey">#FF333333</color>
     <color name="darker_grey">#FF101010</color>
     <color name="main_yellow">#FFFDAF01</color>
+    <color name="darker_yellow">#FFa87400</color>
     <color name="main_blue">#FF6D82E1</color>
     <color name="light_main_blue">#FF8b9be1</color>
     <color name="red_disconnect">#9D3131</color>

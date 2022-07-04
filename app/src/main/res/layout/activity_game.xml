@@ -10,11 +10,11 @@
 
     <TextView
         android:id="@+id/audioTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/refreshButton"
+        app:layout_constraintEnd_toStartOf="@id/hintButton"
         android:layout_marginTop="30dp"
         android:paddingHorizontal="30dp"
         android:text="title"
@@ -77,6 +77,26 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:paddingHorizontal="50dp"
         android:background="@drawable/yellow_rounded_border_shape"
+        android:visibility="invisible"/>
+
+    <ImageView
+        android:id="@+id/refreshButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/audioTitle"
+        android:layout_marginStart="30dp"
+        android:src="@mipmap/refresh"
+        android:visibility="invisible"/>
+
+    <ImageView
+        android:id="@+id/hintButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/audioTitle"
+        android:layout_marginEnd="30dp"
+        android:src="@mipmap/lightbulb"
         android:visibility="invisible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
