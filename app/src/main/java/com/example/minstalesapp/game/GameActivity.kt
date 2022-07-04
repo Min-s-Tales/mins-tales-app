@@ -37,7 +37,7 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityGameBinding.inflate(layoutInflater)
         val view = binding.root
-        gameTitle = intent.getStringExtra("title")!!.lowercase().replace(" ", "_").replace("é", "e").replace("è", "e").replace("à", "a")
+        gameTitle = intent.getStringExtra("title")!!
         taleURI = Uri.parse("${getExternalStorageDirectory()!!.path}/Android/data/com.example.minstalesapp/files/Tales/$gameTitle/")
         dataURI =  Uri.parse(taleURI.toString() + "data.json")
         configURI =  Uri.parse(taleURI.toString() + "assets/config.json")
@@ -47,11 +47,13 @@ class GameActivity : AppCompatActivity() {
         if (saveString != null) {
             jsonPath = saveString.toString()
         }
+
         setContentView(view)
         soundManager.init()
         configGsonManager.init(configURI)
 
-        binding.audioTitle.text = gameTitle
+
+        binding.audioTitle.text = gameTitle.replace("_", " ")
 
         nextStep(jsonPath)
 

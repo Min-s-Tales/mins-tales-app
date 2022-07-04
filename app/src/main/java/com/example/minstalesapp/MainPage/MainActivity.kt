@@ -14,6 +14,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.minstalesapp.Model.Story
 import com.example.minstalesapp.Profile.ConnexionActivity
+import com.example.minstalesapp.Profile.ProfileActivity
 import com.example.minstalesapp.R
 import com.example.minstalesapp.databinding.ActivityMainBinding
 import com.example.minstalesapp.game.GsonManager
@@ -124,7 +125,7 @@ class MainActivity : AppCompatActivity() {
         // binding.marketStoriesContainer.adapter = ListAdapterStoryTypeMarketPlace(this, listOfStoryTypes)
 
         binding.headerProfileIcon.setOnClickListener {
-            val intent = Intent(this, ConnexionActivity::class.java)
+            val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
         }
     }

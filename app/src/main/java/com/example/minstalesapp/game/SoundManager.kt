@@ -127,6 +127,8 @@ class SoundManager() {
             if (out == Outputs.NARRATOR.toString().lowercase()) {
                 sound.setOnCompletionListener {
                     activity.binding.record.visibility = View.VISIBLE
+                    activity.binding.refreshButton.visibility = View.VISIBLE
+                    activity.binding.hintButton.visibility = View.VISIBLE
                 }
             }
             return sound
