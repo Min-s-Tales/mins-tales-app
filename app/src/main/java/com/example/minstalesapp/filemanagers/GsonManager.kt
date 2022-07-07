@@ -1,11 +1,13 @@
-package com.example.minstalesapp.game
+package com.example.minstalesapp.filemanagers
 
-import android.R.attr.path
 import android.media.MediaPlayer
 import android.net.Uri
 import android.util.Log
 import com.example.minstalesapp.Model.Story
 import com.example.minstalesapp.Stringifier
+import com.example.minstalesapp.game.GameActivity
+import com.example.minstalesapp.game.Outputs
+import com.example.minstalesapp.game.SoundManager
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.File

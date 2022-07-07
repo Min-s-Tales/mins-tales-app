@@ -2,9 +2,6 @@ package com.example.minstalesapp.MainPage
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Environment
-import android.os.Environment.getExternalStorageDirectory
-import android.os.Environment.getExternalStoragePublicDirectory
 import android.os.Handler
 import android.util.Log
 import android.view.View
@@ -13,11 +10,11 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.minstalesapp.Model.Story
-import com.example.minstalesapp.Profile.ConnexionActivity
 import com.example.minstalesapp.Profile.ProfileActivity
 import com.example.minstalesapp.R
 import com.example.minstalesapp.databinding.ActivityMainBinding
-import com.example.minstalesapp.game.GsonManager
+import com.example.minstalesapp.filemanagers.ConfigManager
+import com.example.minstalesapp.filemanagers.GsonManager
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
@@ -32,8 +29,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val queue = Volley.newRequestQueue(this)
+        ConfigManager
 
+        val queue = Volley.newRequestQueue(this)
         binding.toggleSwitchButton.check(R.id.stories_toggle_button)
 
         binding.toggleSwitchButton.setOnCheckedChangeListener { _, optionId ->

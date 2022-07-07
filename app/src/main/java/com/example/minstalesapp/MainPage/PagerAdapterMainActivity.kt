@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,10 +17,9 @@ import androidx.viewpager.widget.PagerAdapter
 import com.example.minstalesapp.Model.Story
 import com.example.minstalesapp.R
 import com.example.minstalesapp.game.GameActivity
-import com.example.minstalesapp.game.GsonManager
+import com.example.minstalesapp.filemanagers.GsonManager
 
 class PagerAdapterMainActivity(private val mContext: Context, private val storyList: ArrayList<Story>) : PagerAdapter() {
-
     lateinit var inflater: LayoutInflater
 
     val dataGsonManager = GsonManager()
@@ -37,15 +37,13 @@ class PagerAdapterMainActivity(private val mContext: Context, private val storyL
         val view = inflater.inflate(R.layout.fragment_activity_main, container, false)
 
         val continueButton: Button = view.findViewById(R.id.continueStoryButton)
-        continueButton.isEnabled = false
-        if (saveString != null) {
-            continueButton.isEnabled = true
-        }
+        continueButton.isEnabled = saveString != null
 
         continueButton.setOnClickListener {
             val intent = Intent(mContext, GameActivity::class.java)
             intent.putExtra("audioId", storyList[position].url_folder)
             intent.putExtra("title", neutralizedGameTitle)
+            intent.putExtra("continue", true)
             view.context.startActivity(intent)
         }
 
@@ -57,6 +55,7 @@ class PagerAdapterMainActivity(private val mContext: Context, private val storyL
 
         //var cardDuration: TextView = view.findViewById(R.id.cardStoryDuration)
         //cardDuration.text = "~ 20 min"
+
 
         val cardIcon: ImageView = view.findViewById(R.id.cardStoryPicture)
         val bitmapImage: Bitmap? = BitmapFactory.decodeFile(storyList[position].url_icon)

@@ -10,9 +10,10 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.motion.widget.Debug
 import com.example.minstalesapp.R
 import com.example.minstalesapp.databinding.ActivityGameBinding
+import com.example.minstalesapp.filemanagers.ConfigManager
+import com.example.minstalesapp.filemanagers.GsonManager
 
 class GameActivity : AppCompatActivity() {
 
@@ -41,10 +42,11 @@ class GameActivity : AppCompatActivity() {
         taleURI = Uri.parse("${getExternalStorageDirectory()!!.path}/Android/data/com.example.minstalesapp/files/Tales/$gameTitle/")
         dataURI =  Uri.parse(taleURI.toString() + "data.json")
         configURI =  Uri.parse(taleURI.toString() + "assets/config.json")
+        ConfigManager
 
         dataGsonManager.init(dataURI)
         val saveString = dataGsonManager.gsonGetSave()
-        if (saveString != null) {
+        if (intent.getBooleanExtra("continue", false) && saveString != null) {
             jsonPath = saveString.toString()
         }
 
@@ -98,6 +100,20 @@ class GameActivity : AppCompatActivity() {
                 }
             }
         }
+
+        binding.refreshButton.setOnClickListener {
+            run {
+                nextStep(jsonPath)
+            }
+        }
+
+        binding.hintButton.setOnClickListener {
+            run {
+
+            }
+        }
+
+
     }
 
     private fun nextStep(path: String) {
