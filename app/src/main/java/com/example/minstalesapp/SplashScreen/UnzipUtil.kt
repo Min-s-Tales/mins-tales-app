@@ -13,7 +13,7 @@ class UnzipUtil(private val zipFile: String, private val location: String) {
         try {
             val fin = FileInputStream(zipFile)
             val zin = ZipInputStream(fin)
-            var ze: ZipEntry? = null
+            var ze: ZipEntry?
             while (zin.nextEntry.also { ze = it } != null) {
                 Log.v("Decompress", "Unzipping " + ze!!.name)
                 if (ze!!.isDirectory) {

@@ -37,7 +37,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
         Handler().postDelayed(Runnable {
             val intent = Intent(this, MainActivity::class.java)
-            download()
+            //download()
             startActivity(intent)
             this.finish()
         }, 3000)
