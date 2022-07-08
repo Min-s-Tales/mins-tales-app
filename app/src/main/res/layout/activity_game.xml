@@ -99,4 +99,14 @@
         android:src="@mipmap/lightbulb"
         android:visibility="invisible"/>
 
+    <TextView
+        android:id="@+id/hintsTextView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visible="false"
+        app:layout_constraintBottom_toBottomOf="@+id/headsetIcon"
+        app:layout_constraintEnd_toEndOf="@+id/headsetIcon"
+        app:layout_constraintStart_toStartOf="@+id/headsetIcon"
+        app:layout_constraintTop_toTopOf="@+id/headsetIcon" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

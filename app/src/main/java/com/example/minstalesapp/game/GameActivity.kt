@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.os.Environment.getExternalStorageDirectory
 import android.speech.RecognizerIntent
 import android.util.Log
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -109,7 +111,13 @@ class GameActivity : AppCompatActivity() {
 
         binding.hintButton.setOnClickListener {
             run {
-
+                if (binding.hintsTextView.visibility == VISIBLE) {
+                    binding.hintsTextView.visibility = INVISIBLE
+                    binding.headsetIcon.visibility = VISIBLE
+                } else {
+                    binding.hintsTextView.visibility = VISIBLE
+                    binding.headsetIcon.visibility = INVISIBLE
+                }
             }
         }
 
@@ -117,7 +125,17 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun nextStep(path: String) {
+        var hints = ""
+
+        binding.hintsTextView.visibility = INVISIBLE
+        binding.headsetIcon.visibility = VISIBLE
         answersMap = configGsonManager.gsonCheckActionPath(path)
+
+        for ((key, value) in answersMap) {
+            hints += "$key : $value\n"
+        }
+
+        binding.hintsTextView.text = hints
         soundManager.stopAll()
         for ((output, map) in configGsonManager.gsonStartSound(this, gameTitle, path)) {
             for ((title, sound) in map) {
