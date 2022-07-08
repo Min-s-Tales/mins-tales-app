@@ -1,13 +1,19 @@
-package com.example.minstalesapp.game
+package com.example.minstalesapp.filemanagers
 
 import android.media.MediaPlayer
 import android.net.Uri
 import android.util.Log
 import com.example.minstalesapp.Model.Story
 import com.example.minstalesapp.Stringifier
+import com.example.minstalesapp.game.GameActivity
+import com.example.minstalesapp.game.Outputs
+import com.example.minstalesapp.game.SoundManager
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.File
+import java.io.FileWriter
+import java.io.PrintWriter
+
 
 class GsonManager() {
     private val TAG = "[GsonManager]"
@@ -20,7 +26,6 @@ class GsonManager() {
     }
 
     fun gsonChecker(path: String): JSONObject? {
-        //Log.i(TAG, "gsonChecker: $stringJson")
         try {
             val obj = JSONObject(stringJson)
             val m_jArry: JSONObject = obj.getJSONObject(path)
@@ -32,6 +37,67 @@ class GsonManager() {
         return null
     }
 
+    fun gsonGetSave(): String? {
+        try {
+            val obj = JSONObject(stringJson)
+            if (obj.has("save")) {
+                return obj.getString("save")
+            }
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+        return null
+    }
+
+    fun gsonGetOption(option: String): String? {
+        try {
+            val obj = JSONObject(stringJson)
+            if (obj.has(option)) {
+                return obj.getString(option)
+            }
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+        return null
+    }
+
+    fun gsonSetSave(value: String?) : Boolean {
+        val out = PrintWriter(FileWriter(file.path))
+        try {
+            val obj = JSONObject(stringJson)
+            obj.put("save", value)
+
+            Log.i(TAG, obj.toString())
+
+            out.write(obj.toString()) //CORRUPTS DATA.JSON
+            //Log.i(TAG, out.toString())
+            return true
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        } finally {
+            out.close()
+        }
+        return false
+    }
+
+    fun gsonSetOption(option: String?, value: String?) : Boolean {
+        val out = PrintWriter(FileWriter(file.path))
+        try {
+            val obj = JSONObject(stringJson)
+            obj.put(option, value)
+
+            Log.i(TAG, obj.toString())
+
+            out.write(obj.toString()) //CORRUPTS DATA.JSON
+            //Log.i(TAG, out.toString())
+            return true
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        } finally {
+            out.close()
+        }
+        return false
+    }
     /**
      * Get the infos of config.json, at "start" object then prepare and returns the sounds stocked in it
      */

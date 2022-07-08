@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="put_headphones">Nous vous conseillons de mettre un casque audio afin de profiter pleinement de l\'expérience</string>
     <string name="play">Jouer</string>
     <string name="marketplace">Marketplace</string>
     <string name="settings">Paramètres</string>
@@ -13,13 +14,18 @@
     <string name="stories">LIBRAIRIE</string>
     <string name="marketplace_maj">BOUTIQUE</string>
     <string name="sound_settings">Paramètres sonore</string>
-    <string name="app_language">Language de l\'application</string>
-    <string name="disconnect">Déconnection</string>
-    <string name="modify_profile">Modifier son profile</string>
+    <string name="app_language">Langage de l\'application</string>
+    <string name="disconnect">Déconnexion</string>
+    <string name="modify_profile">Modifier son profil</string>
     <string name="register_later"><u>Se connecter plus tard</u></string>
     <string name="email">Email</string>
     <string name="password">Mot de passe</string>
     <string name="confirm_password">Confirmez votre mot de passe</string>
     <string name="forgot_password"><u>Mot de passe oublié ?</u></string>
     <string name="user_name">Nom d\'utilisateur</string>
+    <string name="record">Enregistrer</string>
+    <string name="outdated_android_version">Votre version de Android est trop ancienne.</string>
+    <string name="pronounce_action">Prononcez vos actions</string>
+    <string name="continue_story">Continuer</string>
+    <string name="start_story">Commencer</string>
 </resources>

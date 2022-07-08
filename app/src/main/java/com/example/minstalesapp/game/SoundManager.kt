@@ -5,7 +5,10 @@ import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
 import android.nfc.Tag
+import android.opengl.Visibility
 import android.util.Log
+import android.view.View
+import com.example.minstalesapp.filemanagers.ConfigManager
 import java.io.File
 import java.io.IOException
 import java.util.*
@@ -72,6 +75,18 @@ class SoundManager() {
     }
 
     /**
+     * Pause every sounds from list
+     */
+    fun pauseAll() {
+        for ((key, outputSoundManager) in outputSounds) {
+            for ((key, sound) in outputSoundManager.sounds) {
+                outputSoundManager.stopSound(sound)
+                outputSoundManager.removeSound(key)
+            }
+        }
+    }
+
+    /**
      * Stops and remove every sounds from list
      */
     fun stopAll() {
@@ -102,24 +117,30 @@ class SoundManager() {
                 )
 
                 val soundURI =
-                    Uri.parse(activity.getExternalFilesDir("Tales")!!.path + "/$gameTitle/assets/sounds/$titlePath")
-
-                Log.i(TAG, "prepareAudio: $soundURI")
-                activity.binding.audioTitle.text = File(soundURI.toString()).name
+                    Uri.parse("${activity.getExternalFilesDir("Tales")!!.path}/$gameTitle/assets/sounds/$titlePath")
+                //activity.binding.audioTitle.text = File(soundURI.toString()).name
                 setDataSource(activity.applicationContext, soundURI)
                 prepare()
                 start()
             }
             sound.isLooping = loop
-            sound.setVolume(0.5f, 0.5f)
             if (out == Outputs.NARRATOR.toString().lowercase()) {
                 sound.setOnCompletionListener {
-                    activity.binding.record.isEnabled = true
+                    activity.binding.record.visibility = View.VISIBLE
+                    activity.binding.refreshButton.visibility = View.VISIBLE
+                    activity.binding.hintButton.visibility = View.VISIBLE
                 }
+                sound.setVolume(ConfigManager.narratorVolume, ConfigManager.narratorVolume)
+            } else {
+
             }
+            sound.setVolume(ConfigManager.ambianceVolume, ConfigManager.ambianceVolume)
             return sound
         } catch (e: IOException) {
-            Log.e(TAG,  "Unavailable file.")
+            Log.e(TAG,  "Unavailable file : $titlePath, unlocking the record button.")
+            if (out == Outputs.NARRATOR.toString().lowercase()) {
+                activity.binding.record.visibility = View.VISIBLE
+            }
         }
         return null
     }

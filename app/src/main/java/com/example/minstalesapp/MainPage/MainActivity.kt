@@ -10,10 +10,11 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.minstalesapp.Model.Story
-import com.example.minstalesapp.Profile.ConnexionActivity
+import com.example.minstalesapp.Profile.ProfileActivity
 import com.example.minstalesapp.R
 import com.example.minstalesapp.databinding.ActivityMainBinding
-import com.example.minstalesapp.game.GsonManager
+import com.example.minstalesapp.filemanagers.ConfigManager
+import com.example.minstalesapp.filemanagers.GsonManager
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
@@ -28,8 +29,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val queue = Volley.newRequestQueue(this)
+        ConfigManager
 
+        val queue = Volley.newRequestQueue(this)
         binding.toggleSwitchButton.check(R.id.stories_toggle_button)
 
         binding.toggleSwitchButton.setOnCheckedChangeListener { _, optionId ->
@@ -98,8 +100,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val folder = getExternalFilesDir("Tales")
-        val files = folder!!.listFiles()
+        val talesFolder = getExternalFilesDir("Tales")
+        val files = talesFolder?.listFiles()
         for (taleDirectory in files!!) {
             if (taleDirectory.isDirectory) {
                 val dataFile = File("${taleDirectory.path}/data.json")
@@ -121,7 +123,7 @@ class MainActivity : AppCompatActivity() {
         // binding.marketStoriesContainer.adapter = ListAdapterStoryTypeMarketPlace(this, listOfStoryTypes)
 
         binding.headerProfileIcon.setOnClickListener {
-            val intent = Intent(this, ConnexionActivity::class.java)
+            val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
         }
     }

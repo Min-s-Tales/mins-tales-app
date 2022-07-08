@@ -1,5 +1,5 @@
 <resources>
-    <string name="put_headphones" translatable="false">Please wear headphones or earphones to fully enjoy the experience</string>
+    <string name="put_headphones">Please wear headphones or earphones to fully enjoy the experience</string>
     <string name="app_name" translatable="false">Min\'s Tales</string>
     <string name="play">Play</string>
     <string name="marketplace">Marketplace</string>
@@ -24,4 +24,9 @@
     <string name="confirm_password">Confirm your password</string>
     <string name="forgot_password"><u>Forgot password ?</u></string>
     <string name="user_name">User name</string>
+    <string name="record">Record</string>
+    <string name="outdated_android_version">Your android version is too old.</string>
+    <string name="pronounce_action">Pronounce your actions</string>
+    <string name="continue_story">Continue</string>
+    <string name="start_story">Start</string>
 </resources>

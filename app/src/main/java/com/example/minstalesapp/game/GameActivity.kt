@@ -3,49 +3,62 @@ package com.example.minstalesapp.game
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment.getExternalStorageDirectory
 import android.speech.RecognizerIntent
 import android.util.Log
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.example.minstalesapp.R
 import com.example.minstalesapp.databinding.ActivityGameBinding
-import java.util.regex.Pattern
+import com.example.minstalesapp.filemanagers.ConfigManager
+import com.example.minstalesapp.filemanagers.GsonManager
 
 class GameActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityGameBinding
     val soundManager = SoundManager()
-    val gsonManager = GsonManager()
+    val dataGsonManager = GsonManager()
+    val configGsonManager = GsonManager()
 
     private val TAG = "[GameActivity]"
     private val model: GameActivityViewModel by viewModels()
-    private var text = ""
+    var text = ""
     var gameTitle = ""
-    private lateinit var jsonURI: Uri
+
+    private lateinit var taleURI : Uri
+    private lateinit var dataURI : Uri
+    private lateinit var configURI : Uri
+
+    private var jsonPath = "start"
+    private lateinit var answersMap : HashMap<String, String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityGameBinding.inflate(layoutInflater)
         val view = binding.root
-        gameTitle = intent.getStringExtra("title")!!.lowercase().replace(" ", "_").replace("é", "e").replace("è", "e").replace("à", "a")
-        jsonURI = Uri.parse(getExternalFilesDir("Tales")!!.path + "/" + gameTitle + "/assets/config.json")
-        setContentView(view)
-        println(jsonURI.path)
-        // download()
-        soundManager.init()
-        gsonManager.init(jsonURI)
+        gameTitle = intent.getStringExtra("title")!!
+        taleURI = Uri.parse("${getExternalStorageDirectory()!!.path}/Android/data/com.example.minstalesapp/files/Tales/$gameTitle/")
+        dataURI =  Uri.parse(taleURI.toString() + "data.json")
+        configURI =  Uri.parse(taleURI.toString() + "assets/config.json")
 
-        binding.record.isEnabled = false
-        binding.audioTitle.text = gameTitle
-
-        for ((output, map) in gsonManager.gsonStartSound(this, gameTitle, "start")) {
-            for ((title, sound) in map) {
-                soundManager.outputSounds[output]?.addSound(title, sound)
-                soundManager.outputSounds[output]?.playSound(sound)
-            }
+        dataGsonManager.init(dataURI)
+        val saveString = dataGsonManager.gsonGetSave()
+        if (intent.getBooleanExtra("continue", false) && saveString != null) {
+            jsonPath = saveString.toString()
         }
-        val answersMap = gsonManager.gsonCheckActionPath("start")
+
+        setContentView(view)
+        soundManager.init()
+        configGsonManager.init(configURI)
+
+
+        binding.audioTitle.text = gameTitle.replace("_", " ")
+
+        nextStep(jsonPath)
 
         val launcher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
@@ -55,8 +68,14 @@ class GameActivity : AppCompatActivity() {
                 text = data!!.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)!![0]
                 binding.speech.text = text
                 for ((key, value) in answersMap) {
-                    val array = value.split(" ")
-                    Log.i(TAG, "$key -> $value : ${containsWordsPatternMatch(text, array.toTypedArray())}")
+                    val array = value.split(" ").toTypedArray().toCollection(ArrayList())
+                    if (model.checkAllNeededWordsSpoken(array, text)) {
+                        val result = dataGsonManager.gsonSetSave(key)
+                        Log.i(TAG, "Save is $result")
+                        nextStep(key)
+                        //model.saveGame(configURI, key)
+                        break
+                    }
                 }
             }
         }
@@ -68,7 +87,7 @@ class GameActivity : AppCompatActivity() {
                     RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                     RecognizerIntent.LANGUAGE_MODEL_FREE_FORM,
                 )
-                intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "$TAG Start speaking")
+                intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.pronounce_action))
                 intent.putExtra(
                     RecognizerIntent.EXTRA_CALLING_PACKAGE,
                     this.packageName
@@ -78,23 +97,67 @@ class GameActivity : AppCompatActivity() {
                     launcher.launch(intent)
                 } catch (e: java.lang.Exception) {
                     // e.printStackTrace()
-                    Toast.makeText(this, "Android version too old.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.outdated_android_version), Toast.LENGTH_SHORT).show()
                 }
+            }
+        }
+
+        binding.refreshButton.setOnClickListener {
+            run {
+                nextStep(jsonPath)
+            }
+        }
+
+        binding.hintButton.setOnClickListener {
+            run {
+                if (binding.hintsTextView.visibility == VISIBLE) {
+                    binding.hintsTextView.visibility = INVISIBLE
+                    binding.headsetIcon.visibility = VISIBLE
+                } else {
+                    binding.hintsTextView.visibility = VISIBLE
+                    binding.headsetIcon.visibility = INVISIBLE
+                }
+            }
+        }
+
+
+    }
+
+    private fun nextStep(path: String) {
+        var hints = ""
+
+        binding.hintsTextView.visibility = INVISIBLE
+        binding.headsetIcon.visibility = VISIBLE
+        answersMap = configGsonManager.gsonCheckActionPath(path)
+
+        for ((key, value) in answersMap) {
+            hints += "$key : $value\n"
+        }
+
+        binding.hintsTextView.text = hints
+        soundManager.stopAll()
+        for ((output, map) in configGsonManager.gsonStartSound(this, gameTitle, path)) {
+            for ((title, sound) in map) {
+                soundManager.outputSounds[output]?.addSound(title, sound)
+                soundManager.outputSounds[output]?.playSound(sound)
             }
         }
     }
 
-    private fun containsWordsPatternMatch(inputString: String, words: Array<String?>): Boolean {
-        val regexp = StringBuilder()
-        for (word in words) {
-            regexp.append("(?=.*").append(word).append(")")
-        }
-        val pattern: Pattern = Pattern.compile(regexp.toString())
-        return pattern.matcher(inputString).find()
+    override fun onPause() {
+        super.onPause()
+        //soundManager.stopAll()
+        //noter dans le Json de l'histoire le chapitre en lecture et le temps exact
+    }
+
+    override fun onResume() {
+        super.onResume()
+        //reprendre l'histoire exactement là où le user s'est arrêté
     }
 
     override fun onDestroy() {
         super.onDestroy()
         soundManager.stopAll()
+        //noter dans le Json de l'histoire le chapitre en lecture
     }
 }

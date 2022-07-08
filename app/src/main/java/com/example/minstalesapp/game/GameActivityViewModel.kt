@@ -1,12 +1,9 @@
 package com.example.minstalesapp.game
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.speech.RecognizerIntent
+import android.net.Uri
 import android.util.Log
-import android.widget.Toast
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.lifecycle.ViewModel
+import com.example.minstalesapp.Stringifier
 
 sealed class GameActivityViewModelState(
     open val recordingMessage: String = "You are now recording",
@@ -32,5 +29,20 @@ class GameActivityViewModel : ViewModel() {
 
     fun record() {
         Log.i(TAG, "record: ")
+    }
+
+    fun checkAllNeededWordsSpoken(neededWords: ArrayList<String>, spoken: String) : Boolean {
+        val spokenWords = spoken.split(" ")
+        val commonWords = ArrayList<String>()
+        for (spokenWord in spokenWords) {
+            if (!commonWords.contains(spokenWord) && neededWords.contains(spokenWord)) {
+                commonWords.add(spokenWord)
+            }
+        }
+        return commonWords.size == neededWords.size
+    }
+
+    fun saveGame(jsonURI : Uri, step: String) {
+        Stringifier().setStringToFile(jsonURI, step)
     }
 }
