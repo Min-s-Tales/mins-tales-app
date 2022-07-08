@@ -6,11 +6,6 @@ on:
       - 'main'
       - 'master'
       - 'Junit'
-  push:
-    branches:
-      - 'main'
-      - 'master'
-      - 'Junit'
 
 jobs:
   test:
