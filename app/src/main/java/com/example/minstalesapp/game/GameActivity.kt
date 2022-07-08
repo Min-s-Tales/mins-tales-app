@@ -44,7 +44,6 @@ class GameActivity : AppCompatActivity() {
         taleURI = Uri.parse("${getExternalStorageDirectory()!!.path}/Android/data/com.example.minstalesapp/files/Tales/$gameTitle/")
         dataURI =  Uri.parse(taleURI.toString() + "data.json")
         configURI =  Uri.parse(taleURI.toString() + "assets/config.json")
-        ConfigManager
 
         dataGsonManager.init(dataURI)
         val saveString = dataGsonManager.gsonGetSave()

@@ -49,11 +49,42 @@ class GsonManager() {
         return null
     }
 
+    fun gsonGetOption(option: String): String? {
+        try {
+            val obj = JSONObject(stringJson)
+            if (obj.has(option)) {
+                return obj.getString(option)
+            }
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+        return null
+    }
+
     fun gsonSetSave(value: String?) : Boolean {
         val out = PrintWriter(FileWriter(file.path))
         try {
             val obj = JSONObject(stringJson)
             obj.put("save", value)
+
+            Log.i(TAG, obj.toString())
+
+            out.write(obj.toString()) //CORRUPTS DATA.JSON
+            //Log.i(TAG, out.toString())
+            return true
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        } finally {
+            out.close()
+        }
+        return false
+    }
+
+    fun gsonSetOption(option: String?, value: String?) : Boolean {
+        val out = PrintWriter(FileWriter(file.path))
+        try {
+            val obj = JSONObject(stringJson)
+            obj.put(option, value)
 
             Log.i(TAG, obj.toString())
 
