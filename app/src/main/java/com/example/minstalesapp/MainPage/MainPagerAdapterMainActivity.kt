@@ -4,43 +4,43 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Handler
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.ListView
 import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.minstalesapp.Model.Story
 import com.example.minstalesapp.Profile.ConnexionActivity
 import com.example.minstalesapp.R
-import com.example.minstalesapp.databinding.FragmentActivityMainLibrairieBinding
-import com.example.minstalesapp.databinding.FragmentActivityMainMarketplaceBinding
 import com.example.minstalesapp.game.GsonManager
 import java.io.File
+import kotlin.concurrent.thread
 
 class MainPagerAdapterMainActivity(
     private val mContext: Activity,
-    private val idOfView: Array<Int>
+    private val idOfView: Array<Int>,
+    private var mappedStories: Map<String, MutableList<Story>>,
+    private val listOfStoryTypes: Array<String>
     ) : PagerAdapter() {
 
-    private lateinit var librairieBinding: FragmentActivityMainLibrairieBinding
-    private lateinit var marketplaceBinding: FragmentActivityMainMarketplaceBinding
-    var mappedStories = mapOf<String, MutableList<Story>>()
+    //var mappedStories = mapOf<String, MutableList<Story>>()
     var ownedStoryList = ArrayList<Story>()
-    val listOfStoryTypes = arrayOf("Fantasy", "History", "Medieval", "Pirate", "Horror", "Science-Fiction", "Post-Apocalyptic", "Policier")
+    //val listOfStoryTypes = arrayOf("Fantasy", "History", "Medieval", "Pirate", "Horror", "Science-Fiction", "Post-Apocalyptic", "Policier")
 
-    override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val inflater = mContext.layoutInflater
-
-        Log.i("id of view to display", idOfView[position].toString())
+    override fun instantiateItem(parent: ViewGroup, position: Int): Any {
 
         if(idOfView[position] == R.layout.fragment_activity_main_librairie){
-            Log.i("test", "librairie")
 
-            librairieBinding = FragmentActivityMainLibrairieBinding.inflate(inflater)
-            val librarieView = librairieBinding.root
+            // Get the view from pager page layout
+            val librarieView = LayoutInflater.from(parent.context)
+                .inflate(R.layout.fragment_activity_main_librairie, parent,false)
 
-            val folder = mContext.getExternalFilesDir("Tales")
+            val folder = parent.context.getExternalFilesDir("Tales")
             val files = folder!!.listFiles()
             for (taleDirectory in files!!) {
                 if (taleDirectory.isDirectory) {
@@ -54,71 +54,38 @@ class MainPagerAdapterMainActivity(
                 }
             }
 
-            librairieBinding.storiesViewPager.adapter = StoriesPagerAdapterMainActivity(mContext, ownedStoryList)
+            // Get the widgets reference from layout
+            val storiesViewPager: ViewPager = librarieView.findViewById(R.id.storiesViewPager)
+            val headerProfileIcon: ImageView = librarieView.findViewById(R.id.headerProfileIcon)
 
-            librairieBinding.storiesViewPager.pageMargin = 50
-            librairieBinding.storiesViewPager.setPadding(80, 0, 80, 0);
-            librairieBinding.storiesViewPager.clipToPadding = false
+            // Set content
+            storiesViewPager.adapter = StoriesPagerAdapterMainActivity(ownedStoryList)
 
-            librairieBinding.headerProfileIcon.setOnClickListener {
-                val intent = Intent(mContext, ConnexionActivity::class.java)
-                mContext.startActivity(intent)
+            storiesViewPager.pageMargin = 50
+            storiesViewPager.setPadding(80, 0, 80, 0);
+            storiesViewPager.clipToPadding = false
+
+            headerProfileIcon.setOnClickListener {
+                val intent = Intent(parent.context, ConnexionActivity::class.java)
+                parent.context.startActivity(intent)
             }
 
+            parent.addView(librarieView)
             return librarieView
-        }else{
-            Log.i("test", "market place")
+        }
 
-            marketplaceBinding = FragmentActivityMainMarketplaceBinding.inflate(inflater)
-            val marketplaceView = marketplaceBinding.root
+        else{
 
-            val queue = Volley.newRequestQueue(mContext)
+            // Get the view from pager page layout
+            val marketplaceView = LayoutInflater.from(parent.context)
+                .inflate(R.layout.fragment_activity_main_marketplace, parent,false)
 
-            mappedStories = mapOf(
-                "Fantasy" to mutableListOf<Story>(),
-                "History" to mutableListOf<Story>(),
-                "Medieval" to mutableListOf<Story>(),
-                "Pirate" to mutableListOf<Story>(),
-                "Horror" to mutableListOf<Story>(),
-                "Science-Fiction" to mutableListOf<Story>(),
-                "Post-Apocalyptic" to mutableListOf<Story>(),
-                "Policier" to mutableListOf<Story>()
-            )
+            // Get the widgets reference from layout
+            val marketStoriesContainer: ListView = marketplaceView.findViewById(R.id.marketStoriesContainer)
+            //pass data to adapter
+            marketStoriesContainer.adapter = ListAdapterStoryTypeMarketPlace(mContext, listOfStoryTypes, mappedStories)
 
-            listOfStoryTypes.forEach { type ->
-
-                val url = "http://10.0.2.2:8000/api/story/tag?tag=$type"
-
-                //Récupération de la liste d'histoires correspondant au type
-                val request = JsonObjectRequest(
-                    Request.Method.GET, url, null,
-                    { response ->
-                        //Parsing des données récupérées
-                        for (i in 0 until response.getJSONArray("story").length()) {
-                            val item = response.getJSONArray("story").getJSONObject(i)
-                            mappedStories[type]?.add(Story(
-                                item.getInt("idStory"),
-                                item.getString("title"),
-                                item.getString("description"),
-                                item.getString("urlFolder"),
-                                item.getString("urlIcon"),
-                                item.getDouble("price").toFloat(),
-                                item.getString("author"),
-                                item.getInt("nbDownload")
-                            ))
-                        }
-                    },
-                    { error ->
-                        Log.i("ERROR", error.toString())
-                    }
-                )
-                queue.add(request)
-            }
-            //pass data to adapter and hide the previous view
-            Handler().postDelayed(Runnable {
-                marketplaceBinding.marketStoriesContainer.adapter = ListAdapterStoryTypeMarketPlace(mContext, listOfStoryTypes, mappedStories)
-            }, 2000)
-
+            parent.addView(marketplaceView)
             return marketplaceView
         }
     }
@@ -134,5 +101,9 @@ class MainPagerAdapterMainActivity(
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
         val view = `object` as View
         container.removeView(view)
+    }
+
+    fun setListOfStory(map: Map<String, MutableList<Story>>){
+        mappedStories = map
     }
 }

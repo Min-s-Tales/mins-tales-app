@@ -8,7 +8,7 @@
     tools:context=".MainPage.MainActivity"
     android:background="@color/dark_grey">
 
-    <androidx.viewpager.widget.ViewPager
+    <com.example.minstalesapp.MainPage.CustomViewPager
         android:id="@+id/mainViewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"

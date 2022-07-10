@@ -16,15 +16,15 @@ import com.example.minstalesapp.R
 import com.example.minstalesapp.game.GameActivity
 
 class StoriesPagerAdapterMainActivity(
-    private val mContext: Activity,
+    //private val mContext: Activity,
     private val storyList: ArrayList<Story>
     ) : PagerAdapter() {
 
     lateinit var inflater: LayoutInflater
 
-    override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        inflater = LayoutInflater.from(mContext)
-        val view = inflater.inflate(R.layout.fragment_activity_main_story, container, false)
+    override fun instantiateItem(parent: ViewGroup, position: Int): Any {
+        inflater = LayoutInflater.from(parent.context)
+        val view = inflater.inflate(R.layout.fragment_activity_main_story, parent, false)
 
         var cardTitle : TextView = view.findViewById(R.id.cardStoryTitle)
         cardTitle.text = storyList[position].title
@@ -41,13 +41,13 @@ class StoriesPagerAdapterMainActivity(
 
         val playButton : ImageView = view.findViewById(R.id.cardStoryPlayButton)
         playButton.setOnClickListener {
-            val intent = Intent(mContext, GameActivity::class.java)
+            val intent = Intent(parent.context, GameActivity::class.java)
             intent.putExtra("audioId", storyList[position].url_folder)
             intent.putExtra("title", storyList[position].title)
             view.context.startActivity(intent)
         }
 
-        container.addView(view, position)
+        parent.addView(view, position)
         return view
     }
 
