@@ -30,4 +30,5 @@
     <string name="continue_story">Continue</string>
     <string name="start_story">Start</string>
     <string name="buy">Purchase</string>
+    <string name="back">BACK</string>
 </resources>

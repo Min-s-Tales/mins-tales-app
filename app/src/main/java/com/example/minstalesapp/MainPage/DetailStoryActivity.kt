@@ -21,5 +21,9 @@ class DetailStoryActivity: AppCompatActivity() {
         binding.storyPrice.text = "${intent.getFloatExtra("itemPrice", 0F).toString()} €"
 
         Picasso.get().load(intent.getStringExtra("itemIcon")).into(binding.storyIcon)
+
+        binding.backButton.setOnClickListener {
+            this.finish()
+        }
     }
 }

@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
                         isMarketPlaceDataLoaded = !isMarketPlaceDataLoaded
                         compteurToUpdateMarketPlace.observe(this, Observer {
                             if(compteurToUpdateMarketPlace.value == 0){
-                                Log.i("compteur", "Page Refreshed")
+                                (binding.mainViewPager.adapter as MainPagerAdapterMainActivity).isSetup = true
                                 (binding.mainViewPager.adapter as MainPagerAdapterMainActivity).setListOfStory(mappedStories)
                                 (binding.mainViewPager.adapter as MainPagerAdapterMainActivity).notifyDataSetChanged()
                             }
