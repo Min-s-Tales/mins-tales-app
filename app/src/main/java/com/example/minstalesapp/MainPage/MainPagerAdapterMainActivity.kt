@@ -12,7 +12,7 @@ import androidx.viewpager.widget.ViewPager
 import com.example.minstalesapp.Model.Story
 import com.example.minstalesapp.Profile.ConnexionActivity
 import com.example.minstalesapp.R
-import com.example.minstalesapp.game.GsonManager
+import com.example.minstalesapp.filemanagers.GsonManager
 import java.io.File
 
 class MainPagerAdapterMainActivity(
