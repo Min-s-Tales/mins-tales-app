@@ -1,35 +1,55 @@
 package com.example.minstalesapp.MainPage
 
-import android.content.Intent
+import android.content.Context
 import android.os.Bundle
-import android.os.Handler
+import android.util.AttributeSet
 import android.util.Log
-import android.view.View
+import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.viewpager.widget.ViewPager
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.minstalesapp.Model.Story
-import com.example.minstalesapp.Profile.ProfileActivity
 import com.example.minstalesapp.R
 import com.example.minstalesapp.databinding.ActivityMainBinding
-import com.example.minstalesapp.filemanagers.ConfigManager
-import com.example.minstalesapp.filemanagers.GsonManager
-import java.io.File
+
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    var ownedStoryList = ArrayList<Story>()
-    var mappedStories = mapOf<String, MutableList<Story>>()
+
     val listOfStoryTypes = arrayOf("Fantasy", "History", "Medieval", "Pirate", "Horror", "Science-Fiction", "Post-Apocalyptic", "Policier")
+    var mappedStories = mapOf<String, MutableList<Story>>()
+    private var isMarketPlaceDataLoaded = false
+    private val compteurToUpdateMarketPlace: MutableLiveData<Int> by lazy{
+        MutableLiveData<Int>()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        ConfigManager
+        val listOfPagesId = arrayOf(R.layout.fragment_activity_main_librairie, R.layout.fragment_activity_main_marketplace)
+        compteurToUpdateMarketPlace.value = listOfStoryTypes.size
+
+        mappedStories = mapOf(
+            "Fantasy" to mutableListOf<Story>(),
+            "History" to mutableListOf<Story>(),
+            "Medieval" to mutableListOf<Story>(),
+            "Pirate" to mutableListOf<Story>(),
+            "Horror" to mutableListOf<Story>(),
+            "Science-Fiction" to mutableListOf<Story>(),
+            "Post-Apocalyptic" to mutableListOf<Story>(),
+            "Policier" to mutableListOf<Story>()
+        )
+
+        binding.mainViewPager.adapter = MainPagerAdapterMainActivity(this, listOfPagesId, mappedStories, listOfStoryTypes)
+        binding.mainViewPager.setPageScrollEnabled(false)
+        binding.mainViewPager.setCurrentItem(0, false)
 
         val queue = Volley.newRequestQueue(this)
         binding.toggleSwitchButton.check(R.id.stories_toggle_button)
@@ -38,36 +58,35 @@ class MainActivity : AppCompatActivity() {
             when (optionId) {
                 // Event handler on "Librairie" button's click
                 R.id.stories_toggle_button -> {
-                    binding.marketPlaceContainer.visibility = View.GONE
-                    binding.storiesContainer.visibility = View.VISIBLE
+                    binding.mainViewPager.setCurrentItem(0, true)
                 }
                 // Event handler on "Market Place" button's click
                 R.id.marketplace_toggle_button -> {
+                    if(!isMarketPlaceDataLoaded){
+                        isMarketPlaceDataLoaded = !isMarketPlaceDataLoaded
+                        compteurToUpdateMarketPlace.observe(this, Observer {
+                            if(compteurToUpdateMarketPlace.value == 0){
+                                Log.i("compteur", "Page Refreshed")
+                                (binding.mainViewPager.adapter as MainPagerAdapterMainActivity).setListOfStory(mappedStories)
+                                (binding.mainViewPager.adapter as MainPagerAdapterMainActivity).notifyDataSetChanged()
+                            }
+                        })
 
-                    mappedStories = mapOf(
-                        "Fantasy" to mutableListOf<Story>(),
-                        "History" to mutableListOf<Story>(),
-                        "Medieval" to mutableListOf<Story>(),
-                        "Pirate" to mutableListOf<Story>(),
-                        "Horror" to mutableListOf<Story>(),
-                        "Science-Fiction" to mutableListOf<Story>(),
-                        "Post-Apocalyptic" to mutableListOf<Story>(),
-                        "Policier" to mutableListOf<Story>()
-                    )
+                        val queue = Volley.newRequestQueue(this)
+                        queue.responseDelivery
 
-                    listOfStoryTypes.forEach { type ->
+                        listOfStoryTypes.forEach { type ->
 
-                        val url = "http://10.0.2.2:8000/api/story/tag?tag=$type"
+                            val url = "http://51.38.38.39:8000/api/story/tag?tag=$type"
 
-                        // Récupération de la liste d'histoires correspondant au type
-                        val request = JsonObjectRequest(
-                            Request.Method.GET, url, null,
-                            { response ->
-                                // Parsing des données récupérées
-                                for (i in 0 until response.getJSONArray("story").length()) {
-                                    val item = response.getJSONArray("story").getJSONObject(i)
-                                    mappedStories[type]?.add(
-                                        Story(
+                            //Récupération de la liste d'histoires correspondant au type
+                            val request = JsonObjectRequest(
+                                Request.Method.GET, url, null,
+                                { response ->
+                                    //Parsing des données récupérées
+                                    for (i in 0 until response.getJSONArray("story").length()) {
+                                        val item = response.getJSONArray("story").getJSONObject(i)
+                                        mappedStories[type]?.add(Story(
                                             item.getInt("idStory"),
                                             item.getString("title"),
                                             item.getString("description"),
@@ -76,55 +95,43 @@ class MainActivity : AppCompatActivity() {
                                             item.getDouble("price").toFloat(),
                                             item.getString("author"),
                                             item.getInt("nbDownload")
-                                        )
-                                    )
+                                        ))
+                                    }
+                                    compteurToUpdateMarketPlace.value = compteurToUpdateMarketPlace.value!! -1
+                                    Log.i("compteur", compteurToUpdateMarketPlace.value.toString())
+                                },
+                                { error ->
+                                    Log.i("ERROR", error.toString())
                                 }
-                            },
-                            { error ->
-                                Log.i("ERROR", error.toString())
-                            }
-                        )
-                        queue.add(request)
+                            )
+                            queue.add(request)
+                        }
+
+                        (binding.mainViewPager.adapter as MainPagerAdapterMainActivity).setListOfStory(mappedStories)
                     }
-                    // pass data to adapter and hide the previous view
-                    Handler().postDelayed(
-                        Runnable {
-                            val typeStoryMarketPlaceAdapter = ListAdapterStoryTypeMarketPlace(this, listOfStoryTypes, mappedStories)
-                            binding.marketStoriesContainer.adapter = typeStoryMarketPlaceAdapter
-                            binding.storiesContainer.visibility = View.GONE
-                            binding.marketPlaceContainer.visibility = View.VISIBLE
-                        },
-                        2000
-                    )
+                    binding.mainViewPager.setCurrentItem(1, true)
                 }
             }
         }
+    }
+}
 
-        val talesFolder = getExternalFilesDir("Tales")
-        val files = talesFolder?.listFiles()
-        for (taleDirectory in files!!) {
-            if (taleDirectory.isDirectory) {
-                val dataFile = File("${taleDirectory.path}/data.json")
-                if (dataFile.exists()) {
-                    val story = GsonManager().dataReader(taleDirectory.name, taleDirectory.path + "/icon.png", dataFile.readText(Charsets.UTF_8))
-                    if (story != null) {
-                        ownedStoryList.add(story)
-                    }
-                }
-            }
-        }
+// Custom View Pager to avoid manual scrolling between fragments
+class CustomViewPager : ViewPager {
+    private var isPageScrollEnabled = true
 
-        binding.viewPager.adapter = PagerAdapterMainActivity(this, ownedStoryList)
+    constructor(context: Context?) : super(context!!)
+    constructor(context: Context?, attrs: AttributeSet?) : super(context!!, attrs)
 
-        binding.viewPager.pageMargin = 50
-        binding.viewPager.setPadding(80, 0, 80, 0)
-        binding.viewPager.clipToPadding = false
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        return isPageScrollEnabled && super.onTouchEvent(event)
+    }
 
-        // binding.marketStoriesContainer.adapter = ListAdapterStoryTypeMarketPlace(this, listOfStoryTypes)
+    override fun onInterceptTouchEvent(event: MotionEvent): Boolean {
+        return isPageScrollEnabled && super.onInterceptTouchEvent(event)
+    }
 
-        binding.headerProfileIcon.setOnClickListener {
-            val intent = Intent(this, ProfileActivity::class.java)
-            startActivity(intent)
-        }
+    fun setPageScrollEnabled(isPageScrollEnabled: Boolean) {
+        this.isPageScrollEnabled = isPageScrollEnabled
     }
 }
