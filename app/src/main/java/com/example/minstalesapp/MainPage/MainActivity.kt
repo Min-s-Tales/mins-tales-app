@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         binding.mainViewPager.setPageScrollEnabled(false)
         binding.mainViewPager.setCurrentItem(0, false)
 
-        val queue = Volley.newRequestQueue(this)
+
         binding.toggleSwitchButton.check(R.id.stories_toggle_button)
 
         binding.toggleSwitchButton.setOnCheckedChangeListener { _, optionId ->
@@ -73,7 +73,6 @@ class MainActivity : AppCompatActivity() {
                         })
 
                         val queue = Volley.newRequestQueue(this)
-                        queue.responseDelivery
 
                         listOfStoryTypes.forEach { type ->
 

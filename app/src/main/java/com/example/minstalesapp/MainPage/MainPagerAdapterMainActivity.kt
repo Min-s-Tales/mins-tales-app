@@ -2,6 +2,7 @@ package com.example.minstalesapp.MainPage
 
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,9 @@ class MainPagerAdapterMainActivity(
     //val listOfStoryTypes = arrayOf("Fantasy", "History", "Medieval", "Pirate", "Horror", "Science-Fiction", "Post-Apocalyptic", "Policier")
 
     override fun instantiateItem(parent: ViewGroup, position: Int): Any {
+
+
+        Log.i("DATASTATE", "$mappedStories")
 
         if(idOfView[position] == R.layout.fragment_activity_main_librairie){
 
@@ -82,6 +86,10 @@ class MainPagerAdapterMainActivity(
             parent.addView(marketplaceView)
             return marketplaceView
         }
+    }
+
+    override fun getItemPosition(`object`: Any): Int {
+        return POSITION_NONE
     }
 
     override fun getCount(): Int {
