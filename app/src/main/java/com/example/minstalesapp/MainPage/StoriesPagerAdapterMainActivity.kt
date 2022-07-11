@@ -18,6 +18,7 @@ import androidx.viewpager.widget.PagerAdapter
 import com.example.minstalesapp.Model.Story
 import com.example.minstalesapp.R
 import com.example.minstalesapp.game.GameActivity
+import com.example.minstalesapp.filemanagers.GsonManager
 
 class StoriesPagerAdapterMainActivity(
     //private val mContext: Activity,
@@ -25,16 +26,24 @@ class StoriesPagerAdapterMainActivity(
     ) : PagerAdapter() {
 
     lateinit var inflater: LayoutInflater
+    val dataGsonManager = GsonManager()
 
     override fun instantiateItem(parent: ViewGroup, position: Int): Any {
         inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.fragment_activity_main_story, parent, false)
 
+        val neutralizedGameTitle = storyList[position].title.lowercase().replace(" ", "_").replace("é", "e").replace("è", "e").replace("à", "a")
+
+        val taleURI = Uri.parse("${Environment.getExternalStorageDirectory()!!.path}/Android/data/com.example.minstalesapp/files/Tales/$neutralizedGameTitle/")
+        val dataURI =  Uri.parse(taleURI.toString() + "data.json")
+        dataGsonManager.init(dataURI)
+        val saveString = dataGsonManager.gsonGetSave()
+
         val continueButton: Button = view.findViewById(R.id.continueStoryButton)
         continueButton.isEnabled = saveString != null
 
         continueButton.setOnClickListener {
-            val intent = Intent(mContext, GameActivity::class.java)
+            val intent = Intent(parent.context, GameActivity::class.java)
             intent.putExtra("audioId", storyList[position].url_folder)
             intent.putExtra("title", neutralizedGameTitle)
             intent.putExtra("continue", true)
