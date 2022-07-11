@@ -89,6 +89,7 @@ class MainActivity : AppCompatActivity() {
                                         mappedStories[type]?.add(Story(
                                             item.getInt("idStory"),
                                             item.getString("title"),
+                                            item.getString("display"),
                                             item.getString("description"),
                                             item.getString("urlFolder"),
                                             item.getString("urlIcon"),

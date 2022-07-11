@@ -14,8 +14,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.minstalesapp.R
 import com.example.minstalesapp.databinding.ActivityGameBinding
-import com.example.minstalesapp.filemanagers.ConfigManager
 import com.example.minstalesapp.filemanagers.GsonManager
+import java.io.File
 
 class GameActivity : AppCompatActivity() {
 
@@ -27,7 +27,9 @@ class GameActivity : AppCompatActivity() {
     private val TAG = "[GameActivity]"
     private val model: GameActivityViewModel by viewModels()
     var text = ""
-    var gameTitle = ""
+    var folderPath = ""
+    var title = ""
+    var display = ""
 
     private lateinit var taleURI : Uri
     private lateinit var dataURI : Uri
@@ -40,12 +42,15 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityGameBinding.inflate(layoutInflater)
         val view = binding.root
-        gameTitle = intent.getStringExtra("title")!!
-        taleURI = Uri.parse("${getExternalStorageDirectory()!!.path}/Android/data/com.example.minstalesapp/files/Tales/$gameTitle/")
+        folderPath = intent.getStringExtra("path")!!
+        taleURI = Uri.parse(folderPath)
         dataURI =  Uri.parse(taleURI.toString() + "data.json")
         configURI =  Uri.parse(taleURI.toString() + "assets/config.json")
 
         dataGsonManager.init(dataURI)
+
+        title = File(folderPath).name
+        display = dataGsonManager.gsonGetOption("title")!!
         val saveString = dataGsonManager.gsonGetSave()
         if (intent.getBooleanExtra("continue", false) && saveString != null) {
             jsonPath = saveString.toString()
@@ -56,7 +61,7 @@ class GameActivity : AppCompatActivity() {
         configGsonManager.init(configURI)
 
 
-        binding.audioTitle.text = gameTitle.replace("_", " ")
+        binding.audioTitle.text = display
 
         nextStep(jsonPath)
 
@@ -136,7 +141,7 @@ class GameActivity : AppCompatActivity() {
 
         binding.hintsTextView.text = hints
         soundManager.stopAll()
-        for ((output, map) in configGsonManager.gsonStartSound(this, gameTitle, path)) {
+        for ((output, map) in configGsonManager.gsonStartSound(this, title, path)) {
             for ((title, sound) in map) {
                 soundManager.outputSounds[output]?.addSound(title, sound)
                 soundManager.outputSounds[output]?.playSound(sound)

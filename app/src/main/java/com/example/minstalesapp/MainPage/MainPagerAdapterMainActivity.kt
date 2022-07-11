@@ -2,6 +2,7 @@ package com.example.minstalesapp.MainPage
 
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.example.minstalesapp.Profile.ConnexionActivity
 import com.example.minstalesapp.R
 import com.example.minstalesapp.filemanagers.GsonManager
 import java.io.File
+import java.lang.Exception
 
 class MainPagerAdapterMainActivity(
     private val mContext: Activity,
@@ -54,7 +56,6 @@ class MainPagerAdapterMainActivity(
 
             // Set content
             storiesViewPager.adapter = StoriesPagerAdapterMainActivity(ownedStoryList)
-
             storiesViewPager.pageMargin = 50
             storiesViewPager.setPadding(80, 0, 80, 0);
             storiesViewPager.clipToPadding = false
