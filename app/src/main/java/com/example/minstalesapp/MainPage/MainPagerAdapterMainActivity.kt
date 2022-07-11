@@ -16,6 +16,7 @@ import com.example.minstalesapp.R
 import com.example.minstalesapp.filemanagers.GsonManager
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import java.io.File
+import java.lang.Exception
 
 class MainPagerAdapterMainActivity(
     private val mContext: Activity,
@@ -55,7 +56,6 @@ class MainPagerAdapterMainActivity(
 
             // Set content
             storiesViewPager.adapter = StoriesPagerAdapterMainActivity(ownedStoryList)
-
             storiesViewPager.pageMargin = 50
             storiesViewPager.setPadding(80, 0, 80, 0);
             storiesViewPager.clipToPadding = false
