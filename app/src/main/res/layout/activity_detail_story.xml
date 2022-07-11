@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/dark_grey">
+
+    <TextView
+        android:id="@+id/storyTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="40dp"
+        android:text="Title"
+        android:textAlignment="center"
+        android:textSize="26sp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:fontFamily="@font/font_nova_round_regular"
+        tools:ignore="RtlCompat" />
+
+    <ImageView
+        android:id="@+id/storyIcon"
+        android:layout_width="130dp"
+        android:layout_height="180dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/simple_round_border"
+        android:clipToOutline="true"
+        android:scaleType="centerCrop"
+        android:src="@color/black"
+        tools:targetApi="s" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/textContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toEndOf="@id/storyIcon"
+        app:layout_constraintTop_toBottomOf="@id/storyTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/buyButton"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="30dp">
+
+        <TextView
+            android:id="@+id/storyDesciption"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/storyAuthor"
+            android:gravity="center_vertical"
+            android:text="Description"
+            android:textColor="@color/content_font"
+            android:textSize="16sp"
+            android:fontFamily="@font/roboto"/>
+
+        <TextView
+            android:id="@+id/storyAuthor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/storyPrice"
+            android:text="Author"
+            android:textColor="@color/content_font"
+            android:textSize="16sp"
+            android:textStyle="italic"
+            android:fontFamily="@font/roboto"
+            android:gravity="end" />
+
+        <TextView
+            android:id="@+id/storyPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="Price"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/roboto"
+            android:gravity="end" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/storyNbDownload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/textContainer"
+        android:layout_marginStart="20dp"
+        android:text="Downloaded X times"
+        android:textColor="@color/content_font"
+        android:textSize="16sp"
+        android:fontFamily="@font/roboto"
+        android:gravity="end" />
+
+    <Button
+        android:id="@+id/buyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="20dp"
+        android:paddingHorizontal="15dp"
+        android:text="@string/buy"
+        android:textStyle="bold"
+        android:textSize="12sp"
+        android:fontFamily="@font/roboto"
+        android:textColor="@color/dark_grey"
+        android:background="@drawable/yellow_rounded_border_shape"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

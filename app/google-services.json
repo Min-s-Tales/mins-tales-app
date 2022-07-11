@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "908655166408",
+    "project_id": "min-s-tales",
+    "storage_bucket": "min-s-tales.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:908655166408:android:cc68a3e75c19471653b6fd",
+        "android_client_info": {
+          "package_name": "com.example.minstalesapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "908655166408-7ljbpev7s971n82gloqcmav8g97i9454.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSDE1qJv49zeCHMOngAi4_soCBpK5VCqo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "908655166408-7ljbpev7s971n82gloqcmav8g97i9454.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

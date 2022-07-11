@@ -1,12 +1,10 @@
 package com.example.minstalesapp.MainPage
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,16 +14,19 @@ import android.widget.TextView
 import androidx.viewpager.widget.PagerAdapter
 import com.example.minstalesapp.Model.Story
 import com.example.minstalesapp.R
-import com.example.minstalesapp.game.GameActivity
 import com.example.minstalesapp.filemanagers.GsonManager
+import com.example.minstalesapp.game.GameActivity
 
-class PagerAdapterMainActivity(private val mContext: Context, private val storyList: ArrayList<Story>) : PagerAdapter() {
+class StoriesPagerAdapterMainActivity(
+    private val storyList: ArrayList<Story>
+    ) : PagerAdapter() {
+
     lateinit var inflater: LayoutInflater
-
     val dataGsonManager = GsonManager()
 
-    override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        inflater = LayoutInflater.from(mContext)
+    override fun instantiateItem(parent: ViewGroup, position: Int): Any {
+        inflater = LayoutInflater.from(parent.context)
+        val view = inflater.inflate(R.layout.fragment_activity_main_story, parent, false)
 
         val neutralizedGameTitle = storyList[position].title.lowercase().replace(" ", "_").replace("é", "e").replace("è", "e").replace("à", "a")
 
@@ -34,13 +35,11 @@ class PagerAdapterMainActivity(private val mContext: Context, private val storyL
         dataGsonManager.init(dataURI)
         val saveString = dataGsonManager.gsonGetSave()
 
-        val view = inflater.inflate(R.layout.fragment_activity_main, container, false)
-
         val continueButton: Button = view.findViewById(R.id.continueStoryButton)
         continueButton.isEnabled = saveString != null
 
         continueButton.setOnClickListener {
-            val intent = Intent(mContext, GameActivity::class.java)
+            val intent = Intent(parent.context, GameActivity::class.java)
             intent.putExtra("audioId", storyList[position].url_folder)
             intent.putExtra("title", neutralizedGameTitle)
             intent.putExtra("continue", true)
@@ -63,13 +62,13 @@ class PagerAdapterMainActivity(private val mContext: Context, private val storyL
 
         val playButton: Button = view.findViewById(R.id.cardStoryPlayButton)
         playButton.setOnClickListener {
-            val intent = Intent(mContext, GameActivity::class.java)
+            val intent = Intent(parent.context, GameActivity::class.java)
             intent.putExtra("audioId", storyList[position].url_folder)
             intent.putExtra("title", neutralizedGameTitle)
             view.context.startActivity(intent)
         }
 
-        container.addView(view, position)
+        parent.addView(view, position)
         return view
     }
 
