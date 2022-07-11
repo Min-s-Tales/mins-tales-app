@@ -2,8 +2,6 @@ package com.example.minstalesapp.MainPage
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,15 +9,11 @@ import android.widget.ImageView
 import android.widget.ListView
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
-import com.android.volley.Request
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import com.example.minstalesapp.Model.Story
 import com.example.minstalesapp.Profile.ConnexionActivity
 import com.example.minstalesapp.R
 import com.example.minstalesapp.game.GsonManager
 import java.io.File
-import kotlin.concurrent.thread
 
 class MainPagerAdapterMainActivity(
     private val mContext: Activity,

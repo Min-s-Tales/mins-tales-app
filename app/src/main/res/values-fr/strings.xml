@@ -22,4 +22,5 @@
     <string name="confirm_password">Confirmez votre mot de passe</string>
     <string name="forgot_password"><u>Mot de passe oublié ?</u></string>
     <string name="user_name">Nom d\'utilisateur</string>
+    <string name="buy">Acheter</string>
 </resources>

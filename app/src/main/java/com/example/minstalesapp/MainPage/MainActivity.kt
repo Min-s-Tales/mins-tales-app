@@ -6,6 +6,8 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.viewpager.widget.ViewPager
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
@@ -13,7 +15,6 @@ import com.android.volley.toolbox.Volley
 import com.example.minstalesapp.Model.Story
 import com.example.minstalesapp.R
 import com.example.minstalesapp.databinding.ActivityMainBinding
-import kotlin.concurrent.thread
 
 
 class MainActivity : AppCompatActivity() {
@@ -23,6 +24,9 @@ class MainActivity : AppCompatActivity() {
     val listOfStoryTypes = arrayOf("Fantasy", "History", "Medieval", "Pirate", "Horror", "Science-Fiction", "Post-Apocalyptic", "Policier")
     var mappedStories = mapOf<String, MutableList<Story>>()
     private var isMarketPlaceDataLoaded = false
+    private val compteurToUpdateMarketPlace: MutableLiveData<Int> by lazy{
+        MutableLiveData<Int>()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val listOfPagesId = arrayOf(R.layout.fragment_activity_main_librairie, R.layout.fragment_activity_main_marketplace)
+        compteurToUpdateMarketPlace.value = listOfStoryTypes.size
 
         mappedStories = mapOf(
             "Fantasy" to mutableListOf<Story>(),
@@ -58,12 +63,20 @@ class MainActivity : AppCompatActivity() {
                 R.id.marketplace_toggle_button -> {
                     if(!isMarketPlaceDataLoaded){
                         isMarketPlaceDataLoaded = !isMarketPlaceDataLoaded
+                        compteurToUpdateMarketPlace.observe(this, Observer {
+                            if(compteurToUpdateMarketPlace.value == 0){
+                                Log.i("compteur", "Page Refreshed")
+                                (binding.mainViewPager.adapter as MainPagerAdapterMainActivity).setListOfStory(mappedStories)
+                                (binding.mainViewPager.adapter as MainPagerAdapterMainActivity).notifyDataSetChanged()
+                            }
+                        })
 
                         val queue = Volley.newRequestQueue(this)
+                        queue.responseDelivery
 
                         listOfStoryTypes.forEach { type ->
 
-                            val url = "http://10.0.2.2:8000/api/story/tag?tag=$type"
+                            val url = "http://51.38.38.39:8000/api/story/tag?tag=$type"
 
                             //Récupération de la liste d'histoires correspondant au type
                             val request = JsonObjectRequest(
@@ -83,6 +96,8 @@ class MainActivity : AppCompatActivity() {
                                             item.getInt("nbDownload")
                                         ))
                                     }
+                                    compteurToUpdateMarketPlace.value = compteurToUpdateMarketPlace.value!! -1
+                                    Log.i("compteur", compteurToUpdateMarketPlace.value.toString())
                                 },
                                 { error ->
                                     Log.i("ERROR", error.toString())
@@ -92,7 +107,6 @@ class MainActivity : AppCompatActivity() {
                         }
 
                         (binding.mainViewPager.adapter as MainPagerAdapterMainActivity).setListOfStory(mappedStories)
-                        (binding.mainViewPager.adapter as MainPagerAdapterMainActivity).notifyDataSetChanged()
                     }
                     binding.mainViewPager.setCurrentItem(1, true)
                 }
