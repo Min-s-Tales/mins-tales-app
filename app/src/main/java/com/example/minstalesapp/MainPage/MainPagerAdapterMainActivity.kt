@@ -30,6 +30,9 @@ class MainPagerAdapterMainActivity(
 
     override fun instantiateItem(parent: ViewGroup, position: Int): Any {
 
+
+        Log.i("DATASTATE", "$mappedStories")
+
         if(idOfView[position] == R.layout.fragment_activity_main_librairie){
 
             // Get the view from pager page layout
@@ -83,6 +86,10 @@ class MainPagerAdapterMainActivity(
             parent.addView(marketplaceView)
             return marketplaceView
         }
+    }
+
+    override fun getItemPosition(`object`: Any): Int {
+        return POSITION_NONE
     }
 
     override fun getCount(): Int {

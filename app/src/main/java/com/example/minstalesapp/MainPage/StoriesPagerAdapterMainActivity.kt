@@ -1,13 +1,10 @@
 package com.example.minstalesapp.MainPage
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,12 +15,11 @@ import androidx.core.view.size
 import androidx.viewpager.widget.PagerAdapter
 import com.example.minstalesapp.Model.Story
 import com.example.minstalesapp.R
-import com.example.minstalesapp.game.GameActivity
 import com.example.minstalesapp.filemanagers.GsonManager
 import kotlin.math.min
+import com.example.minstalesapp.game.GameActivity
 
 class StoriesPagerAdapterMainActivity(
-    //private val mContext: Activity,
     private val storyList: ArrayList<Story>
     ) : PagerAdapter() {
 
@@ -77,7 +73,6 @@ class StoriesPagerAdapterMainActivity(
             intent.putExtra("display", display)
             view.context.startActivity(intent)
         }
-        Log.i("SPAMA", "instantiateItem: $position to ${parent.childCount}")
         parent.addView(view, min(parent.size, position))
         return view
     }

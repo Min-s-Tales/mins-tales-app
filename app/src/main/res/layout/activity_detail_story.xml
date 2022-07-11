@@ -34,7 +34,8 @@
         android:background="@drawable/simple_round_border"
         android:clipToOutline="true"
         android:scaleType="centerCrop"
-        android:src="@color/black"/>
+        android:src="@color/black"
+        tools:targetApi="s" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/textContainer"
