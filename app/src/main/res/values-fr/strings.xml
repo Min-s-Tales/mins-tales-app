@@ -29,4 +29,5 @@
     <string name="continue_story">Continuer</string>
     <string name="start_story">Commencer</string>
     <string name="buy">Acheter</string>
+    <string name="back">RETOUR</string>
 </resources>

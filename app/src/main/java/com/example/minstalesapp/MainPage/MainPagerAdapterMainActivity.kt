@@ -14,6 +14,7 @@ import com.example.minstalesapp.Model.Story
 import com.example.minstalesapp.Profile.ConnexionActivity
 import com.example.minstalesapp.R
 import com.example.minstalesapp.filemanagers.GsonManager
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import java.io.File
 
 class MainPagerAdapterMainActivity(
@@ -23,14 +24,10 @@ class MainPagerAdapterMainActivity(
     private val listOfStoryTypes: Array<String>
     ) : PagerAdapter() {
 
-    //var mappedStories = mapOf<String, MutableList<Story>>()
     var ownedStoryList = ArrayList<Story>()
-    //val listOfStoryTypes = arrayOf("Fantasy", "History", "Medieval", "Pirate", "Horror", "Science-Fiction", "Post-Apocalyptic", "Policier")
+    var isSetup = false
 
     override fun instantiateItem(parent: ViewGroup, position: Int): Any {
-
-
-        Log.i("DATASTATE", "$mappedStories")
 
         if(idOfView[position] == R.layout.fragment_activity_main_librairie){
 
@@ -80,8 +77,15 @@ class MainPagerAdapterMainActivity(
 
             // Get the widgets reference from layout
             val marketStoriesContainer: ListView = marketplaceView.findViewById(R.id.marketStoriesContainer)
+            val loadingIcon: CircularProgressIndicator = marketplaceView.findViewById(R.id.loadingIcon)
+
             //pass data to adapter
             marketStoriesContainer.adapter = ListAdapterStoryTypeMarketPlace(mContext, listOfStoryTypes, mappedStories)
+
+            if (isSetup){
+                loadingIcon.visibility = View.GONE
+                marketStoriesContainer.visibility = View.VISIBLE
+            }
 
             parent.addView(marketplaceView)
             return marketplaceView
