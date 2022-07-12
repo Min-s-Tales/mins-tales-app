@@ -7,15 +7,15 @@ import java.io.FileOutputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
-class UnzipUtil(private val zipFile: String, private val location: String) {
+class UnzipUtil(private val zipFileString: String, private val location: String) {
     private val TAG = "UnzipUtil"
-    fun unzip() {
+    fun unzip(): File? {
         try {
-            val fin = FileInputStream(zipFile)
+            val fin = FileInputStream(zipFileString)
             val zin = ZipInputStream(fin)
             var ze: ZipEntry?
             while (zin.nextEntry.also { ze = it } != null) {
-                Log.v("Decompress", "Unzipping " + ze!!.name)
+                //Log.v("Decompress", "Unzipping " + ze!!.name)
                 if (ze!!.isDirectory) {
                     dirChecker(ze!!.name)
                 } else {
@@ -23,7 +23,7 @@ class UnzipUtil(private val zipFile: String, private val location: String) {
                     for (i in 0 until ze!!.name.split("/").toTypedArray().size - 1) {
                         dirLoc.append(ze!!.name.split("/").toTypedArray()[i]).append("/")
                         val file = File(dirLoc.toString())
-                        Log.i(TAG, "unzip: " + file.absolutePath)
+                        //Log.i(TAG, "unzip: " + file.absolutePath)
                         if (!file.exists()) {
                             Log.i(TAG, "create " + file.mkdir())
                         }
@@ -39,8 +39,10 @@ class UnzipUtil(private val zipFile: String, private val location: String) {
                 }
             }
             zin.close()
+            return File(zipFileString.replace(".zip", "/"))
         } catch (e: Exception) {
             Log.e("Decompress", "unzip", e)
+            return null
         }
     }
 
