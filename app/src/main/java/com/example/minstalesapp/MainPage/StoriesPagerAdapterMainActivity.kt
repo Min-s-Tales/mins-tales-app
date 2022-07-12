@@ -19,7 +19,7 @@ import com.example.minstalesapp.game.GameActivity
 
 class StoriesPagerAdapterMainActivity(
     private val storyList: ArrayList<Story>
-    ) : PagerAdapter() {
+) : PagerAdapter() {
 
     lateinit var inflater: LayoutInflater
     val dataGsonManager = GsonManager()
@@ -31,7 +31,7 @@ class StoriesPagerAdapterMainActivity(
         val neutralizedGameTitle = storyList[position].title.lowercase().replace(" ", "_").replace("é", "e").replace("è", "e").replace("à", "a")
 
         val taleURI = Uri.parse("${Environment.getExternalStorageDirectory()!!.path}/Android/data/com.example.minstalesapp/files/Tales/$neutralizedGameTitle/")
-        val dataURI =  Uri.parse(taleURI.toString() + "data.json")
+        val dataURI = Uri.parse(taleURI.toString() + "data.json")
         dataGsonManager.init(dataURI)
         val saveString = dataGsonManager.gsonGetSave()
 
@@ -52,9 +52,8 @@ class StoriesPagerAdapterMainActivity(
         val cardSynopsis: TextView = view.findViewById(R.id.cardStorySynopsis)
         cardSynopsis.text = storyList[position].description
 
-        //var cardDuration: TextView = view.findViewById(R.id.cardStoryDuration)
-        //cardDuration.text = "~ 20 min"
-
+        // var cardDuration: TextView = view.findViewById(R.id.cardStoryDuration)
+        // cardDuration.text = "~ 20 min"
 
         val cardIcon: ImageView = view.findViewById(R.id.cardStoryPicture)
         val bitmapImage: Bitmap? = BitmapFactory.decodeFile(storyList[position].url_icon)

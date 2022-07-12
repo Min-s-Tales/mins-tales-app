@@ -8,23 +8,19 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.os.Handler
 import android.util.Log
+import android.webkit.CookieManager
 import android.webkit.URLUtil
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.minstalesapp.MainPage.MainActivity
 import com.example.minstalesapp.databinding.ActivitySplashScreenBinding
 import java.io.File
-import android.webkit.CookieManager
-import com.example.minstalesapp.DecompressFast
-
 
 class SplashScreenActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivitySplashScreenBinding
-
+    private lateinit var binding: ActivitySplashScreenBinding
 
     val TAG = "DOWNLOAD"
     private var storyID = 0L
@@ -35,22 +31,28 @@ class SplashScreenActivity : AppCompatActivity() {
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        Handler().postDelayed(Runnable {
-            val intent = Intent(this, MainActivity::class.java)
-            //download()
-            startActivity(intent)
-            this.finish()
-        }, 3000)
+        Handler().postDelayed(
+            Runnable {
+                val intent = Intent(this, MainActivity::class.java)
+                // download()
+                startActivity(intent)
+                this.finish()
+            },
+            3000
+        )
     }
 
     private fun download() {
         val url = "https://steelroad.fr/minstales/exploiteurs_du_ciel.zip"
 
-        this.registerReceiver(attachmentDownloadCompleteReceive, IntentFilter(
-            DownloadManager.ACTION_DOWNLOAD_COMPLETE)
+        this.registerReceiver(
+            attachmentDownloadCompleteReceive,
+            IntentFilter(
+                DownloadManager.ACTION_DOWNLOAD_COMPLETE
+            )
         )
 
-        try{
+        try {
             val request = DownloadManager.Request(Uri.parse(url))
             gameTitle = URLUtil.guessFileName(url, null, null)
 
@@ -68,7 +70,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
             val cookie = CookieManager.getInstance().getCookie(url)
             request.addRequestHeader("cookie", cookie)
-            //request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            // request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
             request.setDestinationInExternalFilesDir(this, "Tales", gameTitle)
 
             // val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
@@ -105,6 +107,4 @@ class SplashScreenActivity : AppCompatActivity() {
             }
         }
     }
-
-
 }

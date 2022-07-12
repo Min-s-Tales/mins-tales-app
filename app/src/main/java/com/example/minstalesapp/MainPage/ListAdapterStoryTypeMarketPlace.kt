@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.minstalesapp.Model.Story
-import com.example.minstalesapp.Profile.ConnexionActivity
 import com.example.minstalesapp.R
 import com.example.minstalesapp.databinding.ItemTypeMarketplaceBinding
 
@@ -15,11 +14,11 @@ class ListAdapterStoryTypeMarketPlace(
     private val context: Activity,
     private val storyTypes: Array<String>,
     private val mappedStories: Map<String, MutableList<Story>>
-):ArrayAdapter<String>(context, R.layout.item_type_marketplace, storyTypes) {
+) : ArrayAdapter<String>(context, R.layout.item_type_marketplace, storyTypes) {
 
     private lateinit var binding: ItemTypeMarketplaceBinding
 
-    //val queue = Volley.newRequestQueue(context)
+    // val queue = Volley.newRequestQueue(context)
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val inflater = context.layoutInflater

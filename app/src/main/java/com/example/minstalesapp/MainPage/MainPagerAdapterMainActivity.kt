@@ -21,22 +21,21 @@ class MainPagerAdapterMainActivity(
     private val idOfView: Array<Int>,
     private var mappedStories: Map<String, MutableList<Story>>,
     private val listOfStoryTypes: Array<String>
-    ) : PagerAdapter() {
+) : PagerAdapter() {
 
-    //var mappedStories = mapOf<String, MutableList<Story>>()
+    // var mappedStories = mapOf<String, MutableList<Story>>()
     var ownedStoryList = ArrayList<Story>()
-    //val listOfStoryTypes = arrayOf("Fantasy", "History", "Medieval", "Pirate", "Horror", "Science-Fiction", "Post-Apocalyptic", "Policier")
+    // val listOfStoryTypes = arrayOf("Fantasy", "History", "Medieval", "Pirate", "Horror", "Science-Fiction", "Post-Apocalyptic", "Policier")
 
     override fun instantiateItem(parent: ViewGroup, position: Int): Any {
 
-
         Log.i("DATASTATE", "$mappedStories")
 
-        if(idOfView[position] == R.layout.fragment_activity_main_librairie){
+        if (idOfView[position] == R.layout.fragment_activity_main_librairie) {
 
             // Get the view from pager page layout
             val librarieView = LayoutInflater.from(parent.context)
-                .inflate(R.layout.fragment_activity_main_librairie, parent,false)
+                .inflate(R.layout.fragment_activity_main_librairie, parent, false)
 
             val folder = parent.context.getExternalFilesDir("Tales")
             val files = folder!!.listFiles()
@@ -44,7 +43,7 @@ class MainPagerAdapterMainActivity(
                 if (taleDirectory.isDirectory) {
                     val dataFile = File("${taleDirectory.path}/data.json")
                     if (dataFile.exists()) {
-                        val story = GsonManager().dataReader(taleDirectory.name, taleDirectory.path+"/icon.png", dataFile.readText(Charsets.UTF_8))
+                        val story = GsonManager().dataReader(taleDirectory.name, taleDirectory.path + "/icon.png", dataFile.readText(Charsets.UTF_8))
                         if (story != null) {
                             ownedStoryList.add(story)
                         }
@@ -60,7 +59,7 @@ class MainPagerAdapterMainActivity(
             storiesViewPager.adapter = StoriesPagerAdapterMainActivity(ownedStoryList)
 
             storiesViewPager.pageMargin = 50
-            storiesViewPager.setPadding(80, 0, 80, 0);
+            storiesViewPager.setPadding(80, 0, 80, 0)
             storiesViewPager.clipToPadding = false
 
             headerProfileIcon.setOnClickListener {
@@ -70,17 +69,15 @@ class MainPagerAdapterMainActivity(
 
             parent.addView(librarieView)
             return librarieView
-        }
-
-        else{
+        } else {
 
             // Get the view from pager page layout
             val marketplaceView = LayoutInflater.from(parent.context)
-                .inflate(R.layout.fragment_activity_main_marketplace, parent,false)
+                .inflate(R.layout.fragment_activity_main_marketplace, parent, false)
 
             // Get the widgets reference from layout
             val marketStoriesContainer: ListView = marketplaceView.findViewById(R.id.marketStoriesContainer)
-            //pass data to adapter
+            // pass data to adapter
             marketStoriesContainer.adapter = ListAdapterStoryTypeMarketPlace(mContext, listOfStoryTypes, mappedStories)
 
             parent.addView(marketplaceView)
@@ -105,7 +102,7 @@ class MainPagerAdapterMainActivity(
         container.removeView(view)
     }
 
-    fun setListOfStory(map: Map<String, MutableList<Story>>){
+    fun setListOfStory(map: Map<String, MutableList<Story>>) {
         mappedStories = map
     }
 }
