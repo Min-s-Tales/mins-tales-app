@@ -35,7 +35,7 @@ class DetailStoryActivity : AppCompatActivity() {
         binding.storyPrice.text = "${intent.getFloatExtra("itemPrice", 0F)} €"
 
         binding.buyButton.setOnClickListener {
-            intent.getStringExtra("itemUrlFolder")?.let { it1 -> download(it1) }
+            download(intent.getStringExtra("itemUrlFolder"))
         }
 
         Picasso.get().load(intent.getStringExtra("itemIcon")).into(binding.storyIcon)
@@ -45,7 +45,7 @@ class DetailStoryActivity : AppCompatActivity() {
         }
     }
 
-    private fun download(url: String) {
+    private fun download(url: String?) {
 
         this.registerReceiver(
             attachmentDownloadCompleteReceive,
