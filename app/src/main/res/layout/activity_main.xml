@@ -64,4 +64,14 @@
             android:textColor="@color/control_switch_color_selector"/>
     </RadioGroup>
 
+    <ImageView
+        android:id="@+id/refreshButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintStart_toEndOf="@id/toggle_switch_button"
+        app:layout_constraintTop_toTopOf="@id/toggle_switch_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/toggle_switch_button"
+        android:src="@mipmap/refresh"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

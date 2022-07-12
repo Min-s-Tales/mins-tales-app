@@ -18,8 +18,6 @@ class ListAdapterStoryTypeMarketPlace(
 
     private lateinit var binding: ItemTypeMarketplaceBinding
 
-    // val queue = Volley.newRequestQueue(context)
-
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val inflater = context.layoutInflater
         binding = ItemTypeMarketplaceBinding.inflate(inflater)

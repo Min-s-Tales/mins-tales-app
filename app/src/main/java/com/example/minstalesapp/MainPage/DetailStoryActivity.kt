@@ -33,6 +33,7 @@ class DetailStoryActivity : AppCompatActivity() {
         binding.storyAuthor.text = intent.getStringExtra("itemAuthor")
         binding.storyNbDownload.text = "Downloaded ${intent.getIntExtra("itemNbDownload",0)} times"
         binding.storyPrice.text = "${intent.getFloatExtra("itemPrice", 0F)} €"
+
         binding.buyButton.setOnClickListener {
             intent.getStringExtra("itemUrlFolder")?.let { it1 -> download(it1) }
         }
@@ -99,7 +100,7 @@ class DetailStoryActivity : AppCompatActivity() {
                 )
 
                 val zipFile = File(context.getExternalFilesDir("Tales"), gameTitle)
-                Toast.makeText(context, "Download done $downloadId", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Download done", Toast.LENGTH_SHORT).show()
 
                 File(getExternalFilesDir("Tales"), gameTitle.replace(".zip", "")).mkdir()
                 val unzipUtil = UnzipUtil(zipFile.path, zipFile.absolutePath.replace(".zip", "/"))

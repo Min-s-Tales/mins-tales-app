@@ -28,7 +28,6 @@ class MainPagerAdapterMainActivity(
     private val listOfStoryTypes: Array<String>
 ) : PagerAdapter() {
 
-    var ownedStoryList = ArrayList<Story>()
     var isSetup = false
 
     override fun instantiateItem(parent: ViewGroup, position: Int): Any {
@@ -37,6 +36,8 @@ class MainPagerAdapterMainActivity(
             // Get the view from pager page layout
             val librarieView = LayoutInflater.from(parent.context)
                 .inflate(R.layout.fragment_activity_main_librairie, parent, false)
+
+            var ownedStoryList = ArrayList<Story>()
 
             val folder = parent.context.getExternalFilesDir("Tales")
             val files = folder!!.listFiles()

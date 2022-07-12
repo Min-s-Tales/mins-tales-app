@@ -114,10 +114,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-    }
 
-    fun updateLibrairie(){
-        (binding.mainViewPager.adapter as MainPagerAdapterMainActivity).notifyDataSetChanged()
+        binding.refreshButton.setOnClickListener {
+            (binding.mainViewPager.adapter as MainPagerAdapterMainActivity).notifyDataSetChanged()
+        }
     }
 }
 
