@@ -3,6 +3,7 @@ package com.example.minstalesapp.Model
 data class Story(
     var id: Int,
     var title: String,
+    var display: String,
     var description: String,
     var url_folder: String,
     var url_icon: String,
@@ -18,6 +19,7 @@ data class Story(
 
         if (id != other.id) return false
         if (title != other.title) return false
+        if (display != other.display) return false
         if (description != other.description) return false
         if (url_folder != other.url_folder) return false
         if (url_icon != other.url_icon) return false
@@ -31,6 +33,7 @@ data class Story(
     override fun hashCode(): Int {
         var result = id
         result = 31 * result + title.hashCode()
+        result = 31 * result + display.hashCode()
         result = 31 * result + description.hashCode()
         result = 31 * result + url_folder.hashCode()
         result = 31 * result + url_icon.hashCode()

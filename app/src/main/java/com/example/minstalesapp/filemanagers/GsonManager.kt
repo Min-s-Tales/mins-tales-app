@@ -29,7 +29,6 @@ class GsonManager() {
         try {
             val obj = JSONObject(stringJson)
             val m_jArry: JSONObject = obj.getJSONObject(path)
-            Log.i(TAG, "gsonCheckerObject: m$m_jArry")
             return m_jArry
         } catch (e: JSONException) {
             e.printStackTrace()
@@ -138,8 +137,8 @@ class GsonManager() {
     /**
      * Get the possible actions and their needed keywords of a path
      */
-    fun gsonCheckActionPath(step: String) : HashMap<String, String> {
-        val map = HashMap<String, String>()
+    fun gsonCheckActionPath(step: String) : HashMap<String, HashMap<String, String>> {
+        val map = HashMap<String, HashMap<String, String>>()
         //Log.i(TAG, "gsonChecker: $stringJson")
         try {
             val obj = JSONObject(stringJson)
@@ -148,7 +147,15 @@ class GsonManager() {
             if (!m_jArry.isNull("paths")) {
                 val jsonPaths = m_jArry.getJSONObject("paths")
                 for (item in jsonPaths.keys()) {
-                    map[item] = jsonPaths.get(item).toString()
+                    val pathValues = HashMap<String, String>()
+                    val subJsonPath = jsonPaths.getJSONObject(item)
+                    Log.i(TAG, "gsonCheckActionPath: $subJsonPath")
+                    for (subItem in subJsonPath.keys()) {
+                        pathValues[subItem] = subJsonPath.getString(subItem)
+                        Log.i(TAG, "gsonCheckActionPath: ${subJsonPath.getString(subItem)}")
+                    }
+                    //map[item] = jsonPaths.get(item).toString()
+                    map[item] = pathValues
                 }
             }
         } catch (e: JSONException) {
@@ -164,7 +171,7 @@ class GsonManager() {
         println("title ID -> " + titleID)
         try {
             val obj = JSONObject(jsonString)
-            val title = obj.getString("title")
+            val display = obj.getString("title")
             val author = obj.getString("author")
             val version = obj.getString("version")
             val desc = obj.getString("sypnosis")
@@ -173,9 +180,9 @@ class GsonManager() {
             for (item in themesJson.keys()) {
                 themes.add(themesJson.getString(item))
             }
-            println("title display -> " + title)
+            println("title display -> $titleID + $display")
 
-            return Story(0, title, desc, "", urlIconPath, 0F, "test", 8)
+            return Story(0, titleID, display, desc, "", urlIconPath, 0F, "test", 8)
         } catch (e: Exception) {
          Log.e(TAG, "The folder does not contains a valid data.json file.")
         }

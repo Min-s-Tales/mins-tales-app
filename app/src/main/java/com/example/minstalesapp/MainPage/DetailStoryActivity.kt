@@ -24,5 +24,9 @@ class DetailStoryActivity : AppCompatActivity() {
         }
 
         Picasso.get().load(intent.getStringExtra("itemIcon")).into(binding.storyIcon)
+
+        binding.backButton.setOnClickListener {
+            this.finish()
+        }
     }
 }
