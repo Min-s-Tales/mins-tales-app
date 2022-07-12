@@ -39,6 +39,7 @@ class ListAdapterStoryTypeMarketPlace(
                 intent.putExtra("itemAuthor", item.author)
                 intent.putExtra("itemNbDownload", item.nb_download)
                 intent.putExtra("itemIcon", item.url_icon)
+                intent.putExtra("itemUrlFolder", item.url_folder)
             }
             context.startActivity(intent)
         }, mappedStories[type]!!)
