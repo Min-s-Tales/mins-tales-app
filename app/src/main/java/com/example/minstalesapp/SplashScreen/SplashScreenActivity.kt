@@ -37,7 +37,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
         Handler().postDelayed(Runnable {
             val intent = Intent(this, MainActivity::class.java)
-            download("https://steelroad.fr/minstales/exploiteurs_du_ciel.zip")
+            //download("https://steelroad.fr/minstales/exploiteurs_du_ciel.zip")
             startActivity(intent)
             this.finish()
         }, 3000)

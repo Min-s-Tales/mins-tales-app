@@ -16,10 +16,11 @@ object StoryManager {
         Log.i(TAG, ": Init Story Manager")
         if (!talesDirectory.exists()) {
             talesDirectory.mkdir()
-            talesDirectory.listFiles()?.forEach { file ->
-                run {
-                    addStoryToList(file)
-                }
+        }
+
+        talesDirectory.listFiles()?.forEach { file ->
+            run {
+                addStoryToList(file)
             }
         }
     }
