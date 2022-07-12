@@ -54,18 +54,6 @@
         android:textSize="18sp"
         android:fontFamily="@font/roboto"/>
 
-    <!--
-    <ImageView
-        android:id="@+id/cardStoryPlayButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="10dp"
-        android:src="@mipmap/play_button"/>
-    -->
-
     <Button
         android:id="@+id/continueStoryButton"
         android:layout_width="100dp"
@@ -98,20 +86,5 @@
         android:backgroundTint="@color/button_background_color"
         android:layout_marginBottom="10dp"
         android:layout_marginStart="30dp"/>
-
-    <!--
-    <TextView
-        android:id="@+id/cardStoryDuration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/cardStoryPlayButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="20dp"
-        android:text="Duration"
-        android:textSize="20sp"
-        android:textColor="@color/content_font"
-        android:textStyle="bold"/>
-    -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
