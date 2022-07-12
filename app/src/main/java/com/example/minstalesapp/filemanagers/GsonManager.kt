@@ -137,8 +137,8 @@ class GsonManager() {
     /**
      * Get the possible actions and their needed keywords of a path
      */
-    fun gsonCheckActionPath(step: String) : HashMap<String, String> {
-        val map = HashMap<String, String>()
+    fun gsonCheckActionPath(step: String) : HashMap<String, HashMap<String, String>> {
+        val map = HashMap<String, HashMap<String, String>>()
         //Log.i(TAG, "gsonChecker: $stringJson")
         try {
             val obj = JSONObject(stringJson)
@@ -147,7 +147,15 @@ class GsonManager() {
             if (!m_jArry.isNull("paths")) {
                 val jsonPaths = m_jArry.getJSONObject("paths")
                 for (item in jsonPaths.keys()) {
-                    map[item] = jsonPaths.get(item).toString()
+                    val pathValues = HashMap<String, String>()
+                    val subJsonPath = jsonPaths.getJSONObject(item)
+                    Log.i(TAG, "gsonCheckActionPath: $subJsonPath")
+                    for (subItem in subJsonPath.keys()) {
+                        pathValues[subItem] = subJsonPath.getString(subItem)
+                        Log.i(TAG, "gsonCheckActionPath: ${subJsonPath.getString(subItem)}")
+                    }
+                    //map[item] = jsonPaths.get(item).toString()
+                    map[item] = pathValues
                 }
             }
         } catch (e: JSONException) {
