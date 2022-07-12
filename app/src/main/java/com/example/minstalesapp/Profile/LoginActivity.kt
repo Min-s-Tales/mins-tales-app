@@ -12,9 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.*
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.example.minstalesapp.R
+import com.example.minstalesapp.Api.ApiHelper
 import com.example.minstalesapp.databinding.ActivityLoginBinding
-import kotlinx.android.synthetic.main.activity_login.*
 import org.apache.http.conn.ConnectTimeoutException
 import org.json.JSONException
 import org.json.JSONObject
@@ -35,10 +34,10 @@ class LoginActivity: AppCompatActivity() {
         setContentView(binding.root)
 
         val queue = Volley.newRequestQueue(this)
-        val url = "http://10.0.2.2:8000/api/user/login"
+        val url = ApiHelper.logUser
         val sharedPreferences = getPreferences(MODE_PRIVATE)
 
-        loginButton.setOnClickListener {
+        binding.loginButton.setOnClickListener {
             val params = HashMap<String,String>()
             params["username"] = binding.mailTextInput.text.toString()
             params["password"] = binding.passwordTextInput.text.toString()
@@ -54,17 +53,21 @@ class LoginActivity: AppCompatActivity() {
                     editor.commit()
                     val intent = Intent(this, ProfileActivity::class.java)
                     startActivity(intent)
-                    finish()
+                    this.finish()
                 },
                 { response ->
                     Log.i("(ERROR)Post response", getVolleyError(response))
-                    passwordTextInput.setText("")
+                    binding.passwordTextInput.setText("")
                     Toast.makeText(this, getVolleyError(response), Toast.LENGTH_SHORT).show()
                 }
             )
 
             // Add the request to the RequestQueue.
             queue.add(request)
+        }
+
+        binding.backButton.setOnClickListener {
+            this.finish()
         }
     }
 

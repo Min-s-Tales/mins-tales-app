@@ -30,4 +30,5 @@
     <string name="start_story">Commencer</string>
     <string name="buy">Acheter</string>
     <string name="back">RETOUR</string>
+    <string name="no_story_found"><b>Il semblerais que n\'avez téléchargé aucune histoire.</b>\nVous devriez faire un tour dans la boutique.\nCertaines sont gratuites, profitez-en !</string>
 </resources>

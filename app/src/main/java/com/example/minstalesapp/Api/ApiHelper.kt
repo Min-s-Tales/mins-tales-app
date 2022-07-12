@@ -1,14 +1,18 @@
 package com.example.minstalesapp.Api
 
-import android.util.Log
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiHelper {
 
-    const val baseUrl =
-        // "https://127.0.0.1:8000/"
-        "http://10.0.2.2:8000/"
+    private const val baseUrl = "http://51.38.38.39:8000/"
+
+    fun getStoriesFromTypes(type: String): String {
+        return "${baseUrl}api/story/tag?tag=$type"
+    }
+
+    const val logUser = "${baseUrl}api/user/login"
+    const val registerUser = "${baseUrl}user/register"
 
     fun getInstance(): Retrofit {
         return Retrofit.Builder().baseUrl(baseUrl)

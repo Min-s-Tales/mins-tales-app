@@ -8,10 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ListView
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.example.minstalesapp.Model.Story
 import com.example.minstalesapp.Profile.ConnexionActivity
+import com.example.minstalesapp.Profile.ProfileActivity
 import com.example.minstalesapp.R
 import com.example.minstalesapp.filemanagers.GsonManager
 import com.google.android.material.progressindicator.CircularProgressIndicator
@@ -53,16 +56,29 @@ class MainPagerAdapterMainActivity(
             // Get the widgets reference from layout
             val storiesViewPager: ViewPager = librarieView.findViewById(R.id.storiesViewPager)
             val headerProfileIcon: ImageView = librarieView.findViewById(R.id.headerProfileIcon)
+            val noStoryAlert: TextView = librarieView.findViewById(R.id.noStoryAlert)
 
             // Set content
+            if (ownedStoryList.isEmpty()){
+                noStoryAlert.visibility = View.VISIBLE
+                storiesViewPager.visibility = View.INVISIBLE
+            }
+
             storiesViewPager.adapter = StoriesPagerAdapterMainActivity(ownedStoryList)
             storiesViewPager.pageMargin = 50
             storiesViewPager.setPadding(80, 0, 80, 0);
             storiesViewPager.clipToPadding = false
 
+            val sharedPreferences = mContext.getPreferences(AppCompatActivity.MODE_PRIVATE)
+
             headerProfileIcon.setOnClickListener {
-                val intent = Intent(parent.context, ConnexionActivity::class.java)
-                parent.context.startActivity(intent)
+                if(sharedPreferences.getString("user-token", "").isNullOrEmpty()){
+                    val intent = Intent(parent.context, ConnexionActivity::class.java)
+                    parent.context.startActivity(intent)
+                }else{
+                    val intent = Intent(parent.context, ProfileActivity::class.java)
+                    parent.context.startActivity(intent)
+                }
             }
 
             parent.addView(librarieView)

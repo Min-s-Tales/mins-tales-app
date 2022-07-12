@@ -12,7 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.*
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.example.minstalesapp.R
+import com.example.minstalesapp.Api.ApiHelper
+import com.example.minstalesapp.databinding.ActivitySignupBinding
 import kotlinx.android.synthetic.main.activity_login.mailTextInput
 import kotlinx.android.synthetic.main.activity_login.passwordTextInput
 import kotlinx.android.synthetic.main.activity_signup.*
@@ -26,25 +27,29 @@ import java.net.SocketException
 import java.net.SocketTimeoutException
 
 class SignupActivity: AppCompatActivity() {
+
+    private lateinit var binding: ActivitySignupBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_signup)
+        binding = ActivitySignupBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val queue = Volley.newRequestQueue(this)
-        val url = "http://10.0.2.2:8000/user/register"
+        val url = ApiHelper.registerUser
 
-        registerButton.setOnClickListener {
+        binding.registerButton.setOnClickListener {
 
-            if(passwordTextInput.text.toString() != confirmPasswordTextInput.text.toString()){
-                passwordTextInput.setText("")
-                confirmPasswordTextInput.setText("")
+            if(binding.passwordTextInput.text.toString() != binding.confirmPasswordTextInput.text.toString()){
+                binding.passwordTextInput.setText("")
+                binding.confirmPasswordTextInput.setText("")
                 Toast.makeText(this, "Les mots de passe ne correspondent pas", Toast.LENGTH_SHORT).show()
             }
             else{
                 val params = HashMap<String,String>()
-                params["username"] = mailTextInput.text.toString()
-                params["email"] = mailTextInput.text.toString()
-                params["password"] = passwordTextInput.text.toString()
+                params["username"] = binding.mailTextInput.text.toString()
+                params["email"] = binding.mailTextInput.text.toString()
+                params["password"] = binding.passwordTextInput.text.toString()
                 val jsonObject = (params as Map<*, *>?)?.let { it1 -> JSONObject(it1) }
 
                 // Request a string response from the provided URL.
@@ -57,8 +62,8 @@ class SignupActivity: AppCompatActivity() {
                     },
                     { response ->
                         Log.i("(ERROR)Post response", getVolleyError(response))
-                        passwordTextInput.setText("")
-                        confirmPasswordTextInput.setText("")
+                        binding.passwordTextInput.setText("")
+                        binding.confirmPasswordTextInput.setText("")
                         Toast.makeText(this, getVolleyError(response), Toast.LENGTH_SHORT).show()
                     }
                 )
@@ -66,6 +71,10 @@ class SignupActivity: AppCompatActivity() {
                 // Add the request to the RequestQueue.
                 queue.add(request)
             }
+        }
+
+        binding.backButton.setOnClickListener {
+            this.finish()
         }
     }
 
