@@ -16,12 +16,12 @@ import androidx.viewpager.widget.PagerAdapter
 import com.example.minstalesapp.Model.Story
 import com.example.minstalesapp.R
 import com.example.minstalesapp.filemanagers.GsonManager
-import kotlin.math.min
 import com.example.minstalesapp.game.GameActivity
+import kotlin.math.min
 
 class StoriesPagerAdapterMainActivity(
     private val storyList: ArrayList<Story>
-    ) : PagerAdapter() {
+) : PagerAdapter() {
 
     lateinit var inflater: LayoutInflater
     val dataGsonManager = GsonManager()
@@ -30,10 +30,8 @@ class StoriesPagerAdapterMainActivity(
         inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.fragment_activity_main_story, parent, false)
 
-        //val neutralizedGameTitle = storyList[position].title.lowercase().replace(" ", "_").replace("é", "e").replace("è", "e").replace("à", "a")
-
         val taleURI = Uri.parse("${Environment.getExternalStorageDirectory()!!.path}/Android/data/com.example.minstalesapp/files/Tales/${storyList[position].title}/")
-        val dataURI =  Uri.parse(taleURI.toString() + "data.json")
+        val dataURI = Uri.parse(taleURI.toString() + "data.json")
         dataGsonManager.init(dataURI)
         val saveString = dataGsonManager.gsonGetSave()
 
@@ -57,9 +55,8 @@ class StoriesPagerAdapterMainActivity(
         val cardSynopsis: TextView = view.findViewById(R.id.cardStorySynopsis)
         cardSynopsis.text = storyList[position].description
 
-        //var cardDuration: TextView = view.findViewById(R.id.cardStoryDuration)
-        //cardDuration.text = "~ 20 min"
-
+        // var cardDuration: TextView = view.findViewById(R.id.cardStoryDuration)
+        // cardDuration.text = "~ 20 min"
 
         val cardIcon: ImageView = view.findViewById(R.id.cardStoryPicture)
         val bitmapImage: Bitmap? = BitmapFactory.decodeFile(storyList[position].url_icon)

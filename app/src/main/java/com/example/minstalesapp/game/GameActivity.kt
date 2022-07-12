@@ -12,6 +12,8 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import com.example.minstalesapp.MainPage.MainActivity
 import com.example.minstalesapp.R
 import com.example.minstalesapp.databinding.ActivityGameBinding
 import com.example.minstalesapp.filemanagers.GsonManager
@@ -117,7 +119,7 @@ class GameActivity : AppCompatActivity() {
 
         binding.hintButton.setOnClickListener {
             run {
-                if (binding.hintsTextView.visibility == VISIBLE) {
+                if (binding.hintsTextView.isVisible) {
                     binding.hintsTextView.visibility = INVISIBLE
                     binding.headsetIcon.visibility = VISIBLE
                 } else {
@@ -134,6 +136,8 @@ class GameActivity : AppCompatActivity() {
         var hints = ""
 
         binding.hintsTextView.visibility = INVISIBLE
+        binding.refreshButton.visibility = INVISIBLE
+        binding.record.visibility = INVISIBLE
         binding.headsetIcon.visibility = VISIBLE
         answersMap = configGsonManager.gsonCheckActionPath(path)
 

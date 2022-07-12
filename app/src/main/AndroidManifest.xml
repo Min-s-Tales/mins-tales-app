@@ -17,27 +17,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MinsTalesApp"
         android:screenOrientation="portrait"
-
         android:usesCleartextTraffic="true">
         <activity
             android:name=".SplashScreen.SplashScreenActivity"
             android:exported="true"
-            android:theme="@style/Theme.MinsTalesApp">
+            android:theme="@style/Theme.MinsTalesApp"
+            android:screenOrientation="nosensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainPage.MainActivity" />
-        <activity android:name=".game.GameActivity" />
-        <activity android:name=".ListStoryActivity" />
-        <activity android:name=".Profile.ProfileActivity" />
-        <activity android:name=".MarketplaceActivity" />
-        <activity android:name=".Profile.LoginActivity" />
-        <activity android:name=".Profile.SignupActivity" />
-        <activity android:name=".Profile.ConnexionActivity" />
-        <activity android:name=".MainPage.DetailStoryActivity" />
+        <activity android:name=".MainPage.MainActivity"
+            android:screenOrientation="nosensor"/>
+        <activity android:name=".game.GameActivity"
+            android:screenOrientation="nosensor"/>
+        <activity android:name=".Profile.ProfileActivity"
+            android:screenOrientation="nosensor"/>
+        <activity android:name=".Profile.LoginActivity"
+            android:screenOrientation="nosensor"/>
+        <activity android:name=".Profile.SignupActivity"
+            android:screenOrientation="nosensor"/>
+        <activity android:name=".Profile.ConnexionActivity"
+            android:screenOrientation="nosensor"/>
+        <activity android:name=".MainPage.DetailStoryActivity"
+            android:screenOrientation="nosensor"/>
     </application>
 
 </manifest>

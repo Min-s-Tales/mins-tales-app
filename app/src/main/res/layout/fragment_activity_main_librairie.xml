@@ -64,6 +64,23 @@
         android:layout_marginVertical="40dp"
         app:layout_constraintCircleRadius="30dp">
 
+        <TextView
+            android:id="@+id/noStoryAlert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginHorizontal="30dp"
+            android:text="@string/no_story_found"
+            android:textColor="@color/content_font"
+            android:textSize="16sp"
+            android:fontFamily="@font/roboto"
+            android:textAlignment="center"
+            android:lineSpacingExtra="5dp"
+            android:visibility="gone"/>
+
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/storiesViewPager"
             android:layout_width="match_parent"

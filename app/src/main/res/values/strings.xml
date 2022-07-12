@@ -30,4 +30,6 @@
     <string name="continue_story">Continue</string>
     <string name="start_story">Start</string>
     <string name="buy">Purchase</string>
+    <string name="back">BACK</string>
+    <string name="no_story_found"><b>it seems you haven\'t uploaded any story.</b>\nYou should take a look in the market place.\nSome are free, take advantage!</string>
 </resources>
