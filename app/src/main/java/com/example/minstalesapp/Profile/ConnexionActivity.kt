@@ -17,11 +17,13 @@ class ConnexionActivity: AppCompatActivity() {
         binding.loginContainer.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+            this.finish()
         }
 
         binding.registerContainer.setOnClickListener {
             val intent = Intent(this, SignupActivity::class.java)
             startActivity(intent)
+            this.finish()
         }
 
         binding.registerLater.setOnClickListener {

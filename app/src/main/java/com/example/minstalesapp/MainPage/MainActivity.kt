@@ -12,6 +12,7 @@ import androidx.viewpager.widget.ViewPager
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.example.minstalesapp.Api.ApiHelper
 import com.example.minstalesapp.Model.Story
 import com.example.minstalesapp.R
 import com.example.minstalesapp.databinding.ActivityMainBinding
@@ -76,7 +77,7 @@ class MainActivity : AppCompatActivity() {
 
                         listOfStoryTypes.forEach { type ->
 
-                            val url = "http://51.38.38.39:8000/api/story/tag?tag=$type"
+                            val url = ApiHelper.getStoriesFromTypes(type)
 
                             //Récupération de la liste d'histoires correspondant au type
                             val request = JsonObjectRequest(
@@ -113,6 +114,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    fun updateLibrairie(){
+        (binding.mainViewPager.adapter as MainPagerAdapterMainActivity).notifyDataSetChanged()
     }
 }
 

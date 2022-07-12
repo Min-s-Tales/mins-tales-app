@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.example.minstalesapp.MainPage.MainActivity
 import com.example.minstalesapp.R
 import com.example.minstalesapp.databinding.ActivityGameBinding
 import com.example.minstalesapp.filemanagers.GsonManager
