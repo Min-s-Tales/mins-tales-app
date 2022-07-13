@@ -119,11 +119,11 @@ class GameActivity : AppCompatActivity() {
 
         binding.hintButton.setOnClickListener {
             run {
-                if (binding.hintsTextView.isVisible) {
-                    binding.hintsTextView.visibility = INVISIBLE
+                if (binding.hintTextContainer.isVisible) {
+                    binding.hintTextContainer.visibility = INVISIBLE
                     binding.headsetIcon.visibility = VISIBLE
                 } else {
-                    binding.hintsTextView.visibility = VISIBLE
+                    binding.hintTextContainer.visibility = VISIBLE
                     binding.headsetIcon.visibility = INVISIBLE
                 }
             }
@@ -135,7 +135,8 @@ class GameActivity : AppCompatActivity() {
     private fun nextStep(path: String) {
         var hints = ""
 
-        binding.hintsTextView.visibility = INVISIBLE
+        binding.hintTextContainer.visibility = INVISIBLE
+        binding.hintButton.visibility = INVISIBLE
         binding.refreshButton.visibility = INVISIBLE
         binding.record.visibility = INVISIBLE
         binding.headsetIcon.visibility = VISIBLE
